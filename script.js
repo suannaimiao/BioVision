@@ -47,25 +47,21 @@ function initBioVision() {
 
 // 导航切换功能
 function initNavigation() {
+    // 导航切换
     const navLinks = document.querySelectorAll('.nav-links a');
-    
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
             
             // 更新导航状态
-            navLinks.forEach(item => {
-                item.classList.remove('active');
-            });
+            navLinks.forEach(item => item.classList.remove('active'));
             this.classList.add('active');
             
-            // 隐藏所有页面内容
+            // 切换页面内容
+            const pageId = this.getAttribute('data-page');
             document.querySelectorAll('.page-content').forEach(page => {
                 page.classList.remove('active');
             });
-            
-            // 显示选中的页面
-            const pageId = this.getAttribute('data-page');
             document.getElementById(pageId).classList.add('active');
             
             // 滚动到顶部
@@ -291,12 +287,20 @@ function initConceptNodes() {
 // 搜索功能
 function initSearch() {
     const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.querySelector('.search-btn');
+    
+    const performSearch = () => {
+        if (searchInput.value.trim()) {
+            alert(`Searching for: "${searchInput.value}"`);
+            // 这里可以添加实际的搜索逻辑
+        }
+    };
     
     searchInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            alert(`Searching for: "${this.value}"\n\nSearch results will include:\n- Biology concepts\n- Animations\n- 3D Models\n- Questions\n- Discussion posts`);
-        }
+        if (e.key === 'Enter') performSearch();
     });
+    
+    searchBtn.addEventListener('click', performSearch);
 }
 
 // 轮播控制功能

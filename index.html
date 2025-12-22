@@ -8,90 +8,55 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- 双层导航栏 -->
-    <div class="header-container">
-        <!-- 第一层：搜索栏 -->
-        <div class="search-nav">
-            <div class="logo">
+    <!-- 顶部菜单栏 -->
+    <header class="site-header">
+        <div class="header-container">
+            <!-- 左侧：网页名称 + 图标 -->
+            <div class="brand">
                 <i class="fas fa-dna"></i>
-                <span>BioVision EDU</span>
+                <h1>BioVision EDU</h1>
             </div>
 
-            <div class="search-bar">
-                <input type="text" id="searchInput" 
-                    placeholder="Universal Finder: Search for biology concepts, animations, 3D models, questions, or discussions...">
-                <div class="search-examples">
-                    Try: "DNA replication", "cell mitosis animation", "enzyme specificity question"
+            <!-- 右侧：导航区（竖向排列） -->
+            <div class="nav-area">
+                <!-- 搜索框 -->
+                <div class="search-container">
+                    <input type="text" id="searchInput" 
+                        placeholder="Search anything: concepts, animations, questions...">
+                    <button class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
                 </div>
-            </div>
 
-            <div class="user-actions">
-                <button class="btn btn-secondary" id="registerBtn">
-                    <i class="fas fa-user-plus"></i> Register
-                </button>
-                <button class="btn btn-primary" id="loginBtn">
-                    <i class="fas fa-sign-in-alt"></i> Login
-                </button>
+                <!-- 主菜单 -->
+                <nav class="main-nav">
+                    <ul class="nav-links">
+                        <li><a href="#" class="active" data-page="home">Home</a></li>
+                        <li><a href="#" data-page="study">Study</a></li>
+                        <li><a href="#" data-page="gallery">Gallery</a></li>
+                        <li><a href="#" data-page="exam">Exam</a></li>
+                        <li><a href="#" data-page="forum">Forum</a></li>
+                        <li><a href="#" data-page="mybio">MyBio</a></li>
+                    </ul>
+                </nav>
             </div>
         </div>
-
-        <!-- 第二层：主菜单 -->
-        <nav class="main-nav">
-            <ul class="nav-links">
-                <li><a href="#" class="active" data-page="home">Home</a></li>
-                <li><a href="#" data-page="study">Study</a></li>
-                <li><a href="#" data-page="gallery">Gallery</a></li>
-                <li><a href="#" data-page="exam">Exam</a></li>
-                <li><a href="#" data-page="forum">Forum</a></li>
-                <li><a href="#" data-page="mybio">MyBio</a></li>
-                <li><a href="#" class="educator-only" data-page="educator">Educator</a></li>
-            </ul>
-        </nav>
-    </div>
-
-    <!-- 身份选择模态框 -->
-    <div class="modal-overlay" id="identityModal">
-        <div class="modal">
-            <h3>Select Your Identity</h3>
-            <div class="identity-options">
-                <div class="identity-option" data-identity="student">
-                    <i class="fas fa-user-graduate"></i>
-                    <h4>Student</h4>
-                    <p>Access courses, animations, practice questions, and discussion forums</p>
-                </div>
-                <div class="identity-option" data-identity="educator">
-                    <i class="fas fa-chalkboard-teacher"></i>
-                    <h4>Educator</h4>
-                    <p>View class progress, assign questions, and manage discussions (Coming soon)</p>
-                </div>
-            </div>
-            <div style="text-align: center;">
-                <button class="btn btn-primary" id="confirmIdentity" style="width: 200px;" disabled>
-                    Continue
-                </button>
-                <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
-                    Note: Educator features are currently in development and reserved for future use.
-                </p>
-            </div>
-        </div>
-    </div>
+    </header>
 
     <!-- 主要内容区域 -->
-    <main class="container">
+    <main class="main-content">
         <!-- 首页 -->
         <section id="home" class="page-content active">
             <div class="page-header">
-                <h1>BioVision Biology Learning Platform</h1>
+                <h2>BioVision Biology Learning Platform</h2>
                 <p>A specialized website designed to help students learn biology with courses, animations, 3D models,
                     practice questions, and discussion community</p>
             </div>
 
             <!-- 轮播区域 -->
             <div class="carousel">
-                <h2 id="carouselTitle">Personalized Learning Assistant</h2>
-                <p id="carouselText">Based on your learning progress, we intelligently recommend content suitable for you. If you struggle
-                    with a particular concept, we'll recommend review materials; if you haven't studied for a while,
-                    we'll provide interesting biology facts.</p>
+                <h3>Personalized Learning Assistant</h3>
+                <p>Based on your learning progress, we intelligently recommend content suitable for you. If you struggle with a particular concept, we'll recommend review materials; if you haven't studied for a while, we'll provide interesting biology facts.</p>
                 <div class="carousel-controls">
                     <div class="carousel-dot active" data-slide="0"></div>
                     <div class="carousel-dot" data-slide="1"></div>
@@ -117,11 +82,21 @@
                 </div>
             </div>
 
+            <!-- 用户操作区域 -->
+            <div class="user-actions-section">
+                <button class="btn btn-secondary" id="registerBtn">
+                    <i class="fas fa-user-plus"></i> Register
+                </button>
+                <button class="btn btn-primary" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </div>
+
             <!-- 捐赠区域 -->
             <div class="donation-section">
                 <h3>Support BioVision Development</h3>
                 <p>If you'd like to support website development and help more students benefit, you can donate here.</p>
-                <button class="btn btn-primary" id="donateBtn" style="margin-top: 1rem;">
+                <button class="btn btn-primary" id="donateBtn">
                     <i class="fas fa-heart"></i> Support Us
                 </button>
             </div>
@@ -130,9 +105,8 @@
         <!-- 学习页面 -->
         <section id="study" class="page-content">
             <div class="page-header">
-                <h1>Study Center</h1>
-                <p>Complete knowledge system organized according to Campbell Biology textbook for systematic biology
-                    learning</p>
+                <h2>Study Center</h2>
+                <p>Complete knowledge system organized according to Campbell Biology textbook for systematic biology learning</p>
             </div>
 
             <div class="study-layout">
@@ -165,7 +139,7 @@
                 <div class="concept-content">
                     <div class="concept-header">
                         <div class="concept-title">
-                            <h2 id="currentConceptTitle">Properties of Water and Life</h2>
+                            <h3 id="currentConceptTitle">Properties of Water and Life</h3>
                             <div class="concept-path" id="currentConceptPath">Unit 1 / Chapter 1 / Concept 1</div>
                         </div>
                         <div>
@@ -177,9 +151,8 @@
 
                     <!-- 拟人动画区域 -->
                     <div class="personified-animation">
-                        <h3><i class="fas fa-user-friends"></i> Personified Animation (5 min)</h3>
-                        <p>Watch an engaging animated story that personifies water molecules and their interactions in
-                            living systems.</p>
+                        <h4><i class="fas fa-user-friends"></i> Personified Animation (5 min)</h4>
+                        <p>Watch an engaging animated story that personifies water molecules and their interactions in living systems.</p>
                         <div class="animation-controls">
                             <button class="btn btn-primary" id="playAnimationBtn">
                                 <i class="fas fa-play"></i> Play Animation
@@ -192,19 +165,16 @@
 
                     <!-- 学习步骤区域 -->
                     <div class="learning-steps">
-                        <h3>Learning Process for Chemical Reactions</h3>
+                        <h4>Learning Process for Chemical Reactions</h4>
 
                         <div class="step">
                             <div class="step-number">1</div>
                             <div class="step-content">
-                                <h4>Complete Video Explanation</h4>
-                                <p>Watch a comprehensive video with 3D animation and instructor explanation. For
-                                    example: <span class="keyword">Hydrogen bonds<span class="keyword-tooltip">
-                                            <h5>Hydrogen Bonds</h5>Weak bonds between hydrogen atoms and electronegative
-                                            atoms like oxygen or nitrogen. Essential for water's unique properties.
-                                        </span></span> form between water molecules, creating cohesion and surface
-                                    tension.</p>
-                                <button class="btn btn-primary" id="watchVideoBtn" style="margin-top: 1rem;">
+                                <h5>Complete Video Explanation</h5>
+                                <p>Watch a comprehensive video with 3D animation and instructor explanation. For example: <span class="keyword">Hydrogen bonds<span class="keyword-tooltip">
+                                            <h6>Hydrogen Bonds</h6>Weak bonds between hydrogen atoms and electronegative atoms like oxygen or nitrogen. Essential for water's unique properties.
+                                        </span></span> form between water molecules, creating cohesion and surface tension.</p>
+                                <button class="btn btn-primary" id="watchVideoBtn">
                                     <i class="fas fa-play-circle"></i> Watch Video (15:32)
                                 </button>
                             </div>
@@ -213,18 +183,15 @@
                         <div class="step">
                             <div class="step-number">2</div>
                             <div class="step-content">
-                                <h4>Step-by-Step Breakdown</h4>
-                                <p>Interactive breakdown of reaction processes. Click each step to play a short
-                                    animation segment.</p>
-                                <div class="step-buttons" style="display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap;">
+                                <h5>Step-by-Step Breakdown</h5>
+                                <p>Interactive breakdown of reaction processes. Click each step to play a short animation segment.</p>
+                                <div class="step-buttons">
                                     <button class="btn btn-secondary step-btn" data-step="1">Step 1: Polarity</button>
                                     <button class="btn btn-secondary step-btn" data-step="2">Step 2: Cohesion</button>
                                     <button class="btn btn-secondary step-btn" data-step="3">Step 3: Adhesion</button>
-                                    <button class="btn btn-secondary step-btn" data-step="4">Step 4: Solvent
-                                        Properties</button>
+                                    <button class="btn btn-secondary step-btn" data-step="4">Step 4: Solvent Properties</button>
                                 </div>
-                                <div id="step-animation"
-                                    style="margin-top: 1rem; padding: 1rem; background-color: #f8f9fa; border-radius: 8px; display: none;">
+                                <div id="step-animation">
                                     <p>Animation will play here for the selected step.</p>
                                 </div>
                             </div>
@@ -233,10 +200,9 @@
                         <div class="step">
                             <div class="step-number">3</div>
                             <div class="step-content">
-                                <h4>Related YouTube Resources</h4>
-                                <p>Reference YouTube videos with timestamp navigation. Click buttons to jump to specific
-                                    timepoints in videos.</p>
-                                <div class="youtube-buttons" style="display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap;">
+                                <h5>Related YouTube Resources</h5>
+                                <p>Reference YouTube videos with timestamp navigation. Click buttons to jump to specific timepoints in videos.</p>
+                                <div class="youtube-buttons">
                                     <button class="btn btn-secondary yt-btn" data-time="120">
                                         <i class="fab fa-youtube"></i> Hydrogen Bonding (2:00)
                                     </button>
@@ -252,11 +218,11 @@
                     </div>
 
                     <!-- 学习资源链接 -->
-                    <div class="section-title" style="margin-top: 2.5rem;">
-                        <h3>Additional Resources</h3>
+                    <div class="section-title">
+                        <h4>Additional Resources</h4>
                     </div>
 
-                    <div class="resource-buttons" style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
+                    <div class="resource-buttons">
                         <button class="btn btn-primary" id="view3dModelBtn">
                             <i class="fas fa-cube"></i> View 3D Model
                         </button>
@@ -277,23 +243,23 @@
         <!-- 资源库页面 -->
         <section id="gallery" class="page-content">
             <div class="page-header">
-                <h1>Resource Gallery</h1>
+                <h2>Resource Gallery</h2>
                 <p>Animations, 3D models, custom library, and knowledge graph - comprehensive learning resources</p>
             </div>
 
             <div class="section-title">
-                <h2><i class="fas fa-photo-video"></i> Animation Resources</h2>
+                <h3><i class="fas fa-photo-video"></i> Animation Resources</h3>
                 <a href="#" class="btn btn-primary" id="viewAllAnimationsBtn">View All</a>
             </div>
 
             <div class="card-container" id="animationCards">
                 <div class="card">
                     <div class="card-header">
-                        <h3>DNA Replication Process</h3>
+                        <h4>DNA Replication Process</h4>
                     </div>
                     <div class="card-body">
                         <p>Complete animation showing DNA double helix unwinding and replication process</p>
-                        <div style="margin-top: 1rem;">
+                        <div class="tags">
                             <span class="tag">Unit 4</span>
                             <span class="tag">Genetics</span>
                             <span class="tag">Molecular Biology</span>
@@ -303,11 +269,11 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h3>Cell Mitosis</h3>
+                        <h4>Cell Mitosis</h4>
                     </div>
                     <div class="card-body">
                         <p>Detailed animation showing various stages of cell mitosis</p>
-                        <div style="margin-top: 1rem;">
+                        <div class="tags">
                             <span class="tag">Unit 2</span>
                             <span class="tag">Cell Division</span>
                             <span class="tag">Cell Cycle</span>
@@ -317,11 +283,11 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h3>Protein Synthesis</h3>
+                        <h4>Protein Synthesis</h4>
                     </div>
                     <div class="card-body">
                         <p>Animation showing the complete transcription and translation process from DNA to protein</p>
-                        <div style="margin-top: 1rem;">
+                        <div class="tags">
                             <span class="tag">Unit 4</span>
                             <span class="tag">Genetics</span>
                             <span class="tag">Central Dogma</span>
@@ -330,42 +296,43 @@
                 </div>
             </div>
 
-            <div class="section-title" style="margin-top: 2.5rem;">
-                <h2><i class="fas fa-cube"></i> 3D Models</h2>
+            <div class="section-title">
+                <h3><i class="fas fa-cube"></i> 3D Models</h3>
                 <a href="#" class="btn btn-primary" id="viewAllModelsBtn">View All</a>
             </div>
 
             <div class="card-container" id="modelCards">
                 <div class="card">
                     <div class="card-header">
-                        <h3>Cell Organelles 3D Model</h3>
+                        <h4>Cell Organelles 3D Model</h4>
                     </div>
                     <div class="card-body">
                         <p>Complete cell organelle structure model with rotation and zoom capabilities</p>
-                        <button class="btn btn-primary view-model-btn" style="margin-top: 1rem;" data-model="cell">View Model</button>
+                        <button class="btn btn-primary view-model-btn" data-model="cell">View Model</button>
                     </div>
                 </div>
 
                 <div class="card">
                     <div class="card-header">
-                        <h3>DNA Double Helix Structure</h3>
+                        <h4>DNA Double Helix Structure</h4>
                     </div>
                     <div class="card-body">
                         <p>Interactive 3D model of DNA double helix structure</p>
-                        <button class="btn btn-primary view-model-btn" style="margin-top: 1rem;" data-model="dna">View Model</button>
+                        <button class="btn btn-primary view-model-btn" data-model="dna">View Model</button>
                     </div>
                 </div>
             </div>
 
-            <div class="section-title" style="margin-top: 2.5rem;">
-                <h2><i class="fas fa-tags"></i> Mistake Collection & Tags</h2>
+            <!-- 错题集标签部分 -->
+            <div class="section-title">
+                <h3><i class="fas fa-tags"></i> Mistake Collection & Tags</h3>
                 <span>Organized by tags and units</span>
             </div>
 
             <div class="card">
                 <div class="card-body">
                     <p>View and organize your mistake collection. Tags can be edited in MyBio Center.</p>
-                    <div class="tag-container" style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem;">
+                    <div class="tag-container">
                         <span class="tag active" data-tag="all">All Mistakes</span>
                         <span class="tag" data-tag="unit1">Unit 1</span>
                         <span class="tag" data-tag="unit2">Unit 2</span>
@@ -377,11 +344,10 @@
                     </div>
 
                     <div class="mistake-item">
-                        <h4>Why is water considered a polar molecule?</h4>
+                        <h5>Why is water considered a polar molecule?</h5>
                         <p>You answered: Because it has no charge</p>
-                        <p><strong>Correct answer:</strong> Because it has uneven charge distribution with oxygen being
-                            slightly negative and hydrogen slightly positive</p>
-                        <div style="margin-top: 0.5rem;">
+                        <p><strong>Correct answer:</strong> Because it has uneven charge distribution with oxygen being slightly negative and hydrogen slightly positive</p>
+                        <div class="tags">
                             <span class="tag">Unit 1</span>
                             <span class="tag">Water Properties</span>
                             <span class="tag">Polarity</span>
@@ -390,36 +356,36 @@
                 </div>
             </div>
 
-            <div class="section-title" style="margin-top: 2.5rem;">
-                <h2><i class="fas fa-project-diagram"></i> Knowledge Graph (Concept Web)</h2>
+            <!-- 知识图谱部分 -->
+            <div class="section-title">
+                <h3><i class="fas fa-project-diagram"></i> Knowledge Graph (Concept Web)</h3>
                 <span>Networked concept relationship diagram</span>
             </div>
 
             <div class="card">
                 <div class="card-body">
-                    <p>Biology syllabus concept network diagram, click concepts to jump to corresponding learning pages.
-                    </p>
+                    <p>Biology syllabus concept network diagram, click concepts to jump to corresponding learning pages.</p>
 
                     <div class="concept-web-preview">
                         <div class="concept-node" data-concept="water-properties">
-                            <h4>Water Properties</h4>
+                            <h5>Water Properties</h5>
                             <p>Polarity, Cohesion, Adhesion</p>
                         </div>
                         <div class="concept-node" data-concept="ph-scale">
-                            <h4>pH Scale</h4>
+                            <h5>pH Scale</h5>
                             <p>Acids, Bases, Buffers</p>
                         </div>
                         <div class="concept-node" data-concept="macromolecules">
-                            <h4>Macromolecules</h4>
+                            <h5>Macromolecules</h5>
                             <p>Carbs, Lipids, Proteins, Nucleic Acids</p>
                         </div>
                         <div class="concept-node" data-concept="cell-structure">
-                            <h4>Cell Structure</h4>
+                            <h5>Cell Structure</h5>
                             <p>Organelles, Membranes, Transport</p>
                         </div>
                     </div>
 
-                    <div style="text-align: center; margin-top: 1.5rem;">
+                    <div class="center-button">
                         <button class="btn btn-primary" id="openKnowledgeGraphBtn">
                             <i class="fas fa-expand"></i> Open Full Knowledge Graph
                         </button>
@@ -431,15 +397,14 @@
         <!-- 考试页面 -->
         <section id="exam" class="page-content">
             <div class="page-header">
-                <h1>Exams and Practice</h1>
-                <p>Past exam papers, unit exercises, adaptive difficulty training - comprehensive problem-solving
-                    improvement</p>
+                <h2>Exams and Practice</h2>
+                <p>Past exam papers, unit exercises, adaptive difficulty training - comprehensive problem-solving improvement</p>
             </div>
 
             <div class="card-container">
                 <div class="card">
                     <div class="card-header">
-                        <h3>Past Exam Papers</h3>
+                        <h4>Past Exam Papers</h4>
                     </div>
                     <div class="card-body">
                         <p>Past exam papers categorized by year and exam type</p>
@@ -448,19 +413,19 @@
                             <li>High School Biology Exams</li>
                             <li>Biology Competition Papers</li>
                         </ul>
-                        <button class="btn btn-primary" id="startPracticeBtn" style="margin-top: 1rem;">Start Practice</button>
+                        <button class="btn btn-primary" id="startPracticeBtn">Start Practice</button>
                     </div>
                 </div>
 
                 <div class="card">
                     <div class="card-header">
-                        <h3>Unit Exercises</h3>
+                        <h4>Unit Exercises</h4>
                     </div>
                     <div class="card-body">
                         <p>Specialized exercises organized by textbook units</p>
                         <p>Each question has pre-set tags: categorizing difficulty and involved knowledge points</p>
 
-                        <div class="difficulty-indicator" style="margin-top: 1rem;">
+                        <div class="difficulty-indicator">
                             <span>Select Difficulty:</span>
                             <div class="difficulty-dot active" data-level="1"></div>
                             <div class="difficulty-dot" data-level="2"></div>
@@ -469,85 +434,82 @@
                             <div class="difficulty-dot" data-level="5"></div>
                         </div>
 
-                        <button class="btn btn-primary" id="selectUnitBtn" style="margin-top: 1rem;">Select Unit</button>
+                        <button class="btn btn-primary" id="selectUnitBtn">Select Unit</button>
                     </div>
                 </div>
 
                 <div class="card">
                     <div class="card-header">
-                        <h3>Adaptive Difficulty Training</h3>
+                        <h4>Adaptive Difficulty Training</h4>
                     </div>
                     <div class="card-body">
                         <p>Automatically matches question difficulty based on your level</p>
                         <p>System adjusts subsequent question difficulty based on answer performance</p>
-                        <div style="margin: 1.5rem 0; padding: 1rem; background-color: #f8f9fa; border-radius: 8px;">
+                        <div class="level-info">
                             <p><strong>Your current level:</strong> Intermediate</p>
                             <p><strong>Next question difficulty:</strong> Medium</p>
                         </div>
-                        <button class="btn btn-primary" id="startTrainingBtn" style="margin-top: 1rem;">Start Training</button>
+                        <button class="btn btn-primary" id="startTrainingBtn">Start Training</button>
                     </div>
                 </div>
             </div>
 
             <div class="section-title">
-                <h2>Question Features</h2>
+                <h3>Question Features</h3>
                 <span>Each question includes the following features</span>
             </div>
 
             <div class="card">
                 <div class="card-body">
-                    <div
-                        style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem;">
-                        <div>
-                            <h4><i class="fas fa-analysis" style="color: var(--primary-color);"></i> Detailed Analysis
-                            </h4>
+                    <div class="features-grid">
+                        <div class="feature">
+                            <h5><i class="fas fa-analysis"></i> Detailed Analysis</h5>
                             <p>Each question has detailed solution steps and knowledge point analysis</p>
                         </div>
-                        <div>
-                            <h4><i class="fas fa-link" style="color: var(--primary-color);"></i> Related Concepts</h4>
+                        <div class="feature">
+                            <h5><i class="fas fa-link"></i> Related Concepts</h5>
                             <p>Direct jump to learning pages for concepts related to the question</p>
                         </div>
-                        <div>
-                            <h4><i class="fas fa-tag" style="color: var(--primary-color);"></i> Save & Tag</h4>
+                        <div class="feature">
+                            <h5><i class="fas fa-tag"></i> Save & Tag</h5>
                             <p>Save questions and add custom tags for convenient review</p>
                         </div>
                     </div>
 
                     <!-- 示例题目 -->
-                    <div class="sample-question" style="margin-top: 2rem; padding: 1.5rem; background-color: #f8f9fa; border-radius: 8px;">
-                        <h4>Sample Question:</h4>
-                        <p><strong>Question:</strong> Which of the following properties of water is responsible for its
-                            high surface tension?</p>
-                        <div class="options" style="margin: 1rem 0;">
-                            <div style="margin-bottom: 0.5rem;">
+                    <div class="sample-question">
+                        <h5>Sample Question:</h5>
+                        <p><strong>Question:</strong> Which of the following properties of water is responsible for its high surface tension?</p>
+                        <div class="options">
+                            <div class="option">
                                 <input type="radio" id="option1" name="sample-question" value="A">
                                 <label for="option1">A) High specific heat capacity</label>
                             </div>
-                            <div style="margin-bottom: 0.5rem;">
+                            <div class="option">
                                 <input type="radio" id="option2" name="sample-question" value="B">
                                 <label for="option2">B) Adhesion</label>
                             </div>
-                            <div style="margin-bottom: 0.5rem;">
+                            <div class="option">
                                 <input type="radio" id="option3" name="sample-question" value="C">
                                 <label for="option3">C) Cohesion (Correct)</label>
                             </div>
-                            <div>
+                            <div class="option">
                                 <input type="radio" id="option4" name="sample-question" value="D">
                                 <label for="option4">D) Universal solvent property</label>
                             </div>
                         </div>
 
-                        <div class="question-actions" style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-                            <button class="btn btn-secondary btn-sm" id="showExplanationBtn">
+                        <div class="question-actions">
+                            <button class="btn btn-secondary" id="showExplanationBtn">
                                 <i class="fas fa-lightbulb"></i> Show Explanation
                             </button>
-                            <button class="btn btn-secondary btn-sm" id="goToConceptBtn">
+                            <button class="btn btn-secondary" id="goToConceptBtn">
                                 <i class="fas fa-external-link-alt"></i> Go to Concept
                             </button>
-                            <button class="btn btn-secondary btn-sm" id="addTagBtn">
+                            <button class="btn btn-secondary" id="addTagBtn">
                                 <i class="fas fa-tag"></i> Add Tag
                             </button>
-                            <button class="btn btn-secondary btn-sm" id="saveQuestionBtn">
+                            <button class="btn btn-secondary" id="saveQuestionBtn">
                                 <i class="fas fa-bookmark"></i> Save
                             </button>
                         </div>
@@ -559,27 +521,25 @@
         <!-- 讨论区页面 -->
         <section id="forum" class="page-content">
             <div class="page-header">
-                <h1>Discussion Forum</h1>
+                <h2>Discussion Forum</h2>
                 <p>Discuss biology questions with fellow students, help each other, progress together</p>
             </div>
 
             <div class="card">
                 <div class="card-header">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <h3>Hot Discussions</h3>
+                    <div class="card-header-content">
+                        <h4>Hot Discussions</h4>
                         <button class="btn btn-primary" id="createPostBtn">
                             <i class="fas fa-plus"></i> Create Post
                         </button>
                     </div>
                 </div>
                 <div class="card-body" id="discussionList">
-                    <div class="discussion-item" style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #eee;">
-                        <h4>What is the role of primase in DNA replication?</h4>
-                        <p style="color: #666; margin: 0.5rem 0;">Posted by: Student A • Unit 4 / Chapter 10 • 2 hours
-                            ago</p>
-                        <p>What is the specific mechanism of primase in DNA replication? Why do we need RNA primers
-                            instead of directly using DNA?</p>
-                        <div style="margin-top: 1rem;">
+                    <div class="discussion-item">
+                        <h5>What is the role of primase in DNA replication?</h5>
+                        <p class="discussion-meta">Posted by: Student A • Unit 4 / Chapter 10 • 2 hours ago</p>
+                        <p>What is the specific mechanism of primase in DNA replication? Why do we need RNA primers instead of directly using DNA?</p>
+                        <div class="tags">
                             <span class="tag">DNA Replication</span>
                             <span class="tag">Unit 4</span>
                             <span class="tag">Genetics</span>
@@ -587,13 +547,11 @@
                         </div>
                     </div>
 
-                    <div class="discussion-item" style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #eee;">
-                        <h4>What are the main differences between mitosis and meiosis?</h4>
-                        <p style="color: #666; margin: 0.5rem 0;">Posted by: Student B • Unit 2 / Chapter 5 • 5 hours
-                            ago</p>
-                        <p>What are the main differences between mitosis and meiosis in terms of process, outcome, and
-                            biological significance?</p>
-                        <div style="margin-top: 1rem;">
+                    <div class="discussion-item">
+                        <h5>What are the main differences between mitosis and meiosis?</h5>
+                        <p class="discussion-meta">Posted by: Student B • Unit 2 / Chapter 5 • 5 hours ago</p>
+                        <p>What are the main differences between mitosis and meiosis in terms of process, outcome, and biological significance?</p>
+                        <div class="tags">
                             <span class="tag">Cell Division</span>
                             <span class="tag">Unit 2</span>
                             <span class="tag">Mitosis</span>
@@ -602,12 +560,10 @@
                     </div>
 
                     <div class="discussion-item">
-                        <h4>How to understand enzyme specificity?</h4>
-                        <p style="color: #666; margin: 0.5rem 0;">Posted by: Student C • Unit 3 / Chapter 7 • 1 day ago
-                        </p>
-                        <p>What aspects does enzyme specificity include? How do lock-and-key theory and induced fit
-                            theory explain enzyme specificity?</p>
-                        <div style="margin-top: 1rem;">
+                        <h5>How to understand enzyme specificity?</h5>
+                        <p class="discussion-meta">Posted by: Student C • Unit 3 / Chapter 7 • 1 day ago</p>
+                        <p>What aspects does enzyme specificity include? How do lock-and-key theory and induced fit theory explain enzyme specificity?</p>
+                        <div class="tags">
                             <span class="tag">Enzyme</span>
                             <span class="tag">Unit 3</span>
                             <span class="tag">Metabolism</span>
@@ -617,25 +573,23 @@
                 </div>
             </div>
 
-            <div class="section-title" style="margin-top: 2.5rem;">
-                <h2>Forum Features</h2>
+            <div class="section-title">
+                <h3>Forum Features</h3>
             </div>
 
             <div class="card">
                 <div class="card-body">
-                    <div
-                        style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem;">
-                        <div>
-                            <h4><i class="fas fa-comments" style="color: var(--primary-color);"></i> Concept Discussions
-                            </h4>
+                    <div class="features-grid">
+                        <div class="feature">
+                            <h5><i class="fas fa-comments"></i> Concept Discussions</h5>
                             <p>Discussions under each Concept are automatically categorized in Forum sections</p>
                         </div>
-                        <div>
-                            <h4><i class="fas fa-edit" style="color: var(--primary-color);"></i> Post Creation</h4>
+                        <div class="feature">
+                            <h5><i class="fas fa-edit"></i> Post Creation</h5>
                             <p>Freely post questions, select Unit and Concept, add tags</p>
                         </div>
-                        <div>
-                            <h4><i class="fas fa-reply" style="color: var(--primary-color);"></i> Mutual Assistance</h4>
+                        <div class="feature">
+                            <h5><i class="fas fa-reply"></i> Mutual Assistance</h5>
                             <p>Other users can see your questions and provide answers</p>
                         </div>
                     </div>
@@ -646,61 +600,58 @@
         <!-- 个人中心页面 -->
         <section id="mybio" class="page-content">
             <div class="page-header">
-                <h1>MyBio Center</h1>
+                <h2>MyBio Center</h2>
                 <p>View learning history, saved content, mistake collection, and personal settings</p>
             </div>
 
             <div class="card-container">
                 <div class="card">
                     <div class="card-header">
-                        <h3>Learning Progress</h3>
+                        <h4>Learning Progress</h4>
                     </div>
                     <div class="card-body">
                         <p>Concepts Learned: <strong id="conceptsLearned">42</strong> / 156</p>
                         <p>Learning Time: <strong id="learningTime">36</strong> hours</p>
-                        <div class="progress-bar" style="margin: 1rem 0; height: 10px; background-color: #eee; border-radius: 5px;">
-                            <div id="progressFill"
-                                style="width: 27%; height: 100%; background-color: var(--primary-color); border-radius: 5px;">
-                            </div>
+                        <div class="progress-bar">
+                            <div id="progressFill" class="progress-fill"></div>
                         </div>
-                        <p style="font-size: 0.9rem; color: #666;">Overall Progress: <span id="progressPercent">27</span>%</p>
+                        <p class="progress-text">Overall Progress: <span id="progressPercent">27</span>%</p>
                     </div>
                 </div>
 
                 <div class="card">
                     <div class="card-header">
-                        <h3>Mistake Collection</h3>
+                        <h4>Mistake Collection</h4>
                     </div>
                     <div class="card-body">
                         <p>Total Mistakes: <strong id="totalMistakes">24</strong> questions</p>
                         <p>Recent Mistakes: DNA Replication • Cellular Respiration • Photosynthesis</p>
-                        <button class="btn btn-primary" id="viewMistakesBtn" style="margin-top: 1rem;">View Mistakes</button>
+                        <button class="btn btn-primary" id="viewMistakesBtn">View Mistakes</button>
                     </div>
                 </div>
 
                 <div class="card">
                     <div class="card-header">
-                        <h3>Saved Content</h3>
+                        <h4>Saved Content</h4>
                     </div>
                     <div class="card-body">
                         <p>Saved Animations: <strong id="savedAnimations">8</strong></p>
                         <p>Saved Questions: <strong id="savedQuestions">15</strong></p>
                         <p>Saved Concepts: <strong id="savedConcepts">12</strong></p>
-                        <button class="btn btn-primary" id="manageSavedBtn" style="margin-top: 1rem;">Manage Saved</button>
+                        <button class="btn btn-primary" id="manageSavedBtn">Manage Saved</button>
                     </div>
                 </div>
             </div>
 
-            <div class="section-title" style="margin-top: 2.5rem;">
-                <h2>Tag Management</h2>
+            <div class="section-title">
+                <h3>Tag Management</h3>
                 <span>Custom learning tags</span>
             </div>
 
             <div class="card">
                 <div class="card-body">
-                    <p>Edit and manage personalized tags in MyBio Center. These tags apply to mistake collection and
-                        saved content.</p>
-                    <div id="userTags" class="tag-container" style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem;">
+                    <p>Edit and manage personalized tags in MyBio Center. These tags apply to mistake collection and saved content.</p>
+                    <div id="userTags" class="tag-container">
                         <span class="tag">Important Exam Point</span>
                         <span class="tag">Easy to Confuse</span>
                         <span class="tag">Need to Memorize</span>
@@ -709,18 +660,17 @@
                         <span class="tag">Diagram Analysis</span>
                     </div>
 
-                    <div class="create-tag-section" style="margin-top: 1.5rem; padding: 1rem; background-color: #f8f9fa; border-radius: 8px;">
-                        <h4>Create New Tag</h4>
-                        <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-                            <input type="text" id="newTagName" placeholder="Tag name"
-                                style="flex: 1; padding: 0.5rem; border: 1px solid #ddd; border-radius: 5px;">
-                            <select id="newTagColor" style="padding: 0.5rem; border: 1px solid #ddd; border-radius: 5px;">
+                    <div class="create-tag-section">
+                        <h5>Create New Tag</h5>
+                        <div class="create-tag-form">
+                            <input type="text" id="newTagName" placeholder="Tag name">
+                            <select id="newTagColor">
                                 <option value="primary">Blue (Default)</option>
                                 <option value="success">Green</option>
                                 <option value="warning">Yellow</option>
                                 <option value="danger">Red</option>
                             </select>
-                            <button class="btn btn-primary" id="addTagBtn">
+                            <button class="btn btn-primary" id="addNewTagBtn">
                                 <i class="fas fa-plus"></i> Add Tag
                             </button>
                         </div>
@@ -728,89 +678,62 @@
                 </div>
             </div>
         </section>
-
-        <!-- 教师端页面 -->
-        <section id="educator" class="page-content">
-            <div class="page-header">
-                <h1>Educator Portal (Reserved Feature)</h1>
-                <p>This feature is under development and will be available to educator users in the future</p>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h3>Educator Features Preview</h3>
-                </div>
-                <div class="card-body">
-                    <p>Educator portal features are currently being planned and will include:</p>
-                    <ul style="margin: 1rem 0 1rem 1.5rem;">
-                        <li>View class learning progress overview</li>
-                        <li>Assign homework and practice questions</li>
-                        <li>Manage forum content</li>
-                        <li>Create custom quizzes and exams</li>
-                        <li>Track individual student performance</li>
-                        <li>Access teaching resources and materials</li>
-                    </ul>
-                    <div
-                        style="background-color: #f8f9fa; border-radius: 8px; padding: 1.5rem; margin-top: 1.5rem; text-align: center;">
-                        <i class="fas fa-tools"
-                            style="font-size: 2.5rem; color: var(--warning-color); margin-bottom: 1rem;"></i>
-                        <h4>Under Development</h4>
-                        <p>This section is reserved for future educator features. Currently, the platform focuses on
-                            student learning experience.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
     </main>
 
-    <!-- 页脚 -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>BioVision Platform</h3>
-                <ul>
+    <!-- 底部页脚 -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <!-- 左侧：网页名称 + 图标 -->
+            <div class="footer-brand">
+                <i class="fas fa-dna"></i>
+                <h3>BioVision EDU</h3>
+            </div>
+
+            <!-- 右侧：联系信息 -->
+            <div class="footer-links">
+                <h4>Contact Us</h4>
+                <ul class="contact-list">
                     <li><a href="#">About Us</a></li>
-                    <li><a href="#">Contact</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h3>Learning Resources</h3>
-                <ul>
-                    <li><a href="#">All Courses</a></li>
-                    <li><a href="#">Animation Library</a></li>
-                    <li><a href="#">3D Models</a></li>
-                    <li><a href="#">Practice Questions</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h3>Community</h3>
-                <ul>
-                    <li><a href="#">Discussion Forum</a></li>
-                    <li><a href="#">Student Blogs</a></li>
-                    <li><a href="#">Study Groups</a></li>
-                    <li><a href="#">Success Stories</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h3>Connect With Us</h3>
-                <ul>
-                    <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
-                    <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
-                    <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
-                    <li><a href="#"><i class="fab fa-youtube"></i> YouTube</a></li>
+                    <li><a href="#">Our Research</a></li>
+                    <li><a href="#">Our Team</a></li>
+                    <li><a href="#">Our Advisors</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contact Us</a></li>
                 </ul>
             </div>
         </div>
-
+        
         <div class="copyright">
             <p>&copy; 2025 BioVision Educational Platform. All rights reserved. | Designed for biology education</p>
         </div>
     </footer>
+
+    <!-- 身份选择模态框 -->
+    <div class="modal-overlay" id="identityModal">
+        <div class="modal">
+            <h3>Select Your Identity</h3>
+            <div class="identity-options">
+                <div class="identity-option" data-identity="student">
+                    <i class="fas fa-user-graduate"></i>
+                    <h4>Student</h4>
+                    <p>Access courses, animations, practice questions, and discussion forums</p>
+                </div>
+                <div class="identity-option" data-identity="educator">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <h4>Educator</h4>
+                    <p>View class progress, assign questions, and manage discussions (Coming soon)</p>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-primary" id="confirmIdentity" disabled>
+                    Continue
+                </button>
+                <p class="modal-note">
+                    Note: Educator features are currently in development and reserved for future use.
+                </p>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
