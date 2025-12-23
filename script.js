@@ -8,21 +8,14 @@ document.addEventListener('DOMContentLoaded', function() {
     initYouTubeButtons();
     initDifficultySelector();
     initConceptNodes();
+    initIdentityModal();
     initButtonEvents();
     initTagManagement();
+
 });
 
 function initHeaderScroll() {
     const header = document.querySelector('.site-header');
-    const threshold = 80;
-    
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > threshold) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-    });
 }
 
 function initNavigation() {
@@ -251,6 +244,60 @@ function initConceptNodes() {
         });
     });
 }
+
+function initIdentityModal() {
+    const identityModal = document.getElementById('identityModal');
+    // const registerBtn = document.getElementById('registerBtn');
+    // const loginBtn = document.getElementById('loginBtn');
+    const startJournalBtn = document.getElementById('startJournalBtn'); // 新增按钮
+    const identityOptions = document.querySelectorAll('.identity-option');
+    const confirmIdentityBtn = document.getElementById('confirmIdentity');
+    let selectedIdentity = null;
+
+    // 为注册、登录和新增的“Start My Journal”按钮绑定相同的事件
+    [startJournalBtn].forEach(btn => {
+        if (btn) {
+            btn.addEventListener('click', () => {
+                identityModal.style.display = 'flex';
+            });
+        }
+    });
+
+    identityOptions.forEach(option => {
+        option.addEventListener('click', function () {
+            identityOptions.forEach(opt => opt.classList.remove('selected'));
+            this.classList.add('selected');
+            selectedIdentity = this.getAttribute('data-identity');
+            confirmIdentityBtn.disabled = false;
+
+            // 如果选择Educator，显示提示
+            if (selectedIdentity === 'educator') {
+                confirmIdentityBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Coming Soon';
+            } else {
+                confirmIdentityBtn.innerHTML = 'Continue as Student';
+            }
+        });
+    });
+
+    confirmIdentityBtn.addEventListener('click', () => {
+        if (selectedIdentity) {
+            identityModal.style.display = 'none';
+            if (selectedIdentity === 'student') {
+                alert('Redirecting to student registration/login page...');
+            } else {
+                alert('Educator features are currently under development. You will be redirected to a waiting list.');
+            }
+        }
+    });
+
+    // 点击模态框外部关闭
+    identityModal.addEventListener('click', (e) => {
+        if (e.target === identityModal) {
+            identityModal.style.display = 'none';
+        }
+    });
+}
+
 
 function initButtonEvents() {
     document.getElementById('createPostBtn')?.addEventListener('click', function() {

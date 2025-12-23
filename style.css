@@ -48,6 +48,14 @@ body {
     color: var(--accent);
 }
 
+/* 主导航栏 - 垂直布局 */
+.main-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.8rem;
+}
+
 .header-right {
     display: flex;
     align-items: center;
@@ -56,6 +64,8 @@ body {
 
 .search-wrapper {
     position: relative;
+    width: 100%;
+    max-width: 600px;
 }
 
 .search-wrapper input {
@@ -64,7 +74,7 @@ body {
     border: none;
     background-color: white;
     color: #333;
-    width: 300px;
+    width: 100%;
 }
 
 .search-wrapper .search-icon {
@@ -75,6 +85,7 @@ body {
     color: #666;
 }
 
+/* 导航链接 */
 .main-nav .nav-links {
     display: flex;
     list-style: none;
@@ -94,22 +105,6 @@ body {
     background-color: rgba(255, 255, 255, 0.2);
 }
 
-.site-header.scrolled {
-    padding: 0.4rem 2rem;
-}
-
-.site-header.scrolled .brand {
-    font-size: 1.2rem;
-}
-
-.site-header.scrolled .search-wrapper {
-    display: none;
-}
-
-.site-header.scrolled .nav-links a {
-    padding: 0.4rem 0.8rem;
-}
-
 /* 内容区 */
 .content {
     max-width: 1200px;
@@ -127,8 +122,13 @@ body {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .page-header {
@@ -234,6 +234,170 @@ body {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 1.5rem;
     margin-bottom: 2rem;
+}
+
+
+/* 讨论区卡片头部布局 */
+.card-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 讨论项样式 */
+.discussion-item {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.discussion-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+
+/* 功能网格项 */
+.feature-item {
+    text-align: center;
+}
+
+.feature-item i {
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+
+/* 新增按钮区域样式 */
+.journal-section {
+    text-align: center;
+    margin: 2.5rem 0;
+}
+
+#startJournalBtn {
+    font-size: 1.1rem;
+    padding: 0.8rem 2rem;
+}
+
+/* 讨论元信息 */
+.discussion-meta {
+    color: #666;
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+}
+
+/* 身份选择模态框 */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    display: none;
+}
+
+.modal {
+    background-color: white;
+    border-radius: 10px;
+    padding: 2.5rem;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modal h3 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--secondary-color);
+}
+
+.identity-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.identity-option {
+    text-align: center;
+    padding: 1.5rem;
+    border: 2px solid #eee;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.identity-option:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-5px);
+}
+
+.identity-option.selected {
+    border-color: var(--primary-color);
+    background-color: rgba(42, 157, 143, 0.05);
+}
+
+.identity-option i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+/* 模态框底部样式 */
+.modal-footer {
+    text-align: center;
+}
+
+.confirm-btn {
+    width: 200px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 4px;
+    background-color: #4a90e2;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.confirm-btn:hover {
+    background-color: #3a7bc8;
+}
+
+.confirm-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.modal-note {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.4;
+}
+
+
+/* 功能卡片 */
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2.5rem 0 1.5rem;
+}
+
+.section-title h2 {
+    color: var(--secondary-color);
+    font-size: 1.8rem;
 }
 
 /* 捐赠区 */
@@ -633,64 +797,93 @@ body {
 }
 
 /* 页脚 */
-.site-footer {
+
+/* 页脚 */
+footer {
     background-color: var(--secondary);
     color: white;
-    padding: 2rem 2rem 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    padding: 3rem 2rem 1.5rem;
+    margin-top: 3rem;
 }
 
-.footer-brand {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 1.4rem;
-    margin-bottom: 1rem;
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
 }
 
-.footer-brand i {
+.footer-section h3 {
+    margin-bottom: 1.2rem;
+    font-size: 1.3rem;
     color: var(--accent);
+    /* 与图标颜色一致 */
 }
 
-.footer-nav {
-    display: flex;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-    justify-content: center;
+.footer-section ul {
+    list-style: none;
 }
 
-.footer-nav a {
+.footer-section ul li {
+    margin-bottom: 0.7rem;
+}
+
+.footer-section a {
     color: #ddd;
     text-decoration: none;
-    transition: color 0.2s;
+    transition: color 0.3s;
 }
 
-.footer-nav a:hover {
+.footer-section a:hover {
     color: white;
+}
+
+.copyright {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: #aaa;
+    font-size: 0.9rem;
 }
 
 /* 响应式 */
 @media (max-width: 992px) {
+
+    .main-nav {
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .search-wrapper {
+        max-width: 100%;
+    }
+
+    .main-nav .nav-links {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        width: 100%;
+    }
+
     .study-layout {
         grid-template-columns: 1fr;
     }
-    
+
     .chapter-tree {
         position: static;
     }
-    
+
     .header-right {
         flex-direction: column;
         align-items: flex-start;
         gap: 0.5rem;
     }
-    
+
     .search-wrapper input {
         width: 100%;
     }
-    
+
     .main-nav .nav-links {
         flex-wrap: wrap;
         justify-content: flex-start;
@@ -701,16 +894,26 @@ body {
     .site-header {
         flex-direction: column;
         align-items: flex-start;
+        gap: 1rem;
     }
-    
+
     .brand {
-        margin-bottom: 0.5rem;
+        margin-bottom: 0;
     }
-    
+
     .card-container {
         grid-template-columns: 1fr;
     }
-    
+
+    .main-nav {
+        width: 100%;
+        align-items: stretch;
+    }
+
+    .search-wrapper input {
+        width: 100%;
+    }
+
     .content {
         padding: 0 1rem;
     }

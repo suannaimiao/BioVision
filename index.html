@@ -8,29 +8,58 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- 身份选择模态框 -->
+    <div class="modal-overlay" id="identityModal">
+        <div class="modal">
+            <h3>Select Your Identity</h3>
+            <div class="identity-options">
+                <div class="identity-option" data-identity="student">
+                    <i class="fas fa-user-graduate"></i>
+                    <h4>Student</h4>
+                    <p>Access courses, animations, practice questions, and discussion forums</p>
+                </div>
+                <div class="identity-option" data-identity="educator">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <h4>Educator</h4>
+                    <p>View class progress, assign questions, and manage discussions (Continue)</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary confirm-btn" id="confirmIdentity" disabled>
+                    Continue
+                </button>
+                <p class="modal-note">
+                    Note: Educator features are currently in development and reserved for future use.
+                </p>
+            </div>
+        </div>
+    </div>
+
     <!-- 顶部栏 -->
     <header class="site-header">
         <div class="brand">
             <i class="fas fa-dna"></i>
             <span>BioVision EDU</span>
         </div>
-        <div class="header-right">
+        <nav class="main-nav">
+            <!-- 搜索框现在位于导航栏内，垂直布局 -->
             <div class="search-wrapper">
-                <input type="text" id="searchInput" placeholder="搜索：概念、动画、模型、题目、讨论…">
+                <input type="text" id="searchInput" placeholder="Universal Finder: Search for biology concepts, animations, 3D models, questions, or discussions...">
                 <i class="fas fa-search search-icon"></i>
             </div>
-            <nav class="main-nav">
-                <ul class="nav-links">
-                    <li><a href="#" class="active" data-page="home">Home</a></li>
-                    <li><a href="#" data-page="study">Study</a></li>
-                    <li><a href="#" data-page="gallery">Gallery</a></li>
-                    <li><a href="#" data-page="exam">Exam</a></li>
-                    <li><a href="#" data-page="forum">Forum</a></li>
-                    <li><a href="#" data-page="mybio">MyBio</a></li>
-                </ul>
-            </nav>
-        </div>
+            <ul class="nav-links">
+                <li><a href="#" class="active" data-page="home">Home</a></li>
+                <li><a href="#" data-page="study">Study</a></li>
+                <li><a href="#" data-page="gallery">Gallery</a></li>
+                <li><a href="#" data-page="exam">Exam</a></li>
+                <li><a href="#" data-page="forum">Forum</a></li>
+                <li><a href="#" data-page="mybio">MyBio</a></li>
+            </ul>
+        </nav>
     </header>
+
+
+
 
     <!-- 内容区 -->
     <main class="content">
@@ -49,6 +78,13 @@
                     <div class="carousel-dot" data-slide="2"></div>
                 </div>
             </div>
+            <!-- 新增的按钮区域 -->
+            <div class="journal-section">
+                <button class="btn btn-primary" id="startJournalBtn">
+                    <i class="fas fa-book-open"></i> Start my Journey
+                </button>
+            </div>
+            <!-- 结束 -->
             <div class="card">
                 <div class="card-header">
                     <h3>Platform Introduction</h3>
@@ -73,6 +109,7 @@
                 </button>
             </div>
         </section>
+
 
         <!-- 学习页面 -->
         <section id="study" class="page-content">
@@ -448,6 +485,7 @@
         </section>
 
         <!-- 讨论区页面 -->
+        <!-- 讨论区页面 -->
         <section id="forum" class="page-content">
             <div class="page-header">
                 <h1>Discussion Forum</h1>
@@ -455,7 +493,7 @@
             </div>
             <div class="card">
                 <div class="card-header">
-                    <div>
+                    <div class="card-header-row">
                         <h3>Hot Discussions</h3>
                         <button class="btn btn-primary" id="createPostBtn">
                             <i class="fas fa-plus"></i> Create Post
@@ -465,9 +503,9 @@
                 <div class="card-body" id="discussionList">
                     <div class="discussion-item">
                         <h4>What is the role of primase in DNA replication?</h4>
-                        <p>Posted by: Student A • Unit 4 / Chapter 10 • 2 hours ago</p>
+                        <p class="discussion-meta">Posted by: Student A • Unit 4 / Chapter 10 • 2 hours ago</p>
                         <p>What is the specific mechanism of primase in DNA replication? Why do we need RNA primers instead of directly using DNA?</p>
-                        <div>
+                        <div class="tag-container">
                             <span class="tag">DNA Replication</span>
                             <span class="tag">Unit 4</span>
                             <span class="tag">Genetics</span>
@@ -476,9 +514,9 @@
                     </div>
                     <div class="discussion-item">
                         <h4>What are the main differences between mitosis and meiosis?</h4>
-                        <p>Posted by: Student B • Unit 2 / Chapter 5 • 5 hours ago</p>
+                        <p class="discussion-meta">Posted by: Student B • Unit 2 / Chapter 5 • 5 hours ago</p>
                         <p>What are the main differences between mitosis and meiosis in terms of process, outcome, and biological significance?</p>
-                        <div>
+                        <div class="tag-container">
                             <span class="tag">Cell Division</span>
                             <span class="tag">Unit 2</span>
                             <span class="tag">Mitosis</span>
@@ -487,9 +525,9 @@
                     </div>
                     <div class="discussion-item">
                         <h4>How to understand enzyme specificity?</h4>
-                        <p>Posted by: Student C • Unit 3 / Chapter 7 • 1 day ago</p>
+                        <p class="discussion-meta">Posted by: Student C • Unit 3 / Chapter 7 • 1 day ago</p>
                         <p>What aspects does enzyme specificity include? How do lock-and-key theory and induced fit theory explain enzyme specificity?</p>
-                        <div>
+                        <div class="tag-container">
                             <span class="tag">Enzyme</span>
                             <span class="tag">Unit 3</span>
                             <span class="tag">Metabolism</span>
@@ -504,15 +542,15 @@
             <div class="card">
                 <div class="card-body">
                     <div class="features-grid">
-                        <div>
+                        <div class="feature-item">
                             <h4><i class="fas fa-comments"></i> Concept Discussions</h4>
                             <p>Discussions under each Concept are automatically categorized in Forum sections</p>
                         </div>
-                        <div>
+                        <div class="feature-item">
                             <h4><i class="fas fa-edit"></i> Post Creation</h4>
                             <p>Freely post questions, select Unit and Concept, add tags</p>
                         </div>
-                        <div>
+                        <div class="feature-item">
                             <h4><i class="fas fa-reply"></i> Mutual Assistance</h4>
                             <p>Other users can see your questions and provide answers</p>
                         </div>
@@ -520,6 +558,7 @@
                 </div>
             </div>
         </section>
+
 
         <!-- 个人中心页面 -->
         <section id="mybio" class="page-content">
@@ -599,20 +638,57 @@
     </main>
 
     <!-- 页脚 -->
-    <footer class="site-footer">
-        <div class="footer-brand">
-            <i class="fas fa-dna"></i>
-            <span>BioVision EDU</span>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>BioVision Platform</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Learning Resources</h3>
+                <ul>
+                    <li><a href="#">All Courses</a></li>
+                    <li><a href="#">Animation Library</a></li>
+                    <li><a href="#">3D Models</a></li>
+                    <li><a href="#">Practice Questions</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Community</h3>
+                <ul>
+                    <li><a href="#">Discussion Forum</a></li>
+                    <li><a href="#">Student Blogs</a></li>
+                    <li><a href="#">Study Groups</a></li>
+                    <li><a href="#">Success Stories</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <ul>
+                    <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                    <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+                    <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+                    <li><a href="#"><i class="fab fa-youtube"></i> YouTube</a></li>
+                </ul>
+            </div>
         </div>
-        <nav class="footer-nav">
-            <a href="#">About Us</a>
-            <a href="#">Our Research</a>
-            <a href="#">Our Team</a>
-            <a href="#">Our Advisors</a>
-            <a href="#">FAQ</a>
-            <a href="#">Contact Us</a>
-        </nav>
+
+        <div class="copyright">
+            <p>&copy; 2025 BioVision Educational Platform. All rights reserved. | Designed for biology education</p>
+        </div>
     </footer>
+
+
+    
+
 
     <script src="script.js"></script>
 </body>
