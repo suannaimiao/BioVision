@@ -31,22 +31,91 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+// 在initStudyPage函数中确保视频相关初始化
 function initStudyPage() {
-
     console.log('初始化学习页面功能');
     
-    // 移除原来的initChapterTree调用
+    // 确保视频容器存在并正确初始化
+    ensureVideoContainer();
+
+    fixMissingTooltips();
+    
     initVideoPlayers();
-    initStepAnimations();
+    initStepAnimations(); // 调用修复后的函数
+    
     initYouTubeButtons();
     initPracticeQuestions();
     initDiscussionSection();
+
+    // 检查关键词元素
+    const keywords = document.querySelectorAll('.keyword');
+    console.log('学习页面 - 找到关键词数量:', keywords.length);
+    keywords.forEach((kw, index) => {
+        const tooltip = kw.querySelector('.keyword-tooltip');
+        const hasContent = tooltip && tooltip.querySelector('h5') && tooltip.querySelector('p');
+        console.log(`关键词 ${index + 1}:`, kw.textContent.trim(), '- 工具提示完整:', hasContent);
+    });
+
     initKeywordTooltips();
     initButtonEvents();
     initResourceNavigation();
     initQuestionFilters();
+    
+    // 确保步骤动画容器可见
+    const stepAnimation = document.getElementById('step-animation');
+    if (stepAnimation) {
+        stepAnimation.style.display = 'block';
+        stepAnimation.style.visibility = 'visible';
+        stepAnimation.style.opacity = '1';
+    }
 }
 
+
+function ensureVideoContainer() {
+    const stepAnimation = document.getElementById('step-animation');
+    if (!stepAnimation) return;
+    
+    // 检查视频容器是否存在
+    let videoContainer = document.getElementById('video-container');
+    let stepIframe = document.getElementById('stepVideo');
+    
+    // 如果不存在，创建它们
+    if (!videoContainer) {
+        console.log('创建视频容器...');
+        videoContainer = document.createElement('div');
+        videoContainer.id = 'video-container';
+        videoContainer.style.width = '100%';
+        videoContainer.style.height = '400px';
+        videoContainer.style.minHeight = '400px';
+        videoContainer.style.position = 'relative';
+        videoContainer.style.display = 'block';
+        
+        // 找到正确的位置插入视频容器
+        const contentElement = stepAnimation.querySelector('p');
+        if (contentElement) {
+            contentElement.parentNode.insertBefore(videoContainer, contentElement.nextElementSibling);
+        }
+    }
+    
+    if (!stepIframe) {
+        console.log('创建iframe...');
+        stepIframe = document.createElement('iframe');
+        stepIframe.id = 'stepVideo';
+        stepIframe.className = 'video-player';
+        stepIframe.src = 'https://www.youtube.com/embed/3jwAGWky98c'; // 默认视频
+        stepIframe.frameBorder = '0';
+        stepIframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+        stepIframe.allowFullscreen = true;
+        stepIframe.style.width = '100%';
+        stepIframe.style.height = '400px';
+        stepIframe.style.minHeight = '400px';
+        stepIframe.style.border = 'none';
+        stepIframe.style.display = 'block';
+        
+        videoContainer.innerHTML = '';
+        videoContainer.appendChild(stepIframe);
+    }
+}
 
 function initHeaderScroll() {
     const header = document.querySelector('.site-header');
@@ -202,45 +271,6 @@ function initChapterTree() {
         });
     });
 }
-// 更新概念内容
-// function updateConceptContent(conceptName, conceptId) {
-//     // 更新标题
-//     const conceptTitle = document.getElementById('currentConceptTitle');
-//     const conceptPath = document.getElementById('currentConceptPath');
-    
-//     if (conceptTitle) {
-//         conceptTitle.textContent = conceptName;
-//     }
-    
-//     if (conceptPath) {
-//         // 根据概念ID获取路径信息
-//         const [unit, chapter, concept] = conceptId.split('.');
-//         const unitNames = {
-//             '1': 'Unit 1: Chemical Basis of Life',
-//             '2': 'Unit 2: Cell Structure',
-//             '3': 'Unit 3: Cell Metabolism',
-//             '4': 'Unit 4: Genetics',
-//             '5': 'Unit 5: Evolution'
-//         };
-        
-//         const chapterNames = {
-//             '1.1': 'Chapter 1: Water and Life',
-//             '1.2': 'Chapter 2: Carbon Compounds'
-//         };
-        
-//         conceptPath.textContent = `${unitNames[unit]} / ${chapterNames[`${unit}.${chapter}`]} / ${conceptName}`;
-//     }
-    
-//     // 更新动画标题
-//     const animationTitle = document.querySelector('.personified-animation h3');
-//     if (animationTitle) {
-//         animationTitle.innerHTML = `<i class="fas fa-user-friends"></i> Personified Animation: ${conceptName} (5 min)`;
-//     }
-    
-//     // 这里可以添加更多内容更新的逻辑
-//     console.log(`Loading content for concept: ${conceptName} (${conceptId})`);
-// }
-
 
 // 初始化视频播放器
 function initVideoPlayers() {
@@ -283,16 +313,6 @@ function initLearningSteps() {
             
             if (stepAnimation) {
                 stepAnimation.style.display = 'block';
-                stepAnimation.innerHTML = `
-                    <h5>Step ${step}: ${this.textContent.split(': ')[1]}</h5>
-                    <p>Playing animation segment for this step...</p>
-                    <div style="background-color: #e9ecef; height: 200px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-top: 1rem;">
-                        <i class="fas fa-play-circle" style="font-size: 3rem; color: var(--primary);"></i>
-                    </div>
-                    <button class="btn btn-secondary replay-step-btn" style="margin-top: 1rem;">
-                        <i class="fas fa-redo"></i> Replay Step
-                    </button>
-                `;
                 
                 document.querySelector('.replay-step-btn')?.addEventListener('click', function() {
                     alert(`Replaying step ${step} animation...`);
@@ -302,150 +322,166 @@ function initLearningSteps() {
     });
 }
 
-// // 初始化步骤动画
-// function initStepAnimations() {
-//     const stepButtons = document.querySelectorAll('.step-btn');
-//     const stepAnimation = document.getElementById('step-animation');
-    
-//     if (!stepButtons.length || !stepAnimation) return;
-    
-//     stepButtons.forEach(btn => {
-//         btn.addEventListener('click', function() {
-//             const step = this.getAttribute('data-step');
-//             const stepText = this.querySelector('.step-label').nextSibling.textContent.trim();
-            
-//             // 更新按钮状态
-//             stepButtons.forEach(b => b.classList.remove('active'));
-//             this.classList.add('active');
-            
-//             // 更新动画显示
-//             const animationPreviews = stepAnimation.querySelectorAll('.animation-preview');
-//             if (animationPreviews.length) {
-//                 animationPreviews.forEach(preview => {
-//                     preview.innerHTML = `
-//                         <i class="fas fa-play-circle"></i>
-//                         <p>Playing animation for: ${stepText}</p>
-//                         <div class="animation-progress" style="width: 80%; height: 4px; background: var(--primary); margin-top: 1rem; border-radius: 2px;"></div>
-//                     `;
-//                     preview.style.cursor = 'default';
-//                 });
-//             }
-            
-//             // 显示步骤内容
-//             const steps = {
-//                 '1': {
-//                     title: 'Step 1: Polarity of Water Molecules',
-//                     content: 'Water molecules are polar because oxygen is more electronegative than hydrogen, creating partial charges that allow hydrogen bonding.',
-//                     animation: 'Polarity Animation'
-//                 },
-//                 '2': {
-//                     title: 'Step 2: Cohesion',
-//                     content: 'Hydrogen bonds cause water molecules to stick together, creating surface tension and allowing water to form droplets.',
-//                     animation: 'Cohesion Animation'
-//                 },
-//                 '3': {
-//                     title: 'Step 3: Adhesion',
-//                     content: 'Water molecules adhere to other surfaces, enabling capillary action in plants and other biological systems.',
-//                     animation: 'Adhesion Animation'
-//                 },
-//                 '4': {
-//                     title: 'Step 4: Solvent Properties',
-//                     content: 'Water\'s polarity makes it an excellent solvent for ionic compounds and polar molecules, essential for biochemical reactions.',
-//                     animation: 'Solvent Animation'
-//                 }
-//             };
-            
-//             const currentStep = steps[step];
-//             if (currentStep) {
-//                 stepAnimation.innerHTML = `
-//                     <h5>${currentStep.title}</h5>
-//                     <p>${currentStep.content}</p>
-//                     <div class="animation-preview">
-//                         <i class="fas fa-play-circle"></i>
-//                         <p>Playing: ${currentStep.animation}</p>
-//                         <div class="animation-progress" style="width: 80%; height: 4px; background: var(--primary); margin-top: 1rem; border-radius: 2px;"></div>
-//                     </div>
-//                     <button class="btn btn-secondary replay-step-btn" style="margin-top: 1rem;">
-//                         <i class="fas fa-redo"></i> Replay Animation
-//                     </button>
-//                 `;
-                
-//                 // 添加重播按钮事件
-//                 document.querySelector('.replay-step-btn')?.addEventListener('click', function() {
-//                     alert(`Replaying step ${step} animation...`);
-//                 });
-//             }
-//         });
-//     });
-// }
-
-
 // 初始化步骤动画
+// 初始化步骤动画 - 修复版本
 function initStepAnimations() {
+    console.log('初始化步骤动画...');
     const stepButtons = document.querySelectorAll('.step-btn');
     const stepAnimation = document.getElementById('step-animation');
     
-    if (!stepButtons.length || !stepAnimation) return;
+    if (!stepButtons.length || !stepAnimation) {
+        console.error('缺少必要的DOM元素');
+        return;
+    }
     
-    // 定义每个步骤对应的视频ID
     const stepVideos = {
-        '1': '3jwAGWky98c', // 极性
-        '2': 'qgVFkRn8f10', // 内聚力
-        '3': '6EDBlowVST0', // 附着力
-        '4': 'AOtJk7pq0bs'  // 溶剂
+        '1': '3jwAGWky98c',
+        '2': 'qgVFkRn8f10', 
+        '3': '6EDBlowVST0',
+        '4': 'AOtJk7pq0bs'
     };
 
-    stepButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
+    const steps = {
+        '1': {
+            title: 'Step 1: Polarity of Water Molecules',
+            content: 'Water molecules are polar because oxygen is more electronegative than hydrogen, creating partial charges that allow hydrogen bonding.'
+        },
+        '2': {
+            title: 'Step 2: Cohesion',
+            content: 'Hydrogen bonds cause water molecules to stick together, creating surface tension and allowing water to form droplets.'
+        },
+        '3': {
+            title: 'Step 3: Adhesion',
+            content: 'Water molecules adhere to other surfaces, enabling capillary action in plants and other biological systems.'
+        },
+        '4': {
+            title: 'Step 4: Solvent Properties',
+            content: 'Water\'s polarity makes it an excellent solvent for ionic compounds and polar molecules, essential for biochemical reactions.'
+        }
+    };
+
+    // 确保初始视频容器正确
+    const videoContainer = document.getElementById('video-container');
+    const stepIframe = document.getElementById('stepVideo');
+    
+    if (videoContainer) {
+        videoContainer.style.height = '400px';
+        videoContainer.style.minHeight = '400px';
+        videoContainer.style.position = 'relative';
+        videoContainer.style.display = 'block';
+    }
+    
+    if (stepIframe) {
+        stepIframe.style.height = '400px';
+        stepIframe.style.minHeight = '400px';
+        stepIframe.style.width = '100%';
+        stepIframe.style.border = 'none';
+        stepIframe.style.display = 'block';
+    }
+
+    stepButtons.forEach((btn) => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
             const step = this.getAttribute('data-step');
+            console.log('切换步骤到:', step);
             
             // 更新按钮状态
-            stepButtons.forEach(b => b.classList.remove('active'));
+            stepButtons.forEach(b => {
+                b.classList.remove('active');
+            });
+            
             this.classList.add('active');
             
-            // 更新视频
             const videoId = stepVideos[step];
+            
             if (videoId) {
-                const iframe = document.getElementById('personifiedVideo');
-                if (iframe) {
-                    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-                    iframe.frameBorder = "0";
-                    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
-                    iframe.allowFullscreen = true;
+                console.log('加载视频:', videoId);
+                
+                // 更新iframe的src，保留视频容器
+                const newSrc = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+                
+                // 确保视频容器存在
+                let videoContainer = document.getElementById('video-container');
+                let stepIframe = document.getElementById('stepVideo');
+                
+                // 如果视频容器不存在，重新创建
+                if (!videoContainer) {
+                    console.log('视频容器不存在，重新创建...');
+                    videoContainer = document.createElement('div');
+                    videoContainer.id = 'video-container';
+                    videoContainer.style.width = '100%';
+                    videoContainer.style.height = '400px';
+                    videoContainer.style.minHeight = '400px';
+                    videoContainer.style.position = 'relative';
+                    videoContainer.style.display = 'block';
+                    
+                    // 找到正确的位置插入视频容器
+                    const contentElement = stepAnimation.querySelector('p');
+                    if (contentElement && contentElement.nextElementSibling) {
+                        contentElement.parentNode.insertBefore(videoContainer, contentElement.nextElementSibling);
+                    }
                 }
+                
+                // 如果iframe不存在，创建新的
+                if (!stepIframe || !videoContainer.contains(stepIframe)) {
+                    console.log('创建新的iframe...');
+                    stepIframe = document.createElement('iframe');
+                    stepIframe.id = 'stepVideo';
+                    stepIframe.className = 'video-player';
+                    stepIframe.frameBorder = '0';
+                    stepIframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+                    stepIframe.allowFullscreen = true;
+                    stepIframe.style.width = '100%';
+                    stepIframe.style.height = '400px';
+                    stepIframe.style.minHeight = '400px';
+                    stepIframe.style.border = 'none';
+                    stepIframe.style.display = 'block';
+                    
+                    videoContainer.innerHTML = '';
+                    videoContainer.appendChild(stepIframe);
+                }
+                
+                // 更新视频src
+                stepIframe.src = newSrc;
+                
+                // 确保容器高度
+                videoContainer.style.height = '400px';
+                videoContainer.style.minHeight = '400px';
+                videoContainer.style.display = 'block';
             }
             
-            // 更新步骤标题和描述
-            const steps = {
-                '1': {
-                    title: 'Step 1: Polarity of Water Molecules',
-                    content: 'Water molecules are polar because oxygen is more electronegative than hydrogen, creating partial charges that allow hydrogen bonding.'
-                },
-                '2': {
-                    title: 'Step 2: Cohesion',
-                    content: 'Hydrogen bonds cause water molecules to stick together, creating surface tension and allowing water to form droplets.'
-                },
-                '3': {
-                    title: 'Step 3: Adhesion',
-                    content: 'Water molecules adhere to other surfaces, enabling capillary action in plants and other biological systems.'
-                },
-                '4': {
-                    title: 'Step 4: Solvent Properties',
-                    content: 'Water\'s polarity makes it an excellent solvent for ionic compounds and polar molecules, essential for biochemical reactions.'
-                }
-            };
-            
+            // 更新标题和内容 - 只更新文本，不替换整个容器
             const currentStep = steps[step];
             if (currentStep) {
                 const titleElement = stepAnimation.querySelector('h5');
                 const contentElement = stepAnimation.querySelector('p');
                 
-                if (titleElement) titleElement.textContent = currentStep.title;
-                if (contentElement) contentElement.textContent = currentStep.content;
+                if (titleElement) {
+                    titleElement.textContent = currentStep.title;
+                }
+                
+                if (contentElement) {
+                    contentElement.textContent = currentStep.content;
+                }
+                
+                console.log('更新步骤内容:', currentStep.title);
             }
+            
+            // 确保动画区域可见
+            stepAnimation.style.display = 'block';
+            stepAnimation.style.visibility = 'visible';
+            stepAnimation.style.opacity = '1';
         });
     });
+    
+    // 初始化第一个按钮为激活状态
+    if (stepButtons.length > 0) {
+        stepButtons[0].classList.add('active');
+    }
 }
+
 
 // 初始化YouTube按钮
 function initYouTubeButtons() {
@@ -670,61 +706,81 @@ function initDiscussionSection() {
 }
 
 // 初始化关键词工具提示
+// 初始化关键词工具提示 - 修复版本
 function initKeywordTooltips() {
+    console.log('初始化关键词工具提示...');
     const keywords = document.querySelectorAll('.keyword');
-    const tooltipContainer = document.getElementById('keywordTooltipContainer');
     
-    // 点击外部关闭工具提示
+    if (!keywords.length) {
+        console.warn('未找到关键词元素');
+        return;
+    }
+    
+    // 移除全局容器方式，改为每个关键词独立控制
+    keywords.forEach(keyword => {
+        const tooltip = keyword.querySelector('.keyword-tooltip');
+        const closeBtn = tooltip?.querySelector('.tooltip-close');
+        
+        if (!tooltip) {
+            console.warn('关键词缺少工具提示:', keyword.textContent.trim());
+            return;
+        }
+        
+        // 点击关键词显示/隐藏工具提示
+        keyword.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const isActive = this.classList.contains('active');
+            
+            // 关闭所有其他工具提示
+            keywords.forEach(k => {
+                if (k !== this) {
+                    k.classList.remove('active');
+                }
+            });
+            
+            // 切换当前工具提示
+            if (!isActive) {
+                this.classList.add('active');
+                console.log('显示工具提示:', this.getAttribute('data-keyword') || this.textContent.trim());
+            } else {
+                this.classList.remove('active');
+            }
+        });
+        
+        // 点击关闭按钮
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                keyword.classList.remove('active');
+                console.log('关闭工具提示');
+            });
+        }
+        
+        // 为工具提示本身添加点击事件，防止点击工具提示内部时关闭
+        tooltip.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    });
+    
+    // 点击页面其他地方关闭所有工具提示
     document.addEventListener('click', function(e) {
         if (!e.target.closest('.keyword') && !e.target.closest('.keyword-tooltip')) {
             keywords.forEach(keyword => {
                 keyword.classList.remove('active');
             });
-            if (tooltipContainer) {
-                tooltipContainer.style.display = 'none';
-            }
         }
     });
     
+    // 确保默认不显示任何工具提示
     keywords.forEach(keyword => {
-        keyword.addEventListener('click', function(e) {
-            e.stopPropagation();
-            
-            // 关闭其他工具提示
-            keywords.forEach(k => {
-                if (k !== this) k.classList.remove('active');
-            });
-            
-            // 切换当前工具提示
-            this.classList.toggle('active');
-            
-            // 如果工具提示在外部容器中
-            const tooltip = this.querySelector('.keyword-tooltip');
-            if (tooltip && tooltipContainer) {
-                tooltipContainer.innerHTML = '';
-                const clonedTooltip = tooltip.cloneNode(true);
-                clonedTooltip.style.display = 'block';
-                clonedTooltip.style.position = 'fixed';
-                
-                // 计算位置
-                const rect = this.getBoundingClientRect();
-                clonedTooltip.style.left = Math.min(rect.left, window.innerWidth - 320) + 'px';
-                clonedTooltip.style.top = (rect.bottom + 10) + 'px';
-                
-                tooltipContainer.appendChild(clonedTooltip);
-                tooltipContainer.style.display = 'block';
-                
-                // 添加关闭按钮事件
-                const closeBtn = clonedTooltip.querySelector('.tooltip-close');
-                if (closeBtn) {
-                    closeBtn.addEventListener('click', function() {
-                        tooltipContainer.style.display = 'none';
-                        keyword.classList.remove('active');
-                    });
-                }
-            }
-        });
+        keyword.classList.remove('active');
     });
+    
+    console.log('关键词工具提示初始化完成，找到', keywords.length, '个关键词');
 }
 
 
@@ -1479,4 +1535,63 @@ function navigateToNextChapter() {
             chapterHeader.click();
         }
     }
+}
+
+
+// 修复缺失的工具提示内容
+function fixMissingTooltips() {
+    console.log('检查并修复缺失的工具提示内容...');
+    
+    const keywords = document.querySelectorAll('.keyword');
+    
+    keywords.forEach(keyword => {
+        const tooltip = keyword.querySelector('.keyword-tooltip');
+        if (!tooltip) return;
+        
+        // 检查tooltip是否有内容
+        const hasContent = tooltip.querySelector('h5') && tooltip.querySelector('p');
+        const keywordText = keyword.getAttribute('data-keyword') || keyword.textContent.trim().toLowerCase();
+        
+        if (!hasContent) {
+            console.log('修复缺失内容的工具提示:', keywordText);
+            
+            // 根据关键词类型添加内容
+            let title = '';
+            let content = '';
+            
+            switch(keywordText) {
+                case 'cohesion':
+                    title = 'Cohesion';
+                    content = 'The attraction between molecules of the same substance. In water, hydrogen bonds cause molecules to stick together.';
+                    break;
+                case 'adhesion':
+                    title = 'Adhesion';
+                    content = 'The attraction between molecules of different substances. Water adheres to surfaces, allowing capillary action.';
+                    break;
+                default:
+                    title = keywordText.charAt(0).toUpperCase() + keywordText.slice(1);
+                    content = `Definition for ${keywordText}...`;
+            }
+            
+            // 创建内容
+            const titleElement = document.createElement('h5');
+            titleElement.textContent = title;
+            
+            const contentElement = document.createElement('p');
+            contentElement.textContent = content;
+            
+            // 确保关闭按钮存在
+            let closeBtn = tooltip.querySelector('.tooltip-close');
+            if (!closeBtn) {
+                closeBtn = document.createElement('span');
+                closeBtn.className = 'tooltip-close';
+                closeBtn.innerHTML = '×';
+                tooltip.appendChild(closeBtn);
+            }
+            
+            // 添加内容到tooltip
+            tooltip.appendChild(titleElement);
+            tooltip.appendChild(contentElement);
+        }
+    });
 }
