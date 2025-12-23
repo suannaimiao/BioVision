@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <!-- 身份选择模态框 -->
     <div class="modal-overlay" id="identityModal">
@@ -44,7 +46,8 @@
         <nav class="main-nav">
             <!-- 搜索框现在位于导航栏内，垂直布局 -->
             <div class="search-wrapper">
-                <input type="text" id="searchInput" placeholder="Universal Finder: Search for biology concepts, animations, 3D models, questions, or discussions...">
+                <input type="text" id="searchInput"
+                    placeholder="Universal Finder: Search for biology concepts, animations, 3D models, questions, or discussions...">
                 <i class="fas fa-search search-icon"></i>
             </div>
             <ul class="nav-links">
@@ -67,11 +70,14 @@
         <section id="home" class="page-content active">
             <div class="page-header">
                 <h1>BioVision Biology Learning Platform</h1>
-                <p>A specialized website designed to help students learn biology with courses, animations, 3D models, practice questions, and discussion community</p>
+                <p>A specialized website designed to help students learn biology with courses, animations, 3D models,
+                    practice questions, and discussion community</p>
             </div>
             <div class="carousel">
                 <h2 id="carouselTitle">Personalized Learning Assistant</h2>
-                <p id="carouselText">Based on your learning progress, we intelligently recommend content suitable for you. If you struggle with a particular concept, we'll recommend review materials; if you haven't studied for a while, we'll provide interesting biology facts.</p>
+                <p id="carouselText">Based on your learning progress, we intelligently recommend content suitable for
+                    you. If you struggle with a particular concept, we'll recommend review materials; if you haven't
+                    studied for a while, we'll provide interesting biology facts.</p>
                 <div class="carousel-controls">
                     <div class="carousel-dot active" data-slide="0"></div>
                     <div class="carousel-dot" data-slide="1"></div>
@@ -112,47 +118,192 @@
 
 
         <!-- 学习页面 -->
-        <section id="study" class="page-content">
+        <section id="study" class="page-content active">
             <div class="page-header">
                 <h1>Study Center</h1>
-                <p>Complete knowledge system organized according to Campbell Biology textbook for systematic biology learning</p>
+                <p>Complete knowledge system organized according to Campbell Biology textbook for systematic biology
+                    learning</p>
             </div>
             <div class="study-layout">
+                <!-- 左侧章节树 -->
+                <!-- 左侧章节树 - 折叠版本 -->
                 <div class="chapter-tree">
                     <div class="section-title">
                         <h3><i class="fas fa-sitemap"></i> Course Directory</h3>
+                        <div class="tree-controls">
+                            <!-- <button class="btn btn-sm btn-secondary" id="expandAllBtn">
+                                <i class="fas fa-expand"></i> Expand All
+                            </button>
+                            <button class="btn btn-sm btn-secondary" id="collapseAllBtn">
+                                <i class="fas fa-compress"></i> Collapse All
+                            </button> -->
+                        </div>
                     </div>
-                    <div class="tree-item unit active" data-unit="1">Unit 1: Chemical Basis of Life</div>
-                    <div class="tree-item chapter" data-chapter="1.1">Chapter 1: Water and Life</div>
-                    <div class="tree-item concept active" data-concept="1.1.1">Properties of Water and Life</div>
-                    <div class="tree-item concept" data-concept="1.1.2">pH and Buffer Systems</div>
-                    <div class="tree-item chapter" data-chapter="1.2">Chapter 2: Carbon Compounds and Biomolecules</div>
-                    <div class="tree-item concept" data-concept="1.2.1">Carbohydrates</div>
-                    <div class="tree-item concept" data-concept="1.2.2">Lipids</div>
-                    <div class="tree-item concept" data-concept="1.2.3">Proteins</div>
-                    <div class="tree-item concept" data-concept="1.2.4">Nucleic Acids</div>
-                    <div class="tree-item unit" data-unit="2">Unit 2: Cell Structure and Function</div>
-                    <div class="tree-item chapter" data-chapter="2.1">Chapter 3: Cell Membrane and Transport</div>
-                    <div class="tree-item chapter" data-chapter="2.2">Chapter 4: Cell Organelles and Functions</div>
-                    <div class="tree-item unit" data-unit="3">Unit 3: Cell Metabolism</div>
-                    <div class="tree-item unit" data-unit="4">Unit 4: Genetics</div>
-                    <div class="tree-item unit" data-unit="5">Unit 5: Evolution and Diversity</div>
+                    
+                    <!-- Unit 1 - 默认展开 -->
+                    <div class="tree-unit active expanded" data-unit="1">
+                        <div class="unit-header">
+                            <i class="fas fa-chevron-down unit-toggle"></i>
+                            <i class="fas fa-book-open"></i>
+                            <span class="unit-title">Unit 1: Chemical Basis of Life</span>
+                            <!-- <span class="unit-status">(2 chapters)</span> -->
+                        </div>
+                        <div class="unit-content">
+                            <!-- Chapter 1.1 -->
+                            <div class="tree-chapter expanded" data-chapter="1.1">
+                                <div class="chapter-header">
+                                    <i class="fas fa-chevron-right chapter-toggle"></i>
+                                    <i class="fas fa-file-alt"></i>
+                                    <span class="chapter-title">Chapter 1: Water and Life</span>
+                                    <!-- <span class="chapter-status">(2 concepts)</span> -->
+                                </div>
+                                <div class="chapter-content">
+                                    <div class="tree-concept active" data-concept="1.1.1">
+                                        <i class="fas fa-circle"></i>
+                                        <span class="concept-title">Properties of Water and Life</span>
+                                    </div>
+                                    <div class="tree-concept" data-concept="1.1.2">
+                                        <i class="fas fa-circle"></i>
+                                        <span class="concept-title">pH and Buffer Systems</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Chapter 1.2 -->
+                            <div class="tree-chapter" data-chapter="1.2">
+                                <div class="chapter-header">
+                                    <i class="fas fa-chevron-right chapter-toggle"></i>
+                                    <i class="fas fa-file-alt"></i>
+                                    <span class="chapter-title">Chapter 2: Carbon Compounds</span>
+                                    <!-- <span class="chapter-status">(4 concepts)</span> -->
+                                </div>
+                                <div class="chapter-content">
+                                    <div class="tree-concept" data-concept="1.2.1">
+                                        <i class="fas fa-circle"></i>
+                                        <span class="concept-title">Carbohydrates</span>
+                                    </div>
+                                    <div class="tree-concept" data-concept="1.2.2">
+                                        <i class="fas fa-circle"></i>
+                                        <span class="concept-title">Lipids</span>
+                                    </div>
+                                    <div class="tree-concept" data-concept="1.2.3">
+                                        <i class="fas fa-circle"></i>
+                                        <span class="concept-title">Proteins</span>
+                                    </div>
+                                    <div class="tree-concept" data-concept="1.2.4">
+                                        <i class="fas fa-circle"></i>
+                                        <span class="concept-title">Nucleic Acids</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Unit 2 - 默认折叠 -->
+                    <div class="tree-unit" data-unit="2">
+                        <div class="unit-header">
+                            <i class="fas fa-chevron-right unit-toggle"></i>
+                            <i class="fas fa-book-open"></i>
+                            <span class="unit-title">Unit 2: Cell Structure</span>
+                            <!-- <span class="unit-status">(2 chapters)</span> -->
+                        </div>
+                        <div class="unit-content">
+                            <!-- Chapter 2.1 -->
+                            <div class="tree-chapter" data-chapter="2.1">
+                                <div class="chapter-header">
+                                    <i class="fas fa-chevron-right chapter-toggle"></i>
+                                    <i class="fas fa-file-alt"></i>
+                                    <span class="chapter-title">Chapter 3: Cell Membrane</span>
+                                    <!-- <span class="chapter-status">(3 concepts)</span> -->
+                                </div>
+                                <div class="chapter-content">
+                                    <!-- 概念会在这里动态添加或静态定义 -->
+                                </div>
+                            </div>
+                            
+                            <!-- Chapter 2.2 -->
+                            <div class="tree-chapter" data-chapter="2.2">
+                                <div class="chapter-header">
+                                    <i class="fas fa-chevron-right chapter-toggle"></i>
+                                    <i class="fas fa-file-alt"></i>
+                                    <span class="chapter-title">Chapter 4: Cell Organelles</span>
+                                    <!-- <span class="chapter-status">(5 concepts)</span> -->
+                                </div>
+                                <div class="chapter-content">
+                                    <!-- 概念会在这里动态添加或静态定义 -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Unit 3 -->
+                    <div class="tree-unit" data-unit="3">
+                        <div class="unit-header">
+                            <i class="fas fa-chevron-right unit-toggle"></i>
+                            <i class="fas fa-book-open"></i>
+                            <span class="unit-title">Unit 3: Cell Metabolism</span>
+                            <!-- <span class="unit-status">(4 chapters)</span> -->
+                        </div>
+                        <div class="unit-content">
+                            <!-- 内容会动态加载 -->
+                        </div>
+                    </div>
+                    
+                    <!-- Unit 4 -->
+                    <div class="tree-unit" data-unit="4">
+                        <div class="unit-header">
+                            <i class="fas fa-chevron-right unit-toggle"></i>
+                            <i class="fas fa-book-open"></i>
+                            <span class="unit-title">Unit 4: Genetics</span>
+                            <!-- <span class="unit-status">(5 chapters)</span> -->
+                        </div>
+                        <div class="unit-content">
+                            <!-- 内容会动态加载 -->
+                        </div>
+                    </div>
+                    
+                    <!-- Unit 5 -->
+                    <div class="tree-unit" data-unit="5">
+                        <div class="unit-header">
+                            <i class="fas fa-chevron-right unit-toggle"></i>
+                            <i class="fas fa-book-open"></i>
+                            <span class="unit-title">Unit 5: Evolution and Diversity</span>
+                            <!-- <span class="unit-status">(3 chapters)</span> -->
+                        </div>
+                        <div class="unit-content">
+                            <!-- 内容会动态加载 -->
+                        </div>
+                    </div>
                 </div>
+
+                <!-- 右侧内容区 -->
                 <div class="concept-content">
+                    <!-- 概念标题和路径 -->
                     <div class="concept-header">
                         <div class="concept-title">
                             <h2 id="currentConceptTitle">Properties of Water and Life</h2>
                             <div class="concept-path" id="currentConceptPath">Unit 1 / Chapter 1 / Concept 1</div>
                         </div>
-                        <div>
+                        <div class="header-actions">
                             <button class="btn btn-secondary" id="saveConceptBtn">
                                 <i class="fas fa-bookmark"></i> Save
                             </button>
                         </div>
                     </div>
+
+                    <!-- 拟人动画 -->
                     <div class="personified-animation">
                         <h3><i class="fas fa-user-friends"></i> Personified Animation (5 min)</h3>
-                        <p>Watch an engaging animated story that personifies water molecules and their interactions in living systems.</p>
+                        <p>Watch an engaging animated story that personifies water molecules and their interactions in
+                            living systems.</p>
+                        <div class="animation-container">
+                            <div class="video-placeholder" id="personifiedVideo">
+                                <div class="video-overlay">
+                                    <i class="fas fa-play-circle"></i>
+                                    <p>Water Molecule Adventures</p>
+                                </div>
+                            </div>
+                        </div>
                         <div class="animation-controls">
                             <button class="btn btn-primary" id="playAnimationBtn">
                                 <i class="fas fa-play"></i> Play Animation
@@ -162,75 +313,372 @@
                             </button>
                         </div>
                     </div>
+
+                    <!-- 简单解释 -->
+                    <div class="simple-explanation">
+                        <h3><i class="fas fa-info-circle"></i> Concept Overview</h3>
+                        <div class="explanation-content">
+                            <p>Water is essential for life due to its unique chemical properties. These properties
+                                include <span class="keyword">cohesion<span class="keyword-tooltip">
+                                        <span class="tooltip-close">×</span>
+                                        <h5>Cohesion</h5>
+                                        <p>The attraction between molecules of the same substance. In water, hydrogen
+                                            bonds cause molecules to stick together.</p>
+                                    </span></span>, <span class="keyword">adhesion<span class="keyword-tooltip">
+                                        <span class="tooltip-close">×</span>
+                                        <h5>Adhesion</h5>
+                                        <p>The attraction between molecules of different substances. Water adheres to
+                                            surfaces, allowing capillary action.</p>
+                                    </span></span>, high specific heat, and being a universal solvent. These
+                                characteristics allow water to support cellular functions and maintain homeostasis.</p>
+
+                            <div class="key-points">
+                                <h4>Key Points:</h4>
+                                <ul>
+                                    <li>Water molecules form hydrogen bonds</li>
+                                    <li>High heat capacity stabilizes temperatures</li>
+                                    <li>Excellent solvent for polar molecules</li>
+                                    <li>Ice floats due to lower density</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 图示/模型入口 -->
+                    <div class="visual-models">
+                        <h3><i class="fas fa-cube"></i> 3D Models & Visualizations</h3>
+                        <div class="models-grid">
+                            <div class="model-card" data-model="water-molecule">
+                                <div class="model-preview">
+                                    <i class="fas fa-atom"></i>
+                                </div>
+                                <h4>Water Molecule 3D</h4>
+                                <p>Interactive model showing molecular structure</p>
+                                <button class="btn btn-secondary btn-sm view-model-btn">
+                                    <i class="fas fa-expand"></i> View
+                                </button>
+                            </div>
+                            <div class="model-card" data-model="hydrogen-bond">
+                                <div class="model-preview">
+                                    <i class="fas fa-link"></i>
+                                </div>
+                                <h4>Hydrogen Bonding</h4>
+                                <p>Visualization of intermolecular forces</p>
+                                <button class="btn btn-secondary btn-sm view-model-btn">
+                                    <i class="fas fa-expand"></i> View
+                                </button>
+                            </div>
+                            <div class="model-card" data-model="capillary-action">
+                                <div class="model-preview">
+                                    <i class="fas fa-tint"></i>
+                                </div>
+                                <h4>Capillary Action</h4>
+                                <p>Demonstration of water movement in plants</p>
+                                <button class="btn btn-secondary btn-sm view-model-btn">
+                                    <i class="fas fa-expand"></i> View
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 学习步骤 -->
                     <div class="learning-steps">
-                        <h3>Learning Process for Chemical Reactions</h3>
+                        <h3><i class="fas fa-road"></i> Step-by-Step Learning Process</h3>
+
+                        <!-- 完整视频讲解 -->
                         <div class="step">
                             <div class="step-number">1</div>
                             <div class="step-content">
                                 <h4>Complete Video Explanation</h4>
-                                <p>Watch a comprehensive video with 3D animation and instructor explanation. For example: <span class="keyword">Hydrogen bonds<span class="keyword-tooltip">
-                                            <h5>Hydrogen Bonds</h5>Weak bonds between hydrogen atoms and electronegative atoms like oxygen or nitrogen. Essential for water's unique properties.
-                                        </span></span> form between water molecules, creating cohesion and surface tension.</p>
+                                <p>Watch a comprehensive video with 3D animation and instructor explanation.</p>
+                                <div class="video-container">
+                                    <div class="video-placeholder" id="mainVideo">
+                                        <div class="video-overlay">
+                                            <i class="fas fa-play-circle"></i>
+                                            <p>Water Properties Explained (15:32)</p>
+                                        </div>
+                                    </div>
+                                </div>
                                 <button class="btn btn-primary" id="watchVideoBtn">
-                                    <i class="fas fa-play-circle"></i> Watch Video (15:32)
+                                    <i class="fas fa-play-circle"></i> Play Full Video
                                 </button>
                             </div>
                         </div>
+
+                        <!-- 步骤拆解 -->
                         <div class="step">
                             <div class="step-number">2</div>
                             <div class="step-content">
                                 <h4>Step-by-Step Breakdown</h4>
-                                <p>Interactive breakdown of reaction processes. Click each step to play a short animation segment.</p>
+                                <p>Interactive breakdown of key processes. Click each step to play a short animation
+                                    segment.</p>
                                 <div class="step-buttons">
-                                    <button class="btn btn-secondary step-btn" data-step="1">Step 1: Polarity</button>
-                                    <button class="btn btn-secondary step-btn" data-step="2">Step 2: Cohesion</button>
-                                    <button class="btn btn-secondary step-btn" data-step="3">Step 3: Adhesion</button>
-                                    <button class="btn btn-secondary step-btn" data-step="4">Step 4: Solvent Properties</button>
+                                    <button class="btn btn-secondary step-btn active" data-step="1">
+                                        <span class="step-label">Step 1:</span> Polarity
+                                    </button>
+                                    <button class="btn btn-secondary step-btn" data-step="2">
+                                        <span class="step-label">Step 2:</span> Cohesion
+                                    </button>
+                                    <button class="btn btn-secondary step-btn" data-step="3">
+                                        <span class="step-label">Step 3:</span> Adhesion
+                                    </button>
+                                    <button class="btn btn-secondary step-btn" data-step="4">
+                                        <span class="step-label">Step 4:</span> Solvent
+                                    </button>
                                 </div>
-                                <div id="step-animation">
-                                    <p>Animation will play here for the selected step.</p>
+                                <div class="step-animation-container">
+                                    <div id="step-animation" class="active">
+                                        <h5>Step 1: Polarity of Water Molecules</h5>
+                                        <p>Water molecules are polar because oxygen is more electronegative than
+                                            hydrogen, creating partial charges.</p>
+                                        <div class="animation-preview">
+                                            <i class="fas fa-play-circle"></i>
+                                            <p>Animation ready to play</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- YouTube资源 -->
                         <div class="step">
                             <div class="step-number">3</div>
                             <div class="step-content">
                                 <h4>Related YouTube Resources</h4>
-                                <p>Reference YouTube videos with timestamp navigation. Click buttons to jump to specific timepoints in videos.</p>
-                                <div class="youtube-buttons">
-                                    <button class="btn btn-secondary yt-btn" data-time="120">
-                                        <i class="fab fa-youtube"></i> Hydrogen Bonding (2:00)
-                                    </button>
-                                    <button class="btn btn-secondary yt-btn" data-time="240">
-                                        <i class="fab fa-youtube"></i> Water as Solvent (4:00)
-                                    </button>
-                                    <button class="btn btn-secondary yt-btn" data-time="360">
-                                        <i class="fab fa-youtube"></i> pH Scale (6:00)
-                                    </button>
+                                <p>Reference YouTube videos with timestamp navigation. Click buttons to jump to specific
+                                    timepoints.</p>
+                                <div class="youtube-resources">
+                                    <div class="youtube-item">
+                                        <img src="https://img.youtube.com/vi/0eUSw4act4Q/0.jpg" alt="Hydrogen Bonding">
+                                        <div class="yt-info">
+                                            <h5>Hydrogen Bonding Explained</h5>
+                                            <p>Crash Course Biology</p>
+                                            <div class="yt-timestamps">
+                                                <button class="btn btn-secondary yt-btn" data-time="120">
+                                                    <i class="fab fa-youtube"></i> 2:00 - Bond Formation
+                                                </button>
+                                                <button class="btn btn-secondary yt-btn" data-time="240">
+                                                    <i class="fab fa-youtube"></i> 4:00 - Examples
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="youtube-item">
+                                        <img src="https://img.youtube.com/vi/HVT3Y3_gHGg/0.jpg" alt="Water as Solvent">
+                                        <div class="yt-info">
+                                            <h5>Water: The Universal Solvent</h5>
+                                            <p>Khan Academy</p>
+                                            <div class="yt-timestamps">
+                                                <button class="btn btn-secondary yt-btn" data-time="180">
+                                                    <i class="fab fa-youtube"></i> 3:00 - Solvation
+                                                </button>
+                                                <button class="btn btn-secondary yt-btn" data-time="300">
+                                                    <i class="fab fa-youtube"></i> 5:00 - Biological Importance
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="section-title">
-                        <h3>Additional Resources</h3>
+
+                    <!-- 小题目练习 -->
+                    <div class="practice-questions">
+                        <div class="section-title">
+                            <h3><i class="fas fa-pencil-alt"></i> Practice Questions</h3>
+                            <span class="question-count">5 questions</span>
+                        </div>
+                        <div class="question-filters">
+                            <div class="tag-container">
+                                <span class="tag active" data-tag="all">All</span>
+                                <span class="tag" data-tag="easy">Easy</span>
+                                <span class="tag" data-tag="medium">Medium</span>
+                                <span class="tag" data-tag="hard">Hard</span>
+                                <span class="tag" data-tag="hydrogen-bonding">Hydrogen Bonding</span>
+                                <span class="tag" data-tag="cohesion">Cohesion</span>
+                            </div>
+                        </div>
+                        <div class="questions-list">
+                            <!-- Question 1 -->
+                            <div class="question-item" data-difficulty="easy">
+                                <div class="question-header">
+                                    <span class="difficulty-badge easy">Easy</span>
+                                    <span class="question-tags">
+                                        <span class="mini-tag">Hydrogen Bonding</span>
+                                    </span>
+                                </div>
+                                <div class="question-content">
+                                    <p>What type of bond holds water molecules together?</p>
+                                    <div class="options">
+                                        <div class="option">
+                                            <input type="radio" name="q1" id="q1a">
+                                            <label for="q1a">Ionic bond</label>
+                                        </div>
+                                        <div class="option">
+                                            <input type="radio" name="q1" id="q1b">
+                                            <label for="q1b">Covalent bond</label>
+                                        </div>
+                                        <div class="option">
+                                            <input type="radio" name="q1" id="q1c">
+                                            <label for="q1c">Hydrogen bond</label>
+                                        </div>
+                                        <div class="option">
+                                            <input type="radio" name="q1" id="q1d">
+                                            <label for="q1d">Metallic bond</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="question-actions">
+                                    <button class="btn btn-secondary btn-sm show-answer-btn">Show Answer</button>
+                                    <button class="btn btn-secondary btn-sm save-question-btn">
+                                        <i class="far fa-bookmark"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Question 2 -->
+                            <div class="question-item" data-difficulty="medium">
+                                <div class="question-header">
+                                    <span class="difficulty-badge medium">Medium</span>
+                                    <span class="question-tags">
+                                        <span class="mini-tag">Cohesion</span>
+                                        <span class="mini-tag">Adhesion</span>
+                                    </span>
+                                </div>
+                                <div class="question-content">
+                                    <p>How does the property of cohesion benefit plants?</p>
+                                    <div class="options">
+                                        <div class="option">
+                                            <input type="radio" name="q2" id="q2a">
+                                            <label for="q2a">It helps in photosynthesis</label>
+                                        </div>
+                                        <div class="option">
+                                            <input type="radio" name="q2" id="q2b">
+                                            <label for="q2b">It allows water transport against gravity</label>
+                                        </div>
+                                        <div class="option">
+                                            <input type="radio" name="q2" id="q2c">
+                                            <label for="q2c">It regulates temperature</label>
+                                        </div>
+                                        <div class="option">
+                                            <input type="radio" name="q2" id="q2d">
+                                            <label for="q2d">It prevents evaporation</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="question-actions">
+                                    <button class="btn btn-secondary btn-sm show-answer-btn">Show Answer</button>
+                                    <button class="btn btn-secondary btn-sm save-question-btn">
+                                        <i class="far fa-bookmark"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="practice-actions">
+                            <button class="btn btn-primary" id="startQuizBtn">
+                                <i class="fas fa-play"></i> Start Practice Quiz
+                            </button>
+                            <button class="btn btn-secondary" id="viewAllQuestionsBtn">
+                                <i class="fas fa-list"></i> View All Questions
+                            </button>
+                        </div>
                     </div>
+
+                    <!-- 讨论区 -->
+                    <div class="discussion-section">
+                        <div class="section-title">
+                            <h3><i class="fas fa-comments"></i> Discussion</h3>
+                            <button class="btn btn-primary btn-sm" id="createPostBtn">
+                                <i class="fas fa-plus"></i> New Post
+                            </button>
+                        </div>
+                        <div class="discussion-filters">
+                            <select class="filter-select">
+                                <option value="recent">Most Recent</option>
+                                <option value="popular">Most Popular</option>
+                                <option value="unanswered">Unanswered</option>
+                            </select>
+                        </div>
+                        <div class="discussion-list">
+                            <div class="discussion-item">
+                                <div class="discussion-header">
+                                    <div class="discussion-author">
+                                        <div class="avatar">S</div>
+                                        <div>
+                                            <h5>Why does ice float?</h5>
+                                            <span class="discussion-meta">Posted by Student123 • 2 hours ago</span>
+                                        </div>
+                                    </div>
+                                    <span class="reply-count">
+                                        <i class="fas fa-comment"></i> 5 replies
+                                    </span>
+                                </div>
+                                <div class="discussion-content">
+                                    <p>I understand that ice is less dense than liquid water, but why exactly does this
+                                        happen at the molecular level?</p>
+                                </div>
+                                <div class="discussion-tags">
+                                    <span class="mini-tag">Density</span>
+                                    <span class="mini-tag">Hydrogen Bonding</span>
+                                </div>
+                            </div>
+
+                            <div class="discussion-item">
+                                <div class="discussion-header">
+                                    <div class="discussion-author">
+                                        <div class="avatar">T</div>
+                                        <div>
+                                            <h5>Real-world examples of capillary action</h5>
+                                            <span class="discussion-meta">Posted by BioTeacher • 1 day ago</span>
+                                        </div>
+                                    </div>
+                                    <span class="reply-count">
+                                        <i class="fas fa-comment"></i> 12 replies
+                                    </span>
+                                </div>
+                                <div class="discussion-content">
+                                    <p>Can anyone share interesting real-world examples of capillary action in plants or
+                                        other biological systems?</p>
+                                </div>
+                                <div class="discussion-tags">
+                                    <span class="mini-tag">Capillary Action</span>
+                                    <span class="mini-tag">Plants</span>
+                                    <span class="mini-tag">Real World</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="discussion-actions">
+                            <button class="btn btn-secondary" id="viewAllDiscussionsBtn">
+                                <i class="fas fa-external-link-alt"></i> Go to Full Discussion Forum
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 资源库按钮 -->
                     <div class="resource-buttons">
-                        <button class="btn btn-primary" id="view3dModelBtn">
-                            <i class="fas fa-cube"></i> View 3D Model
-                        </button>
-                        <button class="btn btn-secondary" id="practiceQuestionsBtn">
-                            <i class="fas fa-pencil-alt"></i> Practice Questions (12)
-                        </button>
-                        <button class="btn btn-secondary" id="discussionBtn">
-                            <i class="fas fa-comments"></i> Discussion (8)
-                        </button>
-                        <button class="btn btn-secondary" id="gotoGalleryBtn">
-                            <i class="fas fa-external-link-alt"></i> Go to Gallery
-                        </button>
+                        <h3>More Resources</h3>
+                        <div class="resource-grid">
+                            <button class="btn btn-primary" id="view3dModelBtn">
+                                <i class="fas fa-cube"></i> View 3D Model Gallery
+                            </button>
+                            <button class="btn btn-secondary" id="practiceQuestionsBtn">
+                                <i class="fas fa-pencil-alt"></i> Advanced Practice (12)
+                            </button>
+                            <button class="btn btn-secondary" id="gotoGalleryBtn">
+                                <i class="fas fa-photo-video"></i> Animation Gallery
+                            </button>
+                            <button class="btn btn-secondary" id="downloadNotesBtn">
+                                <i class="fas fa-download"></i> Download Notes
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
+
+        <!-- 关键词工具提示容器 -->
+        <div id="keywordTooltipContainer"></div>
 
         <!-- 资源库页面 -->
         <section id="gallery" class="page-content">
@@ -327,7 +775,8 @@
                     <div class="mistake-item">
                         <h4>Why is water considered a polar molecule?</h4>
                         <p>You answered: Because it has no charge</p>
-                        <p><strong>Correct answer:</strong> Because it has uneven charge distribution with oxygen being slightly negative and hydrogen slightly positive</p>
+                        <p><strong>Correct answer:</strong> Because it has uneven charge distribution with oxygen being
+                            slightly negative and hydrogen slightly positive</p>
                         <div>
                             <span class="tag">Unit 1</span>
                             <span class="tag">Water Properties</span>
@@ -342,7 +791,8 @@
             </div>
             <div class="card">
                 <div class="card-body">
-                    <p>Biology syllabus concept network diagram, click concepts to jump to corresponding learning pages.</p>
+                    <p>Biology syllabus concept network diagram, click concepts to jump to corresponding learning pages.
+                    </p>
                     <div class="concept-web-preview">
                         <div class="concept-node" data-concept="water-properties">
                             <h4>Water Properties</h4>
@@ -374,7 +824,8 @@
         <section id="exam" class="page-content">
             <div class="page-header">
                 <h1>Exams and Practice</h1>
-                <p>Past exam papers, unit exercises, adaptive difficulty training - comprehensive problem-solving improvement</p>
+                <p>Past exam papers, unit exercises, adaptive difficulty training - comprehensive problem-solving
+                    improvement</p>
             </div>
             <div class="card-container">
                 <div class="card">
@@ -446,7 +897,8 @@
                     </div>
                     <div class="sample-question">
                         <h4>Sample Question:</h4>
-                        <p><strong>Question:</strong> Which of the following properties of water is responsible for its high surface tension?</p>
+                        <p><strong>Question:</strong> Which of the following properties of water is responsible for its
+                            high surface tension?</p>
                         <div class="options">
                             <div>
                                 <input type="radio" id="option1" name="sample-question" value="A">
@@ -504,7 +956,8 @@
                     <div class="discussion-item">
                         <h4>What is the role of primase in DNA replication?</h4>
                         <p class="discussion-meta">Posted by: Student A • Unit 4 / Chapter 10 • 2 hours ago</p>
-                        <p>What is the specific mechanism of primase in DNA replication? Why do we need RNA primers instead of directly using DNA?</p>
+                        <p>What is the specific mechanism of primase in DNA replication? Why do we need RNA primers
+                            instead of directly using DNA?</p>
                         <div class="tag-container">
                             <span class="tag">DNA Replication</span>
                             <span class="tag">Unit 4</span>
@@ -515,7 +968,8 @@
                     <div class="discussion-item">
                         <h4>What are the main differences between mitosis and meiosis?</h4>
                         <p class="discussion-meta">Posted by: Student B • Unit 2 / Chapter 5 • 5 hours ago</p>
-                        <p>What are the main differences between mitosis and meiosis in terms of process, outcome, and biological significance?</p>
+                        <p>What are the main differences between mitosis and meiosis in terms of process, outcome, and
+                            biological significance?</p>
                         <div class="tag-container">
                             <span class="tag">Cell Division</span>
                             <span class="tag">Unit 2</span>
@@ -526,7 +980,8 @@
                     <div class="discussion-item">
                         <h4>How to understand enzyme specificity?</h4>
                         <p class="discussion-meta">Posted by: Student C • Unit 3 / Chapter 7 • 1 day ago</p>
-                        <p>What aspects does enzyme specificity include? How do lock-and-key theory and induced fit theory explain enzyme specificity?</p>
+                        <p>What aspects does enzyme specificity include? How do lock-and-key theory and induced fit
+                            theory explain enzyme specificity?</p>
                         <div class="tag-container">
                             <span class="tag">Enzyme</span>
                             <span class="tag">Unit 3</span>
@@ -608,7 +1063,8 @@
             </div>
             <div class="card">
                 <div class="card-body">
-                    <p>Edit and manage personalized tags in MyBio Center. These tags apply to mistake collection and saved content.</p>
+                    <p>Edit and manage personalized tags in MyBio Center. These tags apply to mistake collection and
+                        saved content.</p>
                     <div id="userTags" class="tag-container">
                         <span class="tag">Important Exam Point</span>
                         <span class="tag">Easy to Confuse</span>
@@ -687,9 +1143,10 @@
     </footer>
 
 
-    
+
 
 
     <script src="script.js"></script>
 </body>
+
 </html>
