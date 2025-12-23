@@ -1,23 +1,41 @@
 document.addEventListener('DOMContentLoaded', function() {
     initHeaderScroll();
-    initNavigation();
+    initNavigation(); // 这个函数会设置正确的初始活动页面
     initSearch();
     initCarousel();
     initLearningSteps();
     initDifficultySelector();
     initConceptNodes();
-    initStudyPage();
     initIdentityModal();
     initTagManagement();
-    initCollapsibleTree();
-    loadDynamicContent();
-    initTreeControls();
+    
+    // 监听页面切换，只在切换到 study 页面时初始化
+    document.addEventListener('pageChange', function(e) {
+        if (e.detail.page === 'study') {
+            console.log('切换到学习页面，重新初始化');
+            initStudyPage();
+            initCollapsibleTree();
+            loadDynamicContent();
+        }
+    });
 
+    // 页面加载后，确保只有 home 页面是活动的
+    // 这行代码可以确保即使HTML有误，JS也能纠正初始状态
+    const homePage = document.getElementById('home');
+    const studyPage = document.getElementById('study');
+    if (homePage && studyPage && studyPage.classList.contains('active')) {
+        studyPage.classList.remove('active');
+        console.log('已纠正初始页面状态：仅显示首页');
+    }
 });
 
 
+
 function initStudyPage() {
-    initChapterTree();
+
+    console.log('初始化学习页面功能');
+    
+    // 移除原来的initChapterTree调用
     initVideoPlayers();
     initStepAnimations();
     initYouTubeButtons();
@@ -41,23 +59,37 @@ function initNavigation() {
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
+            e.stopPropagation();
             
+            const pageId = this.getAttribute('data-page');
+            console.log('切换到页面:', pageId);
+            
+            // 移除所有活动状态
             navLinks.forEach(item => {
                 item.classList.remove('active');
             });
-            this.classList.add('active');
-            
-            const pageId = this.getAttribute('data-page');
             pages.forEach(page => {
                 page.classList.remove('active');
             });
-            document.getElementById(pageId).classList.add('active');
+            
+            // 添加当前活动状态
+            this.classList.add('active');
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+            
+            // 触发自定义事件
+            document.dispatchEvent(new CustomEvent('pageChange', {
+                detail: { page: pageId }
+            }));
             
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            return false;
         });
     });
 }
-
 function initSearch() {
     const searchInput = document.getElementById('searchInput');
     
@@ -631,24 +663,33 @@ function initKeywordTooltips() {
 
 // 初始化按钮事件
 function initButtonEvents() {
-
-        document.getElementById('saveConceptBtn')?.addEventListener('click', function() {
-        const icon = this.querySelector('i');
-        if (icon.classList.contains('fa-bookmark')) {
-            icon.classList.replace('fa-bookmark', 'fa-check');
-            this.innerHTML = '<i class="fas fa-check"></i> Saved';
-            this.classList.add('btn-primary');
-            setTimeout(() => {
-                icon.classList.replace('fa-check', 'fa-bookmark');
-                this.innerHTML = '<i class="fas fa-bookmark"></i> Save';
-                this.classList.remove('btn-primary');
-            }, 2000);
-        }
-    });
+    // 移除可能会引起冲突的事件监听器
+    const saveBtn = document.getElementById('saveConceptBtn');
+    if (saveBtn) {
+        saveBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const icon = this.querySelector('i');
+            if (icon.classList.contains('fa-bookmark')) {
+                icon.classList.replace('fa-bookmark', 'fa-check');
+                this.innerHTML = '<i class="fas fa-check"></i> Saved';
+                this.classList.add('btn-primary');
+                setTimeout(() => {
+                    icon.classList.replace('fa-check', 'fa-bookmark');
+                    this.innerHTML = '<i class="fas fa-bookmark"></i> Save';
+                    this.classList.remove('btn-primary');
+                }, 2000);
+            }
+        });
+    }
     
     // 播放动画按钮
-    document.getElementById('playAnimationBtn')?.addEventListener('click', function() {
-        alert('Playing personified animation...\nThis would open a 5-minute animated story about water molecules.');
+    document.getElementById('playAnimationBtn').addEventListener('click', function() {
+        const video = document.getElementById('personifiedVideo');
+        if(video.paused) {
+            video.play();
+        } else {
+            video.pause();
+        }
     });
     
     // 下载动画按钮
@@ -878,82 +919,95 @@ function initTagManagement() {
     }
 }
 
-// 初始化可折叠树
+// 可折叠树
 function initCollapsibleTree() {
-    // 单元点击事件
-    const unitHeaders = document.querySelectorAll('.unit-header');
+    console.log('初始化折叠目录树');
     
-    unitHeaders.forEach(header => {
-        header.addEventListener('click', function(e) {
-            // 阻止事件冒泡，避免同时触发概念点击
+    // 确保默认展开第一个单元和第一个章节
+    const defaultUnit = document.querySelector('.tree-unit[data-unit="1"]');
+    const defaultChapter = document.querySelector('.tree-chapter[data-chapter="1.1"]');
+    
+    if (defaultUnit && !defaultUnit.classList.contains('expanded')) {
+        expandUnit(defaultUnit);
+    }
+    
+    if (defaultChapter && !defaultChapter.classList.contains('expanded')) {
+        expandChapter(defaultChapter);
+    }
+    
+    // 单元点击事件 - 使用事件委托
+    document.querySelector('.chapter-tree').addEventListener('click', function(e) {
+        // 处理单元头部点击
+        if (e.target.closest('.unit-header')) {
+            e.preventDefault();
             e.stopPropagation();
             
-            const unit = this.closest('.tree-unit');
-            const unitId = unit.getAttribute('data-unit');
+            const unitHeader = e.target.closest('.unit-header');
+            const unit = unitHeader.closest('.tree-unit');
+            const isExpanded = unit.classList.contains('expanded');
             
-            // 如果点击的单元已经展开，则折叠它
-            if (unit.classList.contains('expanded')) {
+            if (isExpanded) {
                 collapseUnit(unit);
             } else {
-                // 展开点击的单元，折叠其他所有单元
                 expandUnit(unit);
                 
-                // 更新概念内容（如果单元中有激活的概念）
+                // 动态加载单元内容（新增的关键代码）
+                const unitContent = unit.querySelector('.unit-content');
+                if (unitContent && unitContent.children.length === 0) {
+                    const unitId = unit.getAttribute('data-unit');
+                    loadUnitContent(unitId, unitContent);
+                }
+                
+                // 如果有活跃的概念，加载其内容
                 const activeConcept = unit.querySelector('.tree-concept.active');
                 if (activeConcept) {
                     const conceptId = activeConcept.getAttribute('data-concept');
                     const conceptName = activeConcept.querySelector('.concept-title').textContent;
                     updateConceptContent(conceptName, conceptId);
-                } else {
-                    // 如果没有激活的概念，激活第一个概念
-                    const firstConcept = unit.querySelector('.tree-concept');
-                    if (firstConcept) {
-                        firstConcept.click();
-                    } else {
-                        // 显示单元的概述内容
-                        showUnitOverview(unitId);
-                    }
                 }
             }
-        });
-    });
-    
-    // 章节点击事件
-    const chapterHeaders = document.querySelectorAll('.chapter-header');
-    
-    chapterHeaders.forEach(header => {
-        header.addEventListener('click', function(e) {
+            
+            return false; // 阻止进一步传播
+        }
+        
+        // 处理章节头部点击
+        if (e.target.closest('.chapter-header')) {
+            e.preventDefault();
             e.stopPropagation();
             
-            const chapter = this.closest('.tree-chapter');
+            const chapterHeader = e.target.closest('.chapter-header');
+            const chapter = chapterHeader.closest('.tree-chapter');
             const isExpanded = chapter.classList.contains('expanded');
             
-            // 切换章节展开状态
             if (isExpanded) {
                 collapseChapter(chapter);
             } else {
                 expandChapter(chapter);
             }
-        });
-    });
-    
-    // 概念点击事件
-    const concepts = document.querySelectorAll('.tree-concept');
-    
-    concepts.forEach(concept => {
-        concept.addEventListener('click', function(e) {
+            
+            return false; // 阻止进一步传播
+        }
+        
+        // 处理概念点击
+        if (e.target.closest('.tree-concept')) {
+            e.preventDefault();
             e.stopPropagation();
             
-            const conceptId = this.getAttribute('data-concept');
-            const conceptName = this.querySelector('.concept-title').textContent;
+            const concept = e.target.closest('.tree-concept');
+            const conceptId = concept.getAttribute('data-concept');
+            const conceptName = concept.querySelector('.concept-title').textContent;
             
-            // 更新激活状态
-            concepts.forEach(c => c.classList.remove('active'));
-            this.classList.add('active');
+            // 移除所有概念的活动状态
+            document.querySelectorAll('.tree-concept').forEach(c => {
+                c.classList.remove('active');
+            });
             
-            // 确保所属的单元和章节是展开的
-            const chapter = this.closest('.tree-chapter');
-            const unit = this.closest('.tree-unit');
+            // 添加当前概念的活动状态
+            concept.classList.add('active');
+            
+            // 确保父级单元和章节是展开的
+            const chapter = concept.closest('.tree-chapter');
+            const unit = concept.closest('.tree-unit');
             
             if (chapter && !chapter.classList.contains('expanded')) {
                 expandChapter(chapter);
@@ -963,18 +1017,23 @@ function initCollapsibleTree() {
                 expandUnit(unit);
             }
             
-            // 更新概念内容
+            // 更新内容
             updateConceptContent(conceptName, conceptId);
-        });
+            
+            return false; // 阻止进一步传播
+        }
     });
 }
 
 // 展开指定单元
+// 展开指定单元
 function expandUnit(unit) {
-    // 首先折叠所有其他单元
-    document.querySelectorAll('.tree-unit.expanded').forEach(u => {
-        if (u !== unit) {
-            collapseUnit(u);
+    console.log('展开单元:', unit.getAttribute('data-unit'));
+    
+    // 首先折叠所有其他单元（除了当前单元）
+    document.querySelectorAll('.tree-unit').forEach(otherUnit => {
+        if (otherUnit !== unit && otherUnit.classList.contains('expanded')) {
+            collapseUnit(otherUnit);
         }
     });
     
@@ -988,7 +1047,13 @@ function expandUnit(unit) {
         toggleIcon.classList.add('fa-chevron-down');
     }
     
-    // 展开该单元的第一个章节（如果存在）
+    // 确保单元内容可见
+    const unitContent = unit.querySelector('.unit-content');
+    if (unitContent) {
+        unitContent.style.display = 'block';
+    }
+    
+    // 如果有内容，加载第一个章节
     const firstChapter = unit.querySelector('.tree-chapter');
     if (firstChapter && !firstChapter.classList.contains('expanded')) {
         expandChapter(firstChapter);
@@ -997,6 +1062,8 @@ function expandUnit(unit) {
 
 // 折叠指定单元
 function collapseUnit(unit) {
+    console.log('折叠单元:', unit.getAttribute('data-unit'));
+    
     unit.classList.remove('expanded');
     
     // 更新箭头图标
@@ -1004,6 +1071,12 @@ function collapseUnit(unit) {
     if (toggleIcon) {
         toggleIcon.classList.remove('fa-chevron-down');
         toggleIcon.classList.add('fa-chevron-right');
+    }
+    
+    // 隐藏单元内容
+    const unitContent = unit.querySelector('.unit-content');
+    if (unitContent) {
+        unitContent.style.display = 'none';
     }
     
     // 折叠该单元内的所有章节
@@ -1014,6 +1087,8 @@ function collapseUnit(unit) {
 
 // 展开指定章节
 function expandChapter(chapter) {
+    console.log('展开章节:', chapter.getAttribute('data-chapter'));
+    
     chapter.classList.add('expanded');
     
     // 更新箭头图标
@@ -1022,10 +1097,18 @@ function expandChapter(chapter) {
         toggleIcon.classList.remove('fa-chevron-right');
         toggleIcon.classList.add('fa-chevron-down');
     }
+    
+    // 确保章节内容可见
+    const chapterContent = chapter.querySelector('.chapter-content');
+    if (chapterContent) {
+        chapterContent.style.display = 'block';
+    }
 }
 
 // 折叠指定章节
 function collapseChapter(chapter) {
+    console.log('折叠章节:', chapter.getAttribute('data-chapter'));
+    
     chapter.classList.remove('expanded');
     
     // 更新箭头图标
@@ -1034,55 +1117,11 @@ function collapseChapter(chapter) {
         toggleIcon.classList.remove('fa-chevron-down');
         toggleIcon.classList.add('fa-chevron-right');
     }
-}
-
-// 初始化树控件
-function initTreeControls() {
-    // 展开所有按钮
-    document.getElementById('expandAllBtn')?.addEventListener('click', function() {
-        document.querySelectorAll('.tree-unit').forEach(unit => {
-            expandUnit(unit);
-        });
-        
-        document.querySelectorAll('.tree-chapter').forEach(chapter => {
-            expandChapter(chapter);
-        });
-    });
     
-    // 折叠所有按钮
-    document.getElementById('collapseAllBtn')?.addEventListener('click', function() {
-        document.querySelectorAll('.tree-unit.expanded').forEach(unit => {
-            collapseUnit(unit);
-        });
-        
-        document.querySelectorAll('.tree-chapter.expanded').forEach(chapter => {
-            collapseChapter(chapter);
-        });
-    });
-    
-    // 紧凑模式切换（可选功能）
-    const treeContainer = document.querySelector('.chapter-tree');
-    const compactBtn = document.createElement('button');
-    compactBtn.className = 'btn btn-sm btn-secondary';
-    compactBtn.innerHTML = '<i class="fas fa-columns"></i>';
-    compactBtn.title = 'Toggle compact mode';
-    compactBtn.style.marginLeft = 'auto';
-    
-    compactBtn.addEventListener('click', function() {
-        treeContainer.classList.toggle('compact');
-        if (treeContainer.classList.contains('compact')) {
-            this.innerHTML = '<i class="fas fa-expand"></i>';
-            this.title = 'Expand tree';
-        } else {
-            this.innerHTML = '<i class="fas fa-columns"></i>';
-            this.title = 'Compact tree';
-        }
-    });
-    
-    // 将紧凑按钮添加到控件区域
-    const treeControls = document.querySelector('.tree-controls');
-    if (treeControls) {
-        treeControls.appendChild(compactBtn);
+    // 隐藏章节内容
+    const chapterContent = chapter.querySelector('.chapter-content');
+    if (chapterContent) {
+        chapterContent.style.display = 'none';
     }
 }
 
@@ -1195,7 +1234,6 @@ function createChapterElement(chapterData) {
             <i class="fas fa-chevron-right chapter-toggle"></i>
             <i class="fas fa-file-alt"></i>
             <span class="chapter-title">${chapterData.title}</span>
-            <span class="chapter-status">(${chapterData.concepts.length} concepts)</span>
         </div>
         <div class="chapter-content">
             ${chapterData.concepts.map(concept => `
@@ -1213,7 +1251,9 @@ function createChapterElement(chapterData) {
 
 // 更新概念内容（与之前的功能集成）
 function updateConceptContent(conceptName, conceptId) {
-    // 更新标题和路径
+    console.log('更新概念内容:', conceptName, conceptId);
+    
+    // 更新标题
     const conceptTitle = document.getElementById('currentConceptTitle');
     const conceptPath = document.getElementById('currentConceptPath');
     
@@ -1222,6 +1262,7 @@ function updateConceptContent(conceptName, conceptId) {
     }
     
     if (conceptPath) {
+        // 根据概念ID获取路径信息
         const [unit, chapter, concept] = conceptId.split('.');
         const unitNames = {
             '1': 'Unit 1: Chemical Basis of Life',
@@ -1246,13 +1287,8 @@ function updateConceptContent(conceptName, conceptId) {
     if (animationTitle) {
         animationTitle.innerHTML = `<i class="fas fa-user-friends"></i> Personified Animation: ${conceptName} (5 min)`;
     }
-    
-    // 这里可以添加更多内容更新的逻辑
-    console.log(`Loading content for concept: ${conceptName} (${conceptId})`);
-    
-    // 模拟加载内容
-    simulateContentLoad(conceptId);
 }
+
 
 // 显示单元概述
 function showUnitOverview(unitId) {

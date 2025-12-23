@@ -130,32 +130,24 @@
                 <div class="chapter-tree">
                     <div class="section-title">
                         <h3><i class="fas fa-sitemap"></i> Course Directory</h3>
-                        <div class="tree-controls">
-                            <!-- <button class="btn btn-sm btn-secondary" id="expandAllBtn">
-                                <i class="fas fa-expand"></i> Expand All
-                            </button>
-                            <button class="btn btn-sm btn-secondary" id="collapseAllBtn">
-                                <i class="fas fa-compress"></i> Collapse All
-                            </button> -->
-                        </div>
                     </div>
                     
+                    <!-- Unit 1 - 默认展开 -->
                     <!-- Unit 1 - 默认展开 -->
                     <div class="tree-unit active expanded" data-unit="1">
                         <div class="unit-header">
                             <i class="fas fa-chevron-down unit-toggle"></i>
                             <i class="fas fa-book-open"></i>
                             <span class="unit-title">Unit 1: Chemical Basis of Life</span>
-                            <!-- <span class="unit-status">(2 chapters)</span> -->
                         </div>
                         <div class="unit-content">
                             <!-- Chapter 1.1 -->
                             <div class="tree-chapter expanded" data-chapter="1.1">
                                 <div class="chapter-header">
-                                    <i class="fas fa-chevron-right chapter-toggle"></i>
+                                    <i class="fas fa-chevron-down chapter-toggle"></i>
                                     <i class="fas fa-file-alt"></i>
                                     <span class="chapter-title">Chapter 1: Water and Life</span>
-                                    <!-- <span class="chapter-status">(2 concepts)</span> -->
+
                                 </div>
                                 <div class="chapter-content">
                                     <div class="tree-concept active" data-concept="1.1.1">
@@ -175,7 +167,6 @@
                                     <i class="fas fa-chevron-right chapter-toggle"></i>
                                     <i class="fas fa-file-alt"></i>
                                     <span class="chapter-title">Chapter 2: Carbon Compounds</span>
-                                    <!-- <span class="chapter-status">(4 concepts)</span> -->
                                 </div>
                                 <div class="chapter-content">
                                     <div class="tree-concept" data-concept="1.2.1">
@@ -198,41 +189,16 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Unit 2 - 默认折叠 -->
                     <div class="tree-unit" data-unit="2">
                         <div class="unit-header">
                             <i class="fas fa-chevron-right unit-toggle"></i>
                             <i class="fas fa-book-open"></i>
                             <span class="unit-title">Unit 2: Cell Structure</span>
-                            <!-- <span class="unit-status">(2 chapters)</span> -->
                         </div>
                         <div class="unit-content">
-                            <!-- Chapter 2.1 -->
-                            <div class="tree-chapter" data-chapter="2.1">
-                                <div class="chapter-header">
-                                    <i class="fas fa-chevron-right chapter-toggle"></i>
-                                    <i class="fas fa-file-alt"></i>
-                                    <span class="chapter-title">Chapter 3: Cell Membrane</span>
-                                    <!-- <span class="chapter-status">(3 concepts)</span> -->
-                                </div>
-                                <div class="chapter-content">
-                                    <!-- 概念会在这里动态添加或静态定义 -->
-                                </div>
-                            </div>
-                            
-                            <!-- Chapter 2.2 -->
-                            <div class="tree-chapter" data-chapter="2.2">
-                                <div class="chapter-header">
-                                    <i class="fas fa-chevron-right chapter-toggle"></i>
-                                    <i class="fas fa-file-alt"></i>
-                                    <span class="chapter-title">Chapter 4: Cell Organelles</span>
-                                    <!-- <span class="chapter-status">(5 concepts)</span> -->
-                                </div>
-                                <div class="chapter-content">
-                                    <!-- 概念会在这里动态添加或静态定义 -->
-                                </div>
-                            </div>
+                            <!-- 内容会在点击时动态加载 -->
                         </div>
                     </div>
                     
@@ -297,12 +263,21 @@
                         <p>Watch an engaging animated story that personifies water molecules and their interactions in
                             living systems.</p>
                         <div class="animation-container">
-                            <div class="video-placeholder" id="personifiedVideo">
+                            <!-- <div class="video-placeholder" id="personifiedVideo">
                                 <div class="video-overlay">
                                     <i class="fas fa-play-circle"></i>
                                     <p>Water Molecule Adventures</p>
                                 </div>
-                            </div>
+                            </div> -->
+
+                            <!-- <video id="personifiedVideo" controls poster="path/to/poster.jpg" class="video-player">
+                                <source src="path/to/water-molecule-animation.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video> -->
+
+                            <!-- 或者嵌入外部平台（如Vimeo、YouTube） -->
+                            <iframe id="personifiedVideo" class="video-player" src="https://www.youtube.com/watch?v=3J_OpY9Zc-w" frameborder="0" allowfullscreen></iframe>
+
                         </div>
                         <div class="animation-controls">
                             <button class="btn btn-primary" id="playAnimationBtn">

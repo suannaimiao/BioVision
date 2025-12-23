@@ -1,3 +1,310 @@
+/* 左侧目录树 - 折叠版本 */
+.chapter-tree {
+    background-color: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    height: fit-content;
+    position: sticky;
+    top: 120px;
+    max-height: calc(100vh - 150px);
+    overflow-y: auto;
+    transition: all 0.3s ease;
+}
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid #eee;
+}
+
+.section-title h3 {
+    font-size: 1.2rem;
+    color: var(--secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* 移除控制按钮相关样式 */
+.tree-controls {
+    display: none; /* 移除这两个按钮 */
+}
+
+/* 单元样式 */
+.tree-unit {
+    margin-bottom: 0.8rem;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.tree-unit.active {
+    border-color: var(--primary);
+    background-color: rgba(42, 157, 143, 0.05);
+}
+
+.tree-unit.expanded {
+    border-color: #ddd;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.unit-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    cursor: pointer;
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+    user-select: none;
+}
+
+.tree-unit.expanded .unit-header {
+    background-color: rgba(42, 157, 143, 0.1);
+    border-bottom: 1px solid #eee;
+}
+
+.unit-header:hover {
+    background-color: rgba(42, 157, 143, 0.15);
+}
+
+.unit-toggle {
+    font-size: 0.8rem;
+    color: #666;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+    width: 16px;
+    text-align: center;
+}
+
+.tree-unit.expanded .unit-toggle {
+    transform: rotate(90deg);
+    color: var(--primary);
+}
+
+.unit-header i.fa-book-open {
+    color: var(--primary);
+    flex-shrink: 0;
+}
+
+.unit-title {
+    flex: 1;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--secondary);
+}
+
+.unit-status {
+    font-size: 0.8rem;
+    color: #666;
+    background-color: white;
+    padding: 0.2rem 0.5rem;
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+
+.tree-unit.expanded .unit-status {
+    background-color: rgba(42, 157, 143, 0.1);
+    color: var(--primary);
+}
+
+.unit-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tree-unit.expanded .unit-content {
+    max-height: 2000px; /* 足够大的值容纳内容 */
+}
+
+/* 章节样式 */
+.tree-chapter {
+    margin: 0.3rem 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #f0f0f0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.tree-chapter.expanded {
+    border-color: #ddd;
+    background-color: white;
+}
+
+.chapter-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem;
+    cursor: pointer;
+    background-color: white;
+    transition: all 0.2s ease;
+}
+
+.chapter-header:hover {
+    background-color: #f8f9fa;
+}
+
+.chapter-toggle {
+    font-size: 0.7rem;
+    color: #888;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+    width: 14px;
+    text-align: center;
+}
+
+.tree-chapter.expanded .chapter-toggle {
+    transform: rotate(90deg);
+    color: var(--primary);
+}
+
+.chapter-header i.fa-file-alt {
+    color: #666;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.chapter-title {
+    flex: 1;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.chapter-status {
+    font-size: 0.75rem;
+    color: #888;
+    background-color: #f8f9fa;
+    padding: 0.15rem 0.4rem;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.tree-chapter.expanded .chapter-status {
+    background-color: rgba(42, 157, 143, 0.1);
+    color: var(--primary);
+}
+
+.chapter-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: #fcfcfc;
+}
+
+.tree-chapter.expanded .chapter-content {
+    max-height: 800px;
+}
+
+/* 概念样式 */
+.tree-concept {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1rem 0.7rem 2.5rem;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+}
+
+.tree-concept:hover {
+    background-color: rgba(42, 157, 143, 0.08);
+    border-left-color: rgba(42, 157, 143, 0.5);
+}
+
+.tree-concept.active {
+    background-color: rgba(42, 157, 143, 0.15);
+    border-left-color: var(--primary);
+    font-weight: 500;
+}
+
+.tree-concept i {
+    font-size: 0.6rem;
+    color: var(--primary);
+    flex-shrink: 0;
+}
+
+.tree-concept.active i {
+    color: var(--secondary);
+}
+
+.concept-title {
+    flex: 1;
+    color: #444;
+}
+
+.tree-concept.active .concept-title {
+    color: var(--secondary);
+    font-weight: 600;
+}
+
+/* 确保所有折叠内容默认隐藏 */
+.tree-unit:not(.expanded) .unit-content {
+    display: none;
+}
+
+.tree-chapter:not(.expanded) .chapter-content {
+    display: none;
+}
+
+/* 修正点击展开功能 */
+.tree-unit.expanded .unit-content {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.tree-chapter.expanded .chapter-content {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 响应式调整 */
+@media (max-width: 992px) {
+    .chapter-tree {
+        position: static;
+        max-height: none;
+        margin-bottom: 2rem;
+    }
+    
+    .study-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .chapter-tree {
+        padding: 1rem;
+    }
+    
+    .unit-header,
+    .chapter-header {
+        padding: 0.8rem;
+    }
+    
+    .tree-concept {
+        padding: 0.6rem 0.8rem 0.6rem 2rem;
+    }
+}
+
+/* 下面是你原来的CSS，保持不动 */
 :root {
     --primary: #2a9d8f;
     --secondary: #264653;
@@ -121,16 +428,6 @@ body {
     animation: fadeIn 0.4s ease;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
 .page-header {
     margin-bottom: 2rem;
     padding-bottom: 1rem;
@@ -236,7 +533,6 @@ body {
     margin-bottom: 2rem;
 }
 
-
 /* 讨论区卡片头部布局 */
 .card-header-row {
     display: flex;
@@ -257,7 +553,6 @@ body {
     border-bottom: none;
 }
 
-
 /* 功能网格项 */
 .feature-item {
     text-align: center;
@@ -267,7 +562,6 @@ body {
     color: var(--primary);
     margin-bottom: 0.5rem;
 }
-
 
 /* 新增按钮区域样式 */
 .journal-section {
@@ -386,7 +680,6 @@ body {
     line-height: 1.4;
 }
 
-
 /* 功能卡片 */
 .section-title {
     display: flex;
@@ -415,350 +708,15 @@ body {
     margin-bottom: 1rem;
 }
 
-/* Study Layout 改进 */
+/* 学习布局 */
 .study-layout {
     display: grid;
-    grid-template-columns: 280px 1fr;
+    grid-template-columns: 300px 1fr;
     gap: 2rem;
     margin-top: 1.5rem;
 }
 
-/* 左侧目录树 - 折叠版本 */
-.chapter-tree {
-    background-color: white;
-    border-radius: 10px;
-    padding: 1.5rem;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    height: fit-content;
-    position: sticky;
-    top: 120px;
-    max-height: calc(100vh - 150px);
-    overflow-y: auto;
-    transition: all 0.3s ease;
-}
-
-.chapter-tree.compact {
-    width: 220px;
-}
-
-.tree-item {
-    padding: 0.8rem 1rem;
-    border-left: 3px solid #ddd;
-    margin-bottom: 0.5rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-/* 单元样式 */
-.tree-unit {
-    margin-bottom: 0.8rem;
-    border-radius: 8px;
-    border: 1px solid #eee;
-    overflow: hidden;
-    transition: all 0.3s ease;
-}
-
-.unit-header {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 1rem;
-    cursor: pointer;
-    background-color: #f8f9fa;
-    transition: all 0.3s ease;
-    user-select: none;
-}
-
-.tree-unit.expanded .unit-header {
-    background-color: rgba(42, 157, 143, 0.1);
-    border-bottom: 1px solid #eee;
-}
-.unit-header:hover {
-    background-color: rgba(42, 157, 143, 0.15);
-}
-
-.unit-toggle {
-    font-size: 0.8rem;
-    color: #666;
-    transition: transform 0.3s ease;
-    flex-shrink: 0;
-}
-
-.tree-unit.expanded .unit-toggle {
-    transform: rotate(90deg);
-    color: var(--primary);
-}
-
-.unit-title {
-    flex: 1;
-    font-weight: 600;
-    font-size: 1rem;
-    color: var(--secondary);
-}
-
-.unit-status {
-    font-size: 0.8rem;
-    color: #666;
-    background-color: white;
-    padding: 0.2rem 0.5rem;
-    border-radius: 10px;
-    flex-shrink: 0;
-}
-
-.tree-unit.expanded .unit-status {
-    background-color: rgba(42, 157, 143, 0.1);
-    color: var(--primary);
-}
-
-.unit-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.tree-unit.expanded .unit-content {
-    max-height: 2000px; /* 足够大的值容纳内容 */
-}
-
-.unit-header i.fa-book-open {
-    color: var(--primary);
-    flex-shrink: 0;
-}
-
-
-.tree-unit.active {
-    border-color: var(--primary);
-    background-color: rgba(42, 157, 143, 0.05);
-}
-
-.tree-unit.expanded {
-    border-color: #ddd;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-}
-
-.tree-controls {
-    display: flex;
-    gap: 0.3rem;
-}
-
-.tree-controls .btn {
-    padding: 0.3rem 0.6rem;
-    font-size: 0.8rem;
-}
-.tree-item:hover {
-    border-left-color: var(--primary);
-    background-color: rgba(42, 157, 143, 0.05);
-    transform: translateX(3px);
-}
-
-.tree-item.active {
-    border-left-color: var(--primary);
-    background-color: rgba(42, 157, 143, 0.1);
-    font-weight: 500;
-}
-
-.tree-item.unit {
-    font-size: 1.1rem;
-    font-weight: 600;
-    padding-left: 1rem;
-    margin-top: 1rem;
-    margin-bottom: 0.8rem;
-}
-
-.tree-item.unit:first-child {
-    margin-top: 0;
-}
-
-.tree-item.chapter {
-    margin-left: 1rem;
-    font-size: 1rem;
-    padding-left: 1.5rem;
-}
-
-.tree-item.concept {
-    margin-left: 2rem;
-    font-size: 0.95rem;
-    padding-left: 2rem;
-}
-
-.tree-item i {
-    font-size: 0.9em;
-    opacity: 0.7;
-}
-
-/* 章节样式 */
-.tree-chapter {
-    margin: 0.3rem 0.5rem;
-    border-radius: 6px;
-    border: 1px solid #f0f0f0;
-    overflow: hidden;
-    transition: all 0.3s ease;
-}
-
-.tree-chapter.expanded {
-    border-color: #ddd;
-    background-color: white;
-}
-
-
-.chapter-header {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.8rem;
-    cursor: pointer;
-    background-color: white;
-    transition: all 0.2s ease;
-}
-
-.chapter-header:hover {
-    background-color: #f8f9fa;
-}
-
-
-.chapter-toggle {
-    font-size: 0.7rem;
-    color: #888;
-    transition: transform 0.3s ease;
-    flex-shrink: 0;
-}
-
-.tree-chapter.expanded .chapter-toggle {
-    transform: rotate(90deg);
-    color: var(--primary);
-}
-
-.chapter-header i.fa-file-alt {
-    color: #666;
-    font-size: 0.9rem;
-    flex-shrink: 0;
-}
-
-.chapter-title {
-    flex: 1;
-    font-size: 0.95rem;
-    color: #555;
-}
-
-.chapter-status {
-    font-size: 0.75rem;
-    color: #888;
-    background-color: #f8f9fa;
-    padding: 0.15rem 0.4rem;
-    border-radius: 8px;
-    flex-shrink: 0;
-}
-
-.tree-chapter.expanded .chapter-status {
-    background-color: rgba(42, 157, 143, 0.1);
-    color: var(--primary);
-}
-
-
-.chapter-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    background-color: #fcfcfc;
-}
-
-.tree-chapter.expanded .chapter-content {
-    max-height: 800px;
-}
-
-
-/* 概念样式 */
-.tree-concept {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.7rem 1rem 0.7rem 2.5rem;
-    cursor: pointer;
-    border-left: 3px solid transparent;
-    transition: all 0.2s ease;
-    font-size: 0.9rem;
-}
-
-.tree-concept:hover {
-    background-color: rgba(42, 157, 143, 0.08);
-    border-left-color: rgba(42, 157, 143, 0.5);
-}
-
-.tree-concept.active {
-    background-color: rgba(42, 157, 143, 0.15);
-    border-left-color: var(--primary);
-    font-weight: 500;
-}
-
-.tree-concept i {
-    font-size: 0.6rem;
-    color: var(--primary);
-    flex-shrink: 0;
-}
-
-.tree-concept.active i {
-    color: var(--secondary);
-}
-
-
-.concept-title {
-    flex: 1;
-    color: #444;
-}
-
-.tree-concept.active .concept-title {
-    color: var(--secondary);
-    font-weight: 600;
-}
-
-/* 进度指示器 */
-.concept-progress {
-    width: 60px;
-    height: 6px;
-    background-color: #eee;
-    border-radius: 3px;
-    overflow: hidden;
-    flex-shrink: 0;
-}
-
-.progress-fill {
-    height: 100%;
-    background-color: var(--primary);
-    border-radius: 3px;
-    transition: width 0.3s ease;
-}
-
-/* 紧凑模式 */
-.chapter-tree.compact .unit-title,
-.chapter-tree.compact .chapter-title,
-.chapter-tree.compact .concept-title {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-
-.chapter-tree.compact .unit-status,
-.chapter-tree.compact .chapter-status {
-    display: none;
-}
-
-.chapter-tree.compact .tree-controls {
-    flex-direction: column;
-    align-items: center;
-}
-
-
-.chapter-tree.compact .section-title {
-    flex-direction: column;
-    align-items: stretch;
-    text-align: center;
-    gap: 0.5rem;
-}
-/* 右侧内容区改进 */
+/* 概念内容 */
 .concept-content {
     background-color: white;
     border-radius: 10px;
@@ -805,6 +763,19 @@ body {
 
 .animation-container {
     margin: 1rem 0;
+}
+
+
+.video-player, .step-video {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    border-radius: 8px;
+    display: block;
+    background-color: #000;
+}
+.animation-container .video-player {
+    height: 300px; /* 保持原占位符高度 */
 }
 
 .video-placeholder {
@@ -1189,24 +1160,6 @@ body {
     margin: 2.5rem 0;
 }
 
-.section-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.8rem;
-    border-bottom: 1px solid #eee;
-}
-
-
-.section-title h3 {
-    font-size: 1.2rem;
-    color: var(--secondary);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
 .question-count {
     background-color: var(--primary);
     color: white;
@@ -1455,6 +1408,31 @@ body {
     margin-top: 1.5rem;
 }
 
+/* 标签 */
+.tag {
+    display: inline-block;
+    background-color: rgba(42, 157, 143, 0.1);
+    color: var(--primary);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+}
+
+.tag.active {
+    background-color: var(--primary);
+    color: white;
+}
+
+.tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
 /* 错题 */
 .mistake-item {
     padding: 1rem;
@@ -1617,8 +1595,6 @@ body {
 }
 
 /* 页脚 */
-
-/* 页脚 */
 footer {
     background-color: var(--secondary);
     color: white;
@@ -1638,7 +1614,6 @@ footer {
     margin-bottom: 1.2rem;
     font-size: 1.3rem;
     color: var(--accent);
-    /* 与图标颜色一致 */
 }
 
 .footer-section ul {
@@ -1670,7 +1645,6 @@ footer {
 
 /* 响应式 */
 @media (max-width: 992px) {
-
     .main-nav {
         align-items: flex-start;
         width: 100%;
@@ -1692,8 +1666,6 @@ footer {
 
     .chapter-tree {
         position: static;
-        max-height: none;
-        margin-bottom: 2rem;
     }
 
     .header-right {
@@ -1739,17 +1711,8 @@ footer {
     .content {
         padding: 0 1rem;
     }
-
-    .chapter-tree {
-        padding: 1rem;
-    }
     
-    .unit-header,
-    .chapter-header {
-        padding: 0.8rem;
-    }
-    
-    .tree-concept {
-        padding: 0.6rem 0.8rem 0.6rem 2rem;
+    .models-grid {
+        grid-template-columns: 1fr;
     }
 }
