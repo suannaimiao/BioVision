@@ -1,0 +1,498 @@
+<!-- 右侧内容区 -->
+<div class="concept-content">
+    <!-- 概念标题和路径 -->
+    <div class="concept-header">
+        <div class="concept-title">
+            <h2 id="currentConceptTitle">Properties of Water and Life</h2>
+                            <div class="concept-path" id="currentConceptPath">Unit 1 / Chapter 1 / Concept 1</div>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn btn-secondary" id="saveConceptBtn">
+                                <i class="fas fa-bookmark"></i> Save
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 拟人动画 -->
+                    <div class="personified-animation">
+                        <h3><i class="fas fa-user-friends"></i> Personified Animation (5 min)</h3>
+                        <p>Watch an engaging animated story that personifies water molecules and their interactions in
+                            living systems.</p>
+                        <div class="animation-container">
+                            <!-- 内嵌视频播放器 -->
+                            <div class="video-player" id="personifiedVideo">
+                                <video id="personifiedVideoPlayer" controls preload="metadata" poster="https://img.youtube.com/vi/example1/0.jpg">
+                                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" type="video/mp4">
+                                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.webm" type="video/webm">
+                                    Your browser does not support the video tag.
+                                </video>
+                                <div class="video-overlay">
+                                    <i class="fas fa-play-circle"></i>
+                                    <p>Water Molecule Adventures</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="animation-controls">
+                            <button class="btn btn-primary" id="playAnimationBtn">
+                                <i class="fas fa-play"></i> Play Animation
+                            </button>
+                            <button class="btn btn-secondary" id="downloadAnimationBtn">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                            <button class="btn btn-secondary" id="fullscreenBtn">
+                                <i class="fas fa-expand"></i> Fullscreen
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 简单解释 -->
+                    <div class="simple-explanation">
+                        <h3><i class="fas fa-info-circle"></i> Concept Overview</h3>
+                        <div class="explanation-content">
+                            <!-- 在解释文本中嵌入一个小视频 -->
+                            <div class="inline-video">
+                                <div class="mini-video-player">
+                                    <video controls width="300" height="200" preload="metadata">
+                                        <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4" type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                    <p class="video-caption">Water molecule structure and polarity</p>
+                                </div>
+                            </div>
+                            
+                            <p>Water is essential for life due to its unique chemical properties. These properties
+                                include <span class="keyword">cohesion<span class="keyword-tooltip">
+                                        <span class="tooltip-close">×</span>
+                                        <h5>Cohesion</h5>
+                                        <p>The attraction between molecules of the same substance. In water, hydrogen
+                                            bonds cause molecules to stick together.</p>
+                                    </span></span>, <span class="keyword">adhesion<span class="keyword-tooltip">
+                                        <span class="tooltip-close">×</span>
+                                        <h5>Adhesion</h5>
+                                        <p>The attraction between molecules of different substances. Water adheres to
+                                            surfaces, allowing capillary action.</p>
+                                    </span></span>, high specific heat, and being a universal solvent. These
+                                characteristics allow water to support cellular functions and maintain homeostasis.</p>
+
+                            <div class="key-points">
+                                <h4>Key Points:</h4>
+                                <ul>
+                                    <li>Water molecules form hydrogen bonds</li>
+                                    <li>High heat capacity stabilizes temperatures</li>
+                                    <li>Excellent solvent for polar molecules</li>
+                                    <li>Ice floats due to lower density</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 图示/模型入口 -->
+                    <div class="visual-models">
+                        <h3><i class="fas fa-cube"></i> 3D Models & Visualizations</h3>
+                        <div class="models-grid">
+                            <div class="model-card" data-model="water-molecule">
+                                <!-- 模型预览替换为视频 -->
+                                <div class="model-preview video-preview">
+                                    <video autoplay loop muted playsinline width="100" height="100">
+                                        <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
+                                    </video>
+                                </div>
+                                <h4>Water Molecule 3D</h4>
+                                <p>Interactive model showing molecular structure</p>
+                                <button class="btn btn-secondary btn-sm view-model-btn">
+                                    <i class="fas fa-expand"></i> View
+                                </button>
+                            </div>
+                            <div class="model-card" data-model="hydrogen-bond">
+                                <div class="model-preview video-preview">
+                                    <video autoplay loop muted playsinline width="100" height="100">
+                                        <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" type="video/mp4">
+                                    </video>
+                                </div>
+                                <h4>Hydrogen Bonding</h4>
+                                <p>Visualization of intermolecular forces</p>
+                                <button class="btn btn-secondary btn-sm view-model-btn">
+                                    <i class="fas fa-expand"></i> View
+                                </button>
+                            </div>
+                            <div class="model-card" data-model="capillary-action">
+                                <div class="model-preview video-preview">
+                                    <video autoplay loop muted playsinline width="100" height="100">
+                                        <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4" type="video/mp4">
+                                    </video>
+                                </div>
+                                <h4>Capillary Action</h4>
+                                <p>Demonstration of water movement in plants</p>
+                                <button class="btn btn-secondary btn-sm view-model-btn">
+                                    <i class="fas fa-expand"></i> View
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 学习步骤 -->
+                    <div class="learning-steps">
+                        <h3><i class="fas fa-road"></i> Step-by-Step Learning Process</h3>
+
+                        <!-- 完整视频讲解 -->
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Complete Video Explanation</h4>
+                                <p>Watch a comprehensive video with 3D animation and instructor explanation.</p>
+                                <div class="video-container">
+                                    <!-- 主视频播放器 -->
+                                    <div class="video-player" id="mainVideo">
+                                        <video id="mainVideoPlayer" controls preload="metadata" poster="https://img.youtube.com/vi/example2/0.jpg">
+                                            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+                                            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.ogv" type="video/ogg">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                        <div class="video-overlay">
+                                            <i class="fas fa-play-circle"></i>
+                                            <p>Water Properties Explained (15:32)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-controls">
+                                    <button class="btn btn-primary" id="watchVideoBtn">
+                                        <i class="fas fa-play-circle"></i> Play Full Video
+                                    </button>
+                                    <div class="playback-speed">
+                                        <label for="speedControl">Speed:</label>
+                                        <select id="speedControl">
+                                            <option value="0.5">0.5x</option>
+                                            <option value="0.75">0.75x</option>
+                                            <option value="1" selected>1x</option>
+                                            <option value="1.25">1.25x</option>
+                                            <option value="1.5">1.5x</option>
+                                            <option value="2">2x</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 步骤拆解 -->
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Step-by-Step Breakdown</h4>
+                                <p>Interactive breakdown of key processes. Click each step to play a short animation
+                                    segment.</p>
+                                <div class="step-buttons">
+                                    <button class="btn btn-secondary step-btn active" data-step="1">
+                                        <span class="step-label">Step 1:</span> Polarity
+                                    </button>
+                                    <button class="btn btn-secondary step-btn" data-step="2">
+                                        <span class="step-label">Step 2:</span> Cohesion
+                                    </button>
+                                    <button class="btn btn-secondary step-btn" data-step="3">
+                                        <span class="step-label">Step 3:</span> Adhesion
+                                    </button>
+                                    <button class="btn btn-secondary step-btn" data-step="4">
+                                        <span class="step-label">Step 4:</span> Solvent
+                                    </button>
+                                </div>
+                                <div class="step-animation-container">
+                                    <div id="step-animation" class="active">
+                                        <h5>Step 1: Polarity of Water Molecules</h5>
+                                        <p>Water molecules are polar because oxygen is more electronegative than
+                                            hydrogen, creating partial charges.</p>
+                                        <!-- 步骤动画视频 -->
+                                        <div class="step-video-player">
+                                            <video id="stepVideoPlayer" controls preload="metadata">
+                                                <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4" type="video/mp4">
+                                                Your browser does not support the video tag.
+                                            </video>
+                                        </div>
+                                        <div class="step-video-info">
+                                            <span class="video-time">0:32</span>
+                                            <span class="video-description">Polarity demonstration</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- YouTube资源 -->
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Related YouTube Resources</h4>
+                                <p>Reference YouTube videos with timestamp navigation. Click buttons to jump to specific
+                                    timepoints.</p>
+                                <div class="youtube-resources">
+                                    <!-- YouTube视频嵌入 -->
+                                    <div class="youtube-item">
+                                        <div class="youtube-player">
+                                            <iframe src="https://www.youtube.com/embed/0eUSw4act4Q" 
+                                                    title="Hydrogen Bonding Explained" 
+                                                    frameborder="0" 
+                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                                    allowfullscreen>
+                                            </iframe>
+                                        </div>
+                                        <div class="yt-info">
+                                            <h5>Hydrogen Bonding Explained</h5>
+                                            <p>Crash Course Biology</p>
+                                            <div class="yt-timestamps">
+                                                <button class="btn btn-secondary yt-btn" data-time="120">
+                                                    <i class="fab fa-youtube"></i> 2:00 - Bond Formation
+                                                </button>
+                                                <button class="btn btn-secondary yt-btn" data-time="240">
+                                                    <i class="fab fa-youtube"></i> 4:00 - Examples
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="youtube-item">
+                                        <div class="youtube-player">
+                                            <iframe src="https://www.youtube.com/embed/HVT3Y3_gHGg" 
+                                                    title="Water: The Universal Solvent" 
+                                                    frameborder="0" 
+                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                                    allowfullscreen>
+                                            </iframe>
+                                        </div>
+                                        <div class="yt-info">
+                                            <h5>Water: The Universal Solvent</h5>
+                                            <p>Khan Academy</p>
+                                            <div class="yt-timestamps">
+                                                <button class="btn btn-secondary yt-btn" data-time="180">
+                                                    <i class="fab fa-youtube"></i> 3:00 - Solvation
+                                                </button>
+                                                <button class="btn btn-secondary yt-btn" data-time="300">
+                                                    <i class="fab fa-youtube"></i> 5:00 - Biological Importance
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 小题目练习 -->
+                    <div class="practice-questions">
+                        <div class="section-title">
+                            <h3><i class="fas fa-pencil-alt"></i> Practice Questions</h3>
+                            <span class="question-count">5 questions</span>
+                        </div>
+                        <div class="question-filters">
+                            <div class="tag-container">
+                                <span class="tag active" data-tag="all">All</span>
+                                <span class="tag" data-tag="easy">Easy</span>
+                                <span class="tag" data-tag="medium">Medium</span>
+                                <span class="tag" data-tag="hard">Hard</span>
+                                <span class="tag" data-tag="hydrogen-bonding">Hydrogen Bonding</span>
+                                <span class="tag" data-tag="cohesion">Cohesion</span>
+                            </div>
+                        </div>
+                        <div class="questions-list">
+                            <!-- Question 1 - 带视频解释 -->
+                            <div class="question-item" data-difficulty="easy">
+                                <div class="question-header">
+                                    <span class="difficulty-badge easy">Easy</span>
+                                    <span class="question-tags">
+                                        <span class="mini-tag">Hydrogen Bonding</span>
+                                    </span>
+                                </div>
+                                <div class="question-content">
+                                    <p>What type of bond holds water molecules together?</p>
+                                    <!-- 题目解释视频 -->
+                                    <div class="question-video-explanation">
+                                        <div class="mini-video-player">
+                                            <video controls width="200" height="120" preload="metadata">
+                                                <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4" type="video/mp4">
+                                                Your browser does not support the video tag.
+                                            </video>
+                                            <p class="video-caption">Watch explanation</p>
+                                        </div>
+                                    </div>
+                                    <div class="options">
+                                        <div class="option">
+                                            <input type="radio" name="q1" id="q1a">
+                                            <label for="q1a">Ionic bond</label>
+                                        </div>
+                                        <div class="option">
+                                            <input type="radio" name="q1" id="q1b">
+                                            <label for="q1b">Covalent bond</label>
+                                        </div>
+                                        <div class="option">
+                                            <input type="radio" name="q1" id="q1c">
+                                            <label for="q1c">Hydrogen bond</label>
+                                        </div>
+                                        <div class="option">
+                                            <input type="radio" name="q1" id="q1d">
+                                            <label for="q1d">Metallic bond</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="question-actions">
+                                    <button class="btn btn-secondary btn-sm show-answer-btn">Show Answer</button>
+                                    <button class="btn btn-secondary btn-sm save-question-btn">
+                                        <i class="far fa-bookmark"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Question 2 -->
+                            <div class="question-item" data-difficulty="medium">
+                                <div class="question-header">
+                                    <span class="difficulty-badge medium">Medium</span>
+                                    <span class="question-tags">
+                                        <span class="mini-tag">Cohesion</span>
+                                        <span class="mini-tag">Adhesion</span>
+                                    </span>
+                                </div>
+                                <div class="question-content">
+                                    <p>How does the property of cohesion benefit plants?</p>
+                                    <div class="options">
+                                        <div class="option">
+                                            <input type="radio" name="q2" id="q2a">
+                                            <label for="q2a">It helps in photosynthesis</label>
+                                        </div>
+                                        <div class="option">
+                                            <input type="radio" name="q2" id="q2b">
+                                            <label for="q2b">It allows water transport against gravity</label>
+                                        </div>
+                                        <div class="option">
+                                            <input type="radio" name="q2" id="q2c">
+                                            <label for="q2c">It regulates temperature</label>
+                                        </div>
+                                        <div class="option">
+                                            <input type="radio" name="q2" id="q2d">
+                                            <label for="q2d">It prevents evaporation</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="question-actions">
+                                    <button class="btn btn-secondary btn-sm show-answer-btn">Show Answer</button>
+                                    <button class="btn btn-secondary btn-sm save-question-btn">
+                                        <i class="far fa-bookmark"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="practice-actions">
+                            <button class="btn btn-primary" id="startQuizBtn">
+                                <i class="fas fa-play"></i> Start Practice Quiz
+                            </button>
+                            <button class="btn btn-secondary" id="viewAllQuestionsBtn">
+                                <i class="fas fa-list"></i> View All Questions
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 讨论区 -->
+                    <div class="discussion-section">
+                        <div class="section-title">
+                            <h3><i class="fas fa-comments"></i> Discussion</h3>
+                            <button class="btn btn-primary btn-sm" id="createPostBtn">
+                                <i class="fas fa-plus"></i> New Post
+                            </button>
+                        </div>
+                        <div class="discussion-filters">
+                            <select class="filter-select">
+                                <option value="recent">Most Recent</option>
+                                <option value="popular">Most Popular</option>
+                                <option value="unanswered">Unanswered</option>
+                            </select>
+                        </div>
+                        <div class="discussion-list">
+                            <div class="discussion-item">
+                                <div class="discussion-header">
+                                    <div class="discussion-author">
+                                        <div class="avatar">S</div>
+                                        <div>
+                                            <h5>Why does ice float?</h5>
+                                            <span class="discussion-meta">Posted by Student123 • 2 hours ago</span>
+                                        </div>
+                                    </div>
+                                    <span class="reply-count">
+                                        <i class="fas fa-comment"></i> 5 replies
+                                    </span>
+                                </div>
+                                <div class="discussion-content">
+                                    <p>I understand that ice is less dense than liquid water, but why exactly does this
+                                        happen at the molecular level?</p>
+                                    <!-- 讨论中嵌入的视频 -->
+                                    <div class="discussion-video">
+                                        <div class="discussion-video-player">
+                                            <video controls width="250" height="150" preload="metadata">
+                                                <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
+                                                Your browser does not support the video tag.
+                                            </video>
+                                            <p class="video-caption">Density comparison demonstration</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="discussion-tags">
+                                    <span class="mini-tag">Density</span>
+                                    <span class="mini-tag">Hydrogen Bonding</span>
+                                </div>
+                            </div>
+
+                            <div class="discussion-item">
+                                <div class="discussion-header">
+                                    <div class="discussion-author">
+                                        <div class="avatar">T</div>
+                                        <div>
+                                            <h5>Real-world examples of capillary action</h5>
+                                            <span class="discussion-meta">Posted by BioTeacher • 1 day ago</span>
+                                        </div>
+                                    </div>
+                                    <span class="reply-count">
+                                        <i class="fas fa-comment"></i> 12 replies
+                                    </span>
+                                </div>
+                                <div class="discussion-content">
+                                    <p>Can anyone share interesting real-world examples of capillary action in plants or
+                                        other biological systems?</p>
+                                    <!-- 讨论中的视频示例 -->
+                                    <div class="discussion-video">
+                                        <div class="discussion-video-player">
+                                            <video controls width="250" height="150" preload="metadata">
+                                                <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4" type="video/mp4">
+                                                Your browser does not support the video tag.
+                                            </video>
+                                            <p class="video-caption">Capillary action in paper towel</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="discussion-tags">
+                                    <span class="mini-tag">Capillary Action</span>
+                                    <span class="mini-tag">Plants</span>
+                                    <span class="mini-tag">Real World</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="discussion-actions">
+                            <button class="btn btn-secondary" id="viewAllDiscussionsBtn">
+                                <i class="fas fa-external-link-alt"></i> Go to Full Discussion Forum
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 资源库按钮 -->
+                    <div class="resource-buttons">
+                        <h3>More Resources</h3>
+                        <div class="resource-grid">
+                            <button class="btn btn-primary" id="view3dModelBtn">
+                                <i class="fas fa-cube"></i> View 3D Model Gallery
+                            </button>
+                            <button class="btn btn-secondary" id="practiceQuestionsBtn">
+                                <i class="fas fa-pencil-alt"></i> Advanced Practice (12)
+                            </button>
+                            <button class="btn btn-secondary" id="gotoGalleryBtn">
+                                <i class="fas fa-photo-video"></i> Animation Gallery
+                            </button>
+                            <button class="btn btn-secondary" id="downloadNotesBtn">
+                                <i class="fas fa-download"></i> Download Notes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>

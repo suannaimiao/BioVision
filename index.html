@@ -131,7 +131,7 @@
                     <div class="section-title">
                         <h3><i class="fas fa-sitemap"></i> Course Directory</h3>
                     </div>
-                    
+
                     <!-- Unit 1 - 默认展开 -->
                     <!-- Unit 1 - 默认展开 -->
                     <div class="tree-unit active expanded" data-unit="1">
@@ -160,7 +160,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <!-- Chapter 1.2 -->
                             <div class="tree-chapter" data-chapter="1.2">
                                 <div class="chapter-header">
@@ -201,7 +201,7 @@
                             <!-- 内容会在点击时动态加载 -->
                         </div>
                     </div>
-                    
+
                     <!-- Unit 3 -->
                     <div class="tree-unit" data-unit="3">
                         <div class="unit-header">
@@ -214,7 +214,7 @@
                             <!-- 内容会动态加载 -->
                         </div>
                     </div>
-                    
+
                     <!-- Unit 4 -->
                     <div class="tree-unit" data-unit="4">
                         <div class="unit-header">
@@ -227,7 +227,7 @@
                             <!-- 内容会动态加载 -->
                         </div>
                     </div>
-                    
+
                     <!-- Unit 5 -->
                     <div class="tree-unit" data-unit="5">
                         <div class="unit-header">
@@ -276,7 +276,9 @@
                             </video> -->
 
                             <!-- 或者嵌入外部平台（如Vimeo、YouTube） -->
-                            <iframe id="personifiedVideo" class="video-player" src="https://www.youtube.com/watch?v=3J_OpY9Zc-w" frameborder="0" allowfullscreen></iframe>
+                            <iframe id="personifiedVideo" class="video-player"
+                                src="https://www.youtube.com/embed/3jwAGWky98c" frameborder="0"
+                                allowfullscreen></iframe>
 
                         </div>
                         <div class="animation-controls">
@@ -367,12 +369,19 @@
                                 <h4>Complete Video Explanation</h4>
                                 <p>Watch a comprehensive video with 3D animation and instructor explanation.</p>
                                 <div class="video-container">
-                                    <div class="video-placeholder" id="mainVideo">
+
+                                    <!-- <div class="video-placeholder" id="mainVideo">
                                         <div class="video-overlay">
                                             <i class="fas fa-play-circle"></i>
                                             <p>Water Properties Explained (15:32)</p>
-                                        </div>
-                                    </div>
+                                        </div> 
+
+
+                                    </div>  -->
+
+                                    <iframe id="personifiedVideo" class="video-player"
+                                        src="https://www.youtube.com/embed/3jwAGWky98c" frameborder="0"
+                                        allowfullscreen></iframe>
                                 </div>
                                 <button class="btn btn-primary" id="watchVideoBtn">
                                     <i class="fas fa-play-circle"></i> Play Full Video
@@ -404,11 +413,15 @@
                                 <div class="step-animation-container">
                                     <div id="step-animation" class="active">
                                         <h5>Step 1: Polarity of Water Molecules</h5>
-                                        <p>Water molecules are polar because oxygen is more electronegative than
-                                            hydrogen, creating partial charges.</p>
-                                        <div class="animation-preview">
-                                            <i class="fas fa-play-circle"></i>
-                                            <p>Animation ready to play</p>
+                                        <p>Water molecules are polar because oxygen is more electronegative than hydrogen, creating partial charges.</p>
+                                        <!-- 视频容器改为动态 -->
+                                        <div id="video-container">
+                                            <iframe id="personifiedVideo" class="video-player"
+                                                src="https://www.youtube.com/embed/3jwAGWky98c" 
+                                                frameborder="0"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                allowfullscreen>
+                                            </iframe>
                                         </div>
                                     </div>
                                 </div>

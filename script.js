@@ -302,6 +302,84 @@ function initLearningSteps() {
     });
 }
 
+// // 初始化步骤动画
+// function initStepAnimations() {
+//     const stepButtons = document.querySelectorAll('.step-btn');
+//     const stepAnimation = document.getElementById('step-animation');
+    
+//     if (!stepButtons.length || !stepAnimation) return;
+    
+//     stepButtons.forEach(btn => {
+//         btn.addEventListener('click', function() {
+//             const step = this.getAttribute('data-step');
+//             const stepText = this.querySelector('.step-label').nextSibling.textContent.trim();
+            
+//             // 更新按钮状态
+//             stepButtons.forEach(b => b.classList.remove('active'));
+//             this.classList.add('active');
+            
+//             // 更新动画显示
+//             const animationPreviews = stepAnimation.querySelectorAll('.animation-preview');
+//             if (animationPreviews.length) {
+//                 animationPreviews.forEach(preview => {
+//                     preview.innerHTML = `
+//                         <i class="fas fa-play-circle"></i>
+//                         <p>Playing animation for: ${stepText}</p>
+//                         <div class="animation-progress" style="width: 80%; height: 4px; background: var(--primary); margin-top: 1rem; border-radius: 2px;"></div>
+//                     `;
+//                     preview.style.cursor = 'default';
+//                 });
+//             }
+            
+//             // 显示步骤内容
+//             const steps = {
+//                 '1': {
+//                     title: 'Step 1: Polarity of Water Molecules',
+//                     content: 'Water molecules are polar because oxygen is more electronegative than hydrogen, creating partial charges that allow hydrogen bonding.',
+//                     animation: 'Polarity Animation'
+//                 },
+//                 '2': {
+//                     title: 'Step 2: Cohesion',
+//                     content: 'Hydrogen bonds cause water molecules to stick together, creating surface tension and allowing water to form droplets.',
+//                     animation: 'Cohesion Animation'
+//                 },
+//                 '3': {
+//                     title: 'Step 3: Adhesion',
+//                     content: 'Water molecules adhere to other surfaces, enabling capillary action in plants and other biological systems.',
+//                     animation: 'Adhesion Animation'
+//                 },
+//                 '4': {
+//                     title: 'Step 4: Solvent Properties',
+//                     content: 'Water\'s polarity makes it an excellent solvent for ionic compounds and polar molecules, essential for biochemical reactions.',
+//                     animation: 'Solvent Animation'
+//                 }
+//             };
+            
+//             const currentStep = steps[step];
+//             if (currentStep) {
+//                 stepAnimation.innerHTML = `
+//                     <h5>${currentStep.title}</h5>
+//                     <p>${currentStep.content}</p>
+//                     <div class="animation-preview">
+//                         <i class="fas fa-play-circle"></i>
+//                         <p>Playing: ${currentStep.animation}</p>
+//                         <div class="animation-progress" style="width: 80%; height: 4px; background: var(--primary); margin-top: 1rem; border-radius: 2px;"></div>
+//                     </div>
+//                     <button class="btn btn-secondary replay-step-btn" style="margin-top: 1rem;">
+//                         <i class="fas fa-redo"></i> Replay Animation
+//                     </button>
+//                 `;
+                
+//                 // 添加重播按钮事件
+//                 document.querySelector('.replay-step-btn')?.addEventListener('click', function() {
+//                     alert(`Replaying step ${step} animation...`);
+//                 });
+//             }
+//         });
+//     });
+// }
+
+
 // 初始化步骤动画
 function initStepAnimations() {
     const stepButtons = document.querySelectorAll('.step-btn');
@@ -309,76 +387,65 @@ function initStepAnimations() {
     
     if (!stepButtons.length || !stepAnimation) return;
     
+    // 定义每个步骤对应的视频ID
+    const stepVideos = {
+        '1': '3jwAGWky98c', // 极性
+        '2': 'qgVFkRn8f10', // 内聚力
+        '3': '6EDBlowVST0', // 附着力
+        '4': 'AOtJk7pq0bs'  // 溶剂
+    };
+
     stepButtons.forEach(btn => {
         btn.addEventListener('click', function() {
             const step = this.getAttribute('data-step');
-            const stepText = this.querySelector('.step-label').nextSibling.textContent.trim();
             
             // 更新按钮状态
             stepButtons.forEach(b => b.classList.remove('active'));
             this.classList.add('active');
             
-            // 更新动画显示
-            const animationPreviews = stepAnimation.querySelectorAll('.animation-preview');
-            if (animationPreviews.length) {
-                animationPreviews.forEach(preview => {
-                    preview.innerHTML = `
-                        <i class="fas fa-play-circle"></i>
-                        <p>Playing animation for: ${stepText}</p>
-                        <div class="animation-progress" style="width: 80%; height: 4px; background: var(--primary); margin-top: 1rem; border-radius: 2px;"></div>
-                    `;
-                    preview.style.cursor = 'default';
-                });
+            // 更新视频
+            const videoId = stepVideos[step];
+            if (videoId) {
+                const iframe = document.getElementById('personifiedVideo');
+                if (iframe) {
+                    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+                    iframe.frameBorder = "0";
+                    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+                    iframe.allowFullscreen = true;
+                }
             }
             
-            // 显示步骤内容
+            // 更新步骤标题和描述
             const steps = {
                 '1': {
                     title: 'Step 1: Polarity of Water Molecules',
-                    content: 'Water molecules are polar because oxygen is more electronegative than hydrogen, creating partial charges that allow hydrogen bonding.',
-                    animation: 'Polarity Animation'
+                    content: 'Water molecules are polar because oxygen is more electronegative than hydrogen, creating partial charges that allow hydrogen bonding.'
                 },
                 '2': {
                     title: 'Step 2: Cohesion',
-                    content: 'Hydrogen bonds cause water molecules to stick together, creating surface tension and allowing water to form droplets.',
-                    animation: 'Cohesion Animation'
+                    content: 'Hydrogen bonds cause water molecules to stick together, creating surface tension and allowing water to form droplets.'
                 },
                 '3': {
                     title: 'Step 3: Adhesion',
-                    content: 'Water molecules adhere to other surfaces, enabling capillary action in plants and other biological systems.',
-                    animation: 'Adhesion Animation'
+                    content: 'Water molecules adhere to other surfaces, enabling capillary action in plants and other biological systems.'
                 },
                 '4': {
                     title: 'Step 4: Solvent Properties',
-                    content: 'Water\'s polarity makes it an excellent solvent for ionic compounds and polar molecules, essential for biochemical reactions.',
-                    animation: 'Solvent Animation'
+                    content: 'Water\'s polarity makes it an excellent solvent for ionic compounds and polar molecules, essential for biochemical reactions.'
                 }
             };
             
             const currentStep = steps[step];
             if (currentStep) {
-                stepAnimation.innerHTML = `
-                    <h5>${currentStep.title}</h5>
-                    <p>${currentStep.content}</p>
-                    <div class="animation-preview">
-                        <i class="fas fa-play-circle"></i>
-                        <p>Playing: ${currentStep.animation}</p>
-                        <div class="animation-progress" style="width: 80%; height: 4px; background: var(--primary); margin-top: 1rem; border-radius: 2px;"></div>
-                    </div>
-                    <button class="btn btn-secondary replay-step-btn" style="margin-top: 1rem;">
-                        <i class="fas fa-redo"></i> Replay Animation
-                    </button>
-                `;
+                const titleElement = stepAnimation.querySelector('h5');
+                const contentElement = stepAnimation.querySelector('p');
                 
-                // 添加重播按钮事件
-                document.querySelector('.replay-step-btn')?.addEventListener('click', function() {
-                    alert(`Replaying step ${step} animation...`);
-                });
+                if (titleElement) titleElement.textContent = currentStep.title;
+                if (contentElement) contentElement.textContent = currentStep.content;
             }
         });
     });
 }
-
 
 // 初始化YouTube按钮
 function initYouTubeButtons() {
