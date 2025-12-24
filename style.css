@@ -3921,3 +3921,48 @@ section#gallery .tag.active {
     display: flex;
     flex-direction: column;
 }
+
+/* 修复论坛关注按钮样式冲突 */
+#forum .btn-follow {
+    /* 重置可能被.btn类覆盖的属性 */
+    background-color: transparent !important;
+    color: var(--primary) !important;
+    border: 1px solid var(--primary) !important;
+    font-size: 0.8rem !important;
+    padding: 0.25rem 0.75rem !important;
+    margin-left: 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    /* 确保按钮是内联块级元素，不影响布局 */
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1.2;
+}
+
+/* 悬停状态 */
+#forum .btn-follow:hover {
+    background-color: rgba(42, 157, 143, 0.1) !important;
+}
+
+/* 已关注状态 */
+#forum .btn-follow.following {
+    background-color: var(--primary) !important;
+    color: white !important;
+    border-color: var(--primary) !important;
+}
+
+/* 已关注状态的悬停效果 */
+#forum .btn-follow.following:hover {
+    background-color: var(--secondary) !important;
+    border-color: var(--secondary) !important;
+}
+
+/* 确保按钮内的图标和文字对齐 */
+#forum .btn-follow i {
+    margin-right: 0.25rem;
+    font-size: 0.75rem;
+}
+
+

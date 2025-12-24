@@ -1045,7 +1045,6 @@
         </section>
 
         <!-- 考试页面 -->
-        <!-- 考试页面 - 更新版本 -->
         <section id="exam" class="page-content">
             <div class="study-layout">
                 <!-- 左侧考试类型目录树 -->
@@ -1689,75 +1688,226 @@
 
         <!-- 讨论区页面 -->
         <section id="forum" class="page-content">
-            <div class="page-header">
-                <h1>Discussion Forum</h1>
-                <p>Discuss biology questions with fellow students, help each other, progress together</p>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-header-row">
-                        <h3>Hot Discussions</h3>
-                        <button class="btn btn-primary" id="createPostBtn">
-                            <i class="fas fa-plus"></i> Create Post
-                        </button>
+            <div class="study-layout">
+                <!-- 左侧Forum目录树 -->
+                <div class="chapter-tree">
+                    <div class="section-title">
+                        <h3><i class="fas fa-sitemap"></i> Forum Directory</h3>
+                    </div>
+
+                    <!-- 简化后的目录 - 按单元组织 -->
+                    <div class="tree-unit active" data-target="#hot-discussions">
+                        <div class="unit-header">
+                            <i class="fas fa-fire"></i>
+                            <span class="unit-title">Hot Discussions</span>
+                        </div>
+                    </div>
+
+                    <div class="tree-unit" data-target="#unit1-discussions">
+                        <div class="unit-header">
+                            <i class="fas fa-book"></i>
+                            <span class="unit-title">Unit 1: Chemical Basis of Life</span>
+                        </div>
+                        <div class="unit-content" style="display: none;">
+                            <div class="tree-concept" data-concept="water-properties">
+                                <i class="fas fa-circle"></i>
+                                <span class="concept-title">Water Properties</span>
+                            </div>
+                            <div class="tree-concept" data-concept="ph-scale">
+                                <i class="fas fa-circle"></i>
+                                <span class="concept-title">pH Scale</span>
+                            </div>
+                            <div class="tree-concept" data-concept="macromolecules">
+                                <i class="fas fa-circle"></i>
+                                <span class="concept-title">Macromolecules</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tree-unit" data-target="#unit2-discussions">
+                        <div class="unit-header">
+                            <i class="fas fa-book"></i>
+                            <span class="unit-title">Unit 2: Cell Structure</span>
+                        </div>
+                        <div class="unit-content" style="display: none;">
+                            <div class="tree-concept" data-concept="cell-membrane">
+                                <i class="fas fa-circle"></i>
+                                <span class="concept-title">Cell Membrane</span>
+                            </div>
+                            <div class="tree-concept" data-concept="organelles">
+                                <i class="fas fa-circle"></i>
+                                <span class="concept-title">Organelles</span>
+                            </div>
+                            <div class="tree-concept" data-concept="cell-division">
+                                <i class="fas fa-circle"></i>
+                                <span class="concept-title">Cell Division</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tree-unit" data-target="#unit3-discussions">
+                        <div class="unit-header">
+                            <i class="fas fa-book"></i>
+                            <span class="unit-title">Unit 3: Cell Metabolism</span>
+                        </div>
+                        <div class="unit-content" style="display: none;">
+                            <div class="tree-concept" data-concept="enzymes">
+                                <i class="fas fa-circle"></i>
+                                <span class="concept-title">Enzymes</span>
+                            </div>
+                            <div class="tree-concept" data-concept="respiration">
+                                <i class="fas fa-circle"></i>
+                                <span class="concept-title">Cellular Respiration</span>
+                            </div>
+                            <div class="tree-concept" data-concept="photosynthesis">
+                                <i class="fas fa-circle"></i>
+                                <span class="concept-title">Photosynthesis</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tree-unit" data-target="#unit4-discussions">
+                        <div class="unit-header">
+                            <i class="fas fa-book"></i>
+                            <span class="unit-title">Unit 4: Genetics</span>
+                        </div>
+                        <div class="unit-content" style="display: none;">
+                            <div class="tree-concept" data-concept="dna-replication">
+                                <i class="fas fa-circle"></i>
+                                <span class="concept-title">DNA Replication</span>
+                            </div>
+                            <div class="tree-concept" data-concept="protein-synthesis">
+                                <i class="fas fa-circle"></i>
+                                <span class="concept-title">Protein Synthesis</span>
+                            </div>
+                            <div class="tree-concept" data-concept="mendelian-genetics">
+                                <i class="fas fa-circle"></i>
+                                <span class="concept-title">Mendelian Genetics</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tree-unit" data-target="#my-posts">
+                        <div class="unit-header">
+                            <i class="fas fa-user"></i>
+                            <span class="unit-title">My Posts</span>
+                        </div>
+                    </div>
+
+                    <div class="tree-unit" data-target="#followed-posts">
+                        <div class="unit-header">
+                            <i class="fas fa-heart"></i>
+                            <span class="unit-title">Followed Posts</span>
+                        </div>
                     </div>
                 </div>
-                <div class="card-body" id="discussionList">
-                    <div class="discussion-item">
-                        <h4>What is the role of primase in DNA replication?</h4>
-                        <p class="discussion-meta">Posted by: Student A • Unit 4 / Chapter 10 • 2 hours ago</p>
-                        <p>What is the specific mechanism of primase in DNA replication? Why do we need RNA primers
-                            instead of directly using DNA?</p>
-                        <div class="tag-container">
-                            <span class="tag">DNA Replication</span>
-                            <span class="tag">Unit 4</span>
-                            <span class="tag">Genetics</span>
-                            <span class="tag">Molecular Biology</span>
+
+                <!-- 右侧内容区 -->
+                <div class="concept-content">
+                    <div class="page-header">
+                        <h1>Discussion Forum</h1>
+                        <p>Discuss biology questions with fellow students, help each other, progress together</p>
+                        <div style="margin-top: 1rem;">
+                            <button class="btn btn-primary" id="createPostBtn_forum">
+                                <i class="fas fa-plus"></i> Create Post (Ask for Help)
+                            </button>
                         </div>
                     </div>
-                    <div class="discussion-item">
-                        <h4>What are the main differences between mitosis and meiosis?</h4>
-                        <p class="discussion-meta">Posted by: Student B • Unit 2 / Chapter 5 • 5 hours ago</p>
-                        <p>What are the main differences between mitosis and meiosis in terms of process, outcome, and
-                            biological significance?</p>
-                        <div class="tag-container">
-                            <span class="tag">Cell Division</span>
-                            <span class="tag">Unit 2</span>
-                            <span class="tag">Mitosis</span>
-                            <span class="tag">Meiosis</span>
+
+                    <!-- 热门讨论（默认显示） -->
+                    <div id="hot-discussions" class="discussion-section active">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-header-row">
+                                    <h3><i class="fas fa-fire"></i> Hot Discussions</h3>
+                                    <span class="badge"
+                                        style="background-color: var(--primary-color); color: white;">Most Active</span>
+                                </div>
+                            </div>
+                            <div class="card-body" id="hotDiscussionList">
+                                <!-- 热门帖子会动态加载到这里 -->
+                            </div>
                         </div>
                     </div>
-                    <div class="discussion-item">
-                        <h4>How to understand enzyme specificity?</h4>
-                        <p class="discussion-meta">Posted by: Student C • Unit 3 / Chapter 7 • 1 day ago</p>
-                        <p>What aspects does enzyme specificity include? How do lock-and-key theory and induced fit
-                            theory explain enzyme specificity?</p>
-                        <div class="tag-container">
-                            <span class="tag">Enzyme</span>
-                            <span class="tag">Unit 3</span>
-                            <span class="tag">Metabolism</span>
-                            <span class="tag">Specificity</span>
+
+                    <!-- 各单元讨论区（初始隐藏） -->
+                    <div id="unit1-discussions" class="discussion-section" style="display: none;">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-book"></i> Unit 1: Chemical Basis of Life Discussions</h3>
+                            </div>
+                            <div class="card-body" id="unit1DiscussionList">
+                                <!-- Unit 1帖子会动态加载到这里 -->
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="section-title">
-                <h2>Forum Features</h2>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    <div class="features-grid">
-                        <div class="feature-item">
-                            <h4><i class="fas fa-comments"></i> Concept Discussions</h4>
-                            <p>Discussions under each Concept are automatically categorized in Forum sections</p>
+
+                    <div id="unit2-discussions" class="discussion-section" style="display: none;">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-book"></i> Unit 2: Cell Structure Discussions</h3>
+                            </div>
+                            <div class="card-body" id="unit2DiscussionList">
+                                <!-- Unit 2帖子会动态加载到这里 -->
+                            </div>
                         </div>
-                        <div class="feature-item">
-                            <h4><i class="fas fa-edit"></i> Post Creation</h4>
-                            <p>Freely post questions, select Unit and Concept, add tags</p>
+                    </div>
+
+                    <div id="unit3-discussions" class="discussion-section" style="display: none;">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-book"></i> Unit 3: Cell Metabolism Discussions</h3>
+                            </div>
+                            <div class="card-body" id="unit3DiscussionList">
+                                <!-- Unit 3帖子会动态加载到这里 -->
+                            </div>
                         </div>
-                        <div class="feature-item">
-                            <h4><i class="fas fa-reply"></i> Mutual Assistance</h4>
-                            <p>Other users can see your questions and provide answers</p>
+                    </div>
+
+                    <div id="unit4-discussions" class="discussion-section" style="display: none;">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-book"></i> Unit 4: Genetics Discussions</h3>
+                            </div>
+                            <div class="card-body" id="unit4DiscussionList">
+                                <!-- Unit 4帖子会动态加载到这里 -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 我的帖子 -->
+                    <div id="my-posts" class="discussion-section" style="display: none;">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-user"></i> My Posts</h3>
+                            </div>
+                            <div class="card-body" id="myPostsList">
+                                <!-- 我的帖子会动态加载到这里 -->
+                                <div class="empty-state" id="emptyMyPosts">
+                                    <p style="text-align: center; color: #666; padding: 2rem;">
+                                        You haven't created any posts yet. <a href="#" class="create-post-link">Create
+                                            your first post</a>!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 关注的帖子 -->
+                    <div id="followed-posts" class="discussion-section" style="display: none;">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-heart"></i> Followed Posts</h3>
+                            </div>
+                            <div class="card-body" id="followedPostsList">
+                                <!-- 关注的帖子会动态加载到这里 -->
+                                <div class="empty-state" id="emptyFollowedPosts">
+                                    <p style="text-align: center; color: #666; padding: 2rem;">
+                                        You're not following any posts yet. Click "Follow" on interesting discussions to
+                                        see them here.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
