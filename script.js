@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
     initIdentityModal();
     initTagManagement();
 
+    initFooterFunctions();
+
     // 监听页面切换，只在切换到 study 页面时初始化
     document.addEventListener('pageChange', function (e) {
         if (e.detail.page === 'study') {
@@ -1689,10 +1691,6 @@ function initButtonEvents() {
         });
     });
 
-    // document.getElementById('createPostBtn')?.addEventListener('click', function() {
-    //     alert('Opening post creation form...\nYou can: Write question, Select Unit/Concept, Add tags');
-    // });
-
     document.getElementById('donateBtn')?.addEventListener('click', function () {
         alert('Thank you for considering a donation! This feature will redirect to a secure payment gateway.');
     });
@@ -2476,14 +2474,15 @@ function initGalleryPage() {
     // 初始化查看全部按钮
     initViewAllButtons();
 
-    // 修复：使用新的错误标签过滤函数
+    // 错误标签过滤函数
     initMistakeTagFilters();
 
-    // 修复：初始化错误概念链接
+    // 初始化错误概念链接
     initMistakeConceptLinks();
 
-    // // 初始化错误标签过滤
-    // initMistakeTags();
+    // 初始化3D模型查看器
+    init3DModelViewer();
+
 }
 
 // 初始化资源库目录树跳转
@@ -2641,7 +2640,7 @@ function openResourceModal(title, action, resourceType) {
         modalMessages[action][resourceType] || modalMessages[action] :
         `执行 ${action} 操作: ${title}`;
 
-    alert(`${message}\n\n提示: 在实际应用中，这里会打开相应的查看器或下载文件。`);
+    // alert(`${message}\n\n提示: 在实际应用中，这里会打开相应的查看器或下载文件。`);
 }
 
 // 显示资源详情
@@ -4483,5 +4482,2271 @@ function initEnterClassroom() {
             // 在实际应用中，这里会导航到学习页面
             document.querySelector('[data-page="study"]').click();
         });
+    }
+}
+
+
+// 初始化页脚功能
+function initFooterFunctions() {
+    console.log('初始化页脚功能');
+    
+    // 获取页脚所有链接
+    const footerLinks = document.querySelectorAll('footer a');
+    
+    // 定义页面映射关系
+    const pageMap = {
+        'All Courses': 'study',
+        'Animation Library': 'gallery',
+        '3D Models': 'gallery',
+        'Practice Questions': 'exam',
+        'Discussion Forum': 'forum'
+    };
+    
+    // 定义弹窗内容
+    const modalContent = {
+        'about': {
+            title: 'About BioVision Platform',
+            content: `
+                <h3>Our Mission</h3>
+                <p>BioVision is an innovative biology learning platform designed to make biology education accessible, engaging, and effective for students at all levels.</p>
+                
+                <h3>Platform Features</h3>
+                <ul>
+                    <li>Interactive 3D models and animations</li>
+                    <li>Comprehensive biology curriculum based on Campbell Biology</li>
+                    <li>Adaptive practice questions and exams</li>
+                    <li>Community discussion forums</li>
+                    <li>Personalized learning analytics</li>
+                </ul>
+                
+                <h3>Team</h3>
+                <p>Developed by a team of biology educators, instructional designers, and software developers committed to improving STEM education.</p>
+            `
+        },
+        'contact': {
+            title: 'Contact Us',
+            content: `
+                <h3>Get in Touch</h3>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p>support@biovision.edu</p>
+                            <p>partnerships@biovision.edu</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Phone</h4>
+                            <p>+1 (555) 123-4567 (Student Support)</p>
+                            <p>+1 (555) 987-6543 (Educator Inquiries)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h4>Support Hours</h4>
+                            <p>Monday - Friday: 9:00 AM - 6:00 PM EST</p>
+                            <p>Saturday: 10:00 AM - 4:00 PM EST</p>
+                            <p>Sunday: Closed</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Mailing Address</h4>
+                            <p>BioVision Education Inc.</p>
+                            <p>123 Science Park Drive</p>
+                            <p>Boston, MA 02134, USA</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <button class="btn btn-social twitter">
+                        <i class="fab fa-twitter"></i> Twitter
+                    </button>
+                    <button class="btn btn-social facebook">
+                        <i class="fab fa-facebook"></i> Facebook
+                    </button>
+                    <button class="fab fa-instagram"></i> Instagram
+                    </button>
+                    <button class="btn btn-social youtube">
+                        <i class="fab fa-youtube"></i> YouTube
+                    </button>
+                </div>
+            `
+        },
+        'privacy': {
+            title: 'Privacy Policy',
+            content: `
+                <h3>Your Privacy Matters</h3>
+                <p>Last Updated: ${new Date().toLocaleDateString()}</p>
+                
+                <h4>Information We Collect</h4>
+                <ul>
+                    <li><strong>Account Information:</strong> Name, email, and educational level</li>
+                    <li><strong>Learning Data:</strong> Progress, quiz scores, and study habits</li>
+                    <li><strong>Technical Information:</strong> Device type, browser, and IP address</li>
+                    <li><strong>Usage Data:</strong> Features used and time spent on platform</li>
+                </ul>
+                
+                <h4>How We Use Your Information</h4>
+                <ul>
+                    <li>Personalize your learning experience</li>
+                    <li>Improve our educational content</li>
+                    <li>Provide customer support</li>
+                    <li>Send important updates and notifications</li>
+                    <li>Conduct research to improve educational outcomes</li>
+                </ul>
+                
+                <h4>Data Security</h4>
+                <p>We implement industry-standard security measures to protect your data, including encryption and secure servers.</p>
+                
+                <h4>Your Rights</h4>
+                <ul>
+                    <li>Access your personal data</li>
+                    <li>Correct inaccurate information</li>
+                    <li>Request data deletion</li>
+                    <li>Opt-out of communications</li>
+                </ul>
+                
+                <p>For full details, please contact our privacy team at privacy@biovision.edu</p>
+            `
+        },
+        'terms': {
+            title: 'Terms of Service',
+            content: `
+                <h3>Terms and Conditions</h3>
+                <p>Effective Date: ${new Date().toLocaleDateString()}</p>
+                
+                <h4>1. Acceptance of Terms</h4>
+                <p>By accessing BioVision, you agree to these Terms of Service and our Privacy Policy.</p>
+                
+                <h4>2. User Accounts</h4>
+                <ul>
+                    <li>You must provide accurate registration information</li>
+                    <li>You are responsible for maintaining account security</li>
+                    <li>Accounts are for individual use only</li>
+                    <li>We reserve the right to suspend accounts for violations</li>
+                </ul>
+                
+                <h4>3. Educational Content</h4>
+                <ul>
+                    <li>All educational materials are for personal learning only</li>
+                    <li>Commercial use of content is prohibited</li>
+                    <li>Content may be updated or removed without notice</li>
+                    <li>We strive for accuracy but cannot guarantee all content is error-free</li>
+                </ul>
+                
+                <h4>4. User Conduct</h4>
+                <p>You agree not to:</p>
+                <ul>
+                    <li>Share inappropriate content</li>
+                    <li>Harass other users</li>
+                    <li>Attempt to hack or disrupt the platform</li>
+                    <li>Violate intellectual property rights</li>
+                </ul>
+                
+                <h4>5. Limitation of Liability</h4>
+                <p>BioVision is provided "as is" without warranties. We are not liable for:</p>
+                <ul>
+                    <li>Technical issues or downtime</li>
+                    <li>Learning outcomes or exam results</li>
+                    <li>Third-party content or links</li>
+                    <li>Indirect or consequential damages</li>
+                </ul>
+                
+                <h4>6. Changes to Terms</h4>
+                <p>We may update these terms. Continued use constitutes acceptance of changes.</p>
+                
+                <p>For questions: legal@biovision.edu</p>
+            `
+        },
+        'student-blogs': {
+            title: 'Student Blogs',
+            content: `
+                <h3>Coming Soon: Student Blogs</h3>
+                <div class="feature-preview">
+                    <div class="feature-icon">
+                        <i class="fas fa-blog"></i>
+                    </div>
+                    <p>We're excited to announce that Student Blogs are in development!</p>
+                    
+                    <h4>What to Expect:</h4>
+                    <ul>
+                        <li>Share your biology learning journey</li>
+                        <li>Post study tips and resources</li>
+                        <li>Connect with other biology students</li>
+                        <li>Showcase your projects and research</li>
+                    </ul>
+                    
+                    <h4>Launch Timeline</h4>
+                    <p>Expected Launch: Q3 2024</p>
+                    
+                    <div class="cta-section">
+                        <p>Want to be a beta tester?</p>
+                        <button class="btn btn-primary" id="betaTesterBtn">
+                            <i class="fas fa-user-check"></i> Join Beta Program
+                        </button>
+                    </div>
+                </div>
+            `
+        },
+        'study-groups': {
+            title: 'Study Groups',
+            content: `
+                <h3>Study Groups Feature</h3>
+                <div class="feature-preview">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <p>Collaborative learning is coming to BioVision!</p>
+                    
+                    <h4>Features in Development:</h4>
+                    <ul>
+                        <li>Create and join study groups</li>
+                        <li>Schedule virtual study sessions</li>
+                        <li>Share notes and resources</li>
+                        <li>Group progress tracking</li>
+                        <li>Discussion boards for each group</li>
+                    </ul>
+                    
+                    <h4>Availability</h4>
+                    <p>This feature will be available to all registered students.</p>
+                    
+                    <div class="notification-section">
+                        <p>Get notified when Study Groups launch:</p>
+                        <div class="input-group">
+                            <input type="email" id="studyGroupEmail" placeholder="Your email">
+                            <button class="btn btn-secondary" id="notifyStudyGroupsBtn">
+                                <i class="fas fa-bell"></i> Notify Me
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `
+        },
+        'success-stories': {
+            title: 'Success Stories',
+            content: `
+                <h3>Student Success Stories</h3>
+                <div class="stories-container">
+                    <div class="story-card">
+                        <div class="story-header">
+                            <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Student">
+                            <div>
+                                <h4>Sarah Johnson</h4>
+                                <p>AP Biology Score: 5/5</p>
+                            </div>
+                        </div>
+                        <div class="story-content">
+                            <p>"BioVision's 3D models helped me visualize complex cell structures. The practice questions were exactly what I needed for the AP exam!"</p>
+                        </div>
+                    </div>
+                    
+                    <div class="story-card">
+                        <div class="story-header">
+                            <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Student">
+                            <div>
+                                <h4>Michael Chen</h4>
+                                <p>Medical School Accepted</p>
+                            </div>
+                        </div>
+                        <div class="story-content">
+                            <p>"The discussion forum connected me with other pre-med students. We formed a study group that helped us all succeed."</p>
+                        </div>
+                    </div>
+                    
+                    <div class="story-card">
+                        <div class="story-header">
+                            <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Student">
+                            <div>
+                                <h4>Emma Rodriguez</h4>
+                                <p>Biology Competition Winner</p>
+                            </div>
+                        </div>
+                        <div class="story-content">
+                            <p>"The competition-level questions in the Exam section prepared me for national biology competitions. I couldn't have done it without BioVision!"</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="share-story">
+                    <h4>Share Your Story</h4>
+                    <p>Have a success story to share? We'd love to hear from you!</p>
+                    <button class="btn btn-primary" id="shareStoryBtn">
+                        <i class="fas fa-share-alt"></i> Share Your Experience
+                    </button>
+                </div>
+            `
+        }
+    };
+    
+    // 为每个页脚链接添加点击事件
+    footerLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const linkText = this.textContent.trim();
+            const href = this.getAttribute('href');
+            
+            console.log('页脚链接点击:', linkText);
+            
+            // 检查是否有对应的页面跳转
+            if (pageMap[linkText]) {
+                // 跳转到对应页面
+                const pageId = pageMap[linkText];
+                const navLink = document.querySelector(`.nav-links a[data-page="${pageId}"]`);
+                
+                if (navLink) {
+                    // 触发导航链接点击
+                    navLink.click();
+                    
+                    // 滚动到顶部
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    
+                    // 如果跳转到Gallery页面，可能需要滚动到特定部分
+                    if (pageId === 'gallery') {
+                        setTimeout(() => {
+                            if (linkText === 'Animation Library') {
+                                const animationSection = document.getElementById('animation-section');
+                                if (animationSection) {
+                                    animationSection.scrollIntoView({ behavior: 'smooth' });
+                                }
+                            } else if (linkText === '3D Models') {
+                                const modelsSection = document.getElementById('models-section');
+                                if (modelsSection) {
+                                    modelsSection.scrollIntoView({ behavior: 'smooth' });
+                                }
+                            }
+                        }, 500);
+                    }
+                    
+                    return;
+                }
+            }
+            
+            // 处理弹窗内容
+            let modalType = '';
+            
+            // 根据链接文本确定弹窗类型
+            if (linkText.includes('About')) {
+                modalType = 'about';
+            } else if (linkText.includes('Contact')) {
+                modalType = 'contact';
+            } else if (linkText.includes('Privacy')) {
+                modalType = 'privacy';
+            } else if (linkText.includes('Terms')) {
+                modalType = 'terms';
+            } else if (linkText.includes('Blogs')) {
+                modalType = 'student-blogs';
+            } else if (linkText.includes('Groups')) {
+                modalType = 'study-groups';
+            } else if (linkText.includes('Stories')) {
+                modalType = 'success-stories';
+            } else if (this.querySelector('.fab')) {
+                // 社交媒体链接
+                const platform = linkText.toLowerCase();
+                showSocialMediaModal(platform);
+                return;
+            } else {
+                // 默认弹窗
+                showGenericModal(linkText);
+                return;
+            }
+            
+            // 显示对应的弹窗
+            if (modalContent[modalType]) {
+                showFooterModal(modalContent[modalType].title, modalContent[modalType].content, modalType);
+            } else {
+                showGenericModal(linkText);
+            }
+        });
+    });
+}
+
+// 显示页脚弹窗
+function showFooterModal(title, content, modalType) {
+    // 创建模态框
+    const modal = document.createElement('div');
+    modal.className = 'footer-modal-overlay';
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        padding: 20px;
+        backdrop-filter: blur(5px);
+    `;
+    
+    // 创建模态框内容
+    modal.innerHTML = `
+        <div class="footer-modal" style="
+            background: white;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 800px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: modalSlideIn 0.3s ease-out;
+        ">
+            <div class="modal-header" style="
+                padding: 1.5rem 2rem;
+                border-bottom: 1px solid #eee;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background: linear-gradient(135deg, var(--primary-color), #1d8879);
+                color: white;
+                border-radius: 12px 12px 0 0;
+            ">
+                <h3 style="margin: 0; font-size: 1.5rem;">
+                    <i class="fas fa-info-circle"></i> ${title}
+                </h3>
+                <button class="modal-close" style="
+                    background: none;
+                    border: none;
+                    color: white;
+                    font-size: 1.8rem;
+                    cursor: pointer;
+                    line-height: 1;
+                    padding: 0;
+                    width: 30px;
+                    height: 30px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                ">&times;</button>
+            </div>
+            
+            <div class="modal-content" style="
+                padding: 2rem;
+                color: #333;
+                line-height: 1.6;
+            ">
+                ${content}
+            </div>
+            
+            <div class="modal-footer" style="
+                padding: 1.5rem 2rem;
+                border-top: 1px solid #eee;
+                display: flex;
+                justify-content: flex-end;
+                gap: 1rem;
+            ">
+                <button class="btn btn-secondary close-modal-btn">
+                    Close
+                </button>
+                ${modalType === 'contact' ? `
+                    <button class="btn btn-primary" id="contactSupportBtn">
+                        <i class="fas fa-headset"></i> Contact Support
+                    </button>
+                ` : ''}
+            </div>
+        </div>
+    `;
+    
+    // 添加到页面
+    document.body.appendChild(modal);
+    
+    // 添加CSS动画
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .footer-modal h3, .footer-modal h4 {
+            color: var(--primary-color);
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .footer-modal h3:first-child {
+            margin-top: 0;
+        }
+        
+        .footer-modal ul {
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-modal li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .contact-item i {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-right: 1rem;
+            margin-top: 0.25rem;
+        }
+        
+        .contact-item h4 {
+            margin: 0 0 0.25rem 0;
+            color: #333;
+        }
+        
+        .contact-item p {
+            margin: 0;
+            color: #666;
+        }
+        
+        .social-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+        
+        .btn-social {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-social.twitter {
+            background: #1DA1F2;
+            color: white;
+        }
+        
+        .btn-social.facebook {
+            background: #1877F2;
+            color: white;
+        }
+        
+        .btn-social.instagram {
+            background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
+            color: white;
+        }
+        
+        .btn-social.youtube {
+            background: #FF0000;
+            color: white;
+        }
+        
+        .btn-social:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .feature-preview {
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .cta-section, .notification-section, .share-story {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid #eee;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .input-group input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        
+        .stories-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .story-card {
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 1.5rem;
+            background: #f8f9fa;
+        }
+        
+        .story-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .story-header img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 1rem;
+            object-fit: cover;
+        }
+        
+        .story-header h4 {
+            margin: 0;
+            color: #333;
+        }
+        
+        .story-header p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .story-content p {
+            margin: 0;
+            font-style: italic;
+            color: #555;
+            line-height: 1.5;
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // 关闭按钮事件
+    const closeModal = () => {
+        modal.style.animation = 'modalSlideOut 0.3s ease-out';
+        setTimeout(() => {
+            if (modal.parentNode) {
+                document.body.removeChild(modal);
+            }
+            if (style.parentNode) {
+                document.head.removeChild(style);
+            }
+        }, 300);
+    };
+    
+    // 添加关闭动画
+    const closeStyle = document.createElement('style');
+    closeStyle.textContent = `
+        @keyframes modalSlideOut {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+        }
+    `;
+    document.head.appendChild(closeStyle);
+    
+    // 绑定关闭事件
+    modal.querySelector('.modal-close').addEventListener('click', closeModal);
+    modal.querySelector('.close-modal-btn').addEventListener('click', closeModal);
+    
+    // 点击模态框外部关闭
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+    
+    // 特殊按钮事件
+    if (modalType === 'contact') {
+        modal.querySelector('#contactSupportBtn')?.addEventListener('click', function() {
+            alert('Opening support ticket system...\n\nIn a real application, this would open a support ticket form or chat.');
+        });
+    }
+    
+    if (modalType === 'student-blogs') {
+        modal.querySelector('#betaTesterBtn')?.addEventListener('click', function() {
+            alert('Thank you for your interest in the Beta Program!\n\nWe will contact you via email with more details.');
+        });
+    }
+    
+    if (modalType === 'study-groups') {
+        const notifyBtn = modal.querySelector('#notifyStudyGroupsBtn');
+        const emailInput = modal.querySelector('#studyGroupEmail');
+        
+        if (notifyBtn && emailInput) {
+            notifyBtn.addEventListener('click', function() {
+                const email = emailInput.value.trim();
+                if (email && validateEmail(email)) {
+                    alert(`Thank you! We'll notify you at ${email} when Study Groups launch.`);
+                    emailInput.value = '';
+                } else {
+                    alert('Please enter a valid email address.');
+                }
+            });
+        }
+    }
+    
+    if (modalType === 'success-stories') {
+        modal.querySelector('#shareStoryBtn')?.addEventListener('click', function() {
+            showShareStoryForm();
+        });
+    }
+    
+    // 阻止模态框内容点击时关闭
+    modal.querySelector('.footer-modal').addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
+}
+
+// 显示社交媒体弹窗
+function showSocialMediaModal(platform) {
+    const platformInfo = {
+        'twitter': {
+            name: 'Twitter',
+            handle: '@BioVisionEdu',
+            url: 'https://twitter.com/BioVisionEdu',
+            color: '#1DA1F2'
+        },
+        'facebook': {
+            name: 'Facebook',
+            handle: 'BioVision Education',
+            url: 'https://facebook.com/BioVisionEdu',
+            color: '#1877F2'
+        },
+        'instagram': {
+            name: 'Instagram',
+            handle: '@biovision_edu',
+            url: 'https://instagram.com/biovision_edu',
+            color: '#E1306C'
+        },
+        'youtube': {
+            name: 'YouTube',
+            handle: 'BioVision Education',
+            url: 'https://youtube.com/c/BioVisionEdu',
+            color: '#FF0000'
+        }
+    };
+    
+    const info = platformInfo[platform] || {
+        name: platform.charAt(0).toUpperCase() + platform.slice(1),
+        handle: 'BioVision',
+        url: '#',
+        color: 'var(--primary-color)'
+    };
+    
+    const modal = document.createElement('div');
+    modal.className = 'social-modal-overlay';
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        padding: 20px;
+    `;
+    
+    modal.innerHTML = `
+        <div class="social-modal" style="
+            background: white;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 400px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+        ">
+            <div class="social-header" style="
+                padding: 2rem;
+                background: ${info.color};
+                color: white;
+            ">
+                <i class="fab fa-${platform}" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                <h3 style="margin: 0 0 0.5rem 0;">Follow Us on ${info.name}</h3>
+                <p style="margin: 0; opacity: 0.9;">${info.handle}</p>
+            </div>
+            
+            <div class="social-content" style="padding: 2rem;">
+                <p>Stay updated with the latest biology learning resources, tips, and platform updates.</p>
+                
+                <div class="social-stats" style="
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 1rem;
+                    margin: 1.5rem 0;
+                ">
+                    <div>
+                        <div style="font-size: 1.5rem; font-weight: bold; color: ${info.color};">10K+</div>
+                        <div style="font-size: 0.9rem; color: #666;">Followers</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 1.5rem; font-weight: bold; color: ${info.color};">500+</div>
+                        <div style="font-size: 0.9rem; color: #666;">Posts</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 1.5rem; font-weight: bold; color: ${info.color};">Daily</div>
+                        <div style="font-size: 0.9rem; color: #666;">Updates</div>
+                    </div>
+                </div>
+                
+                <div class="social-actions" style="
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1rem;
+                    margin-top: 1.5rem;
+                ">
+                    <a href="${info.url}" target="_blank" class="btn btn-primary" style="
+                        background: ${info.color};
+                        color: white;
+                        text-decoration: none;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 0.5rem;
+                        padding: 0.75rem;
+                        border-radius: 8px;
+                        font-weight: 500;
+                    ">
+                        <i class="fab fa-${platform}"></i>
+                        Visit Our ${info.name}
+                    </a>
+                    
+                    <button class="btn btn-secondary close-social-modal" style="
+                        background: #f8f9fa;
+                        color: #333;
+                        padding: 0.75rem;
+                        border-radius: 8px;
+                        border: 1px solid #ddd;
+                        font-weight: 500;
+                    ">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // 关闭事件
+    const closeModal = () => {
+        modal.style.opacity = '0';
+        setTimeout(() => {
+            if (modal.parentNode) {
+                document.body.removeChild(modal);
+            }
+        }, 300);
+    };
+    
+    modal.querySelector('.close-social-modal').addEventListener('click', closeModal);
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+}
+
+// 显示通用弹窗
+function showGenericModal(title) {
+    const modal = document.createElement('div');
+    modal.className = 'generic-modal-overlay';
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        padding: 20px;
+    `;
+    
+    modal.innerHTML = `
+        <div class="generic-modal" style="
+            background: white;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 500px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+        ">
+            <div class="generic-header" style="
+                padding: 1.5rem;
+                background: linear-gradient(135deg, var(--primary-color), #1d8879);
+                color: white;
+            ">
+                <i class="fas fa-info-circle" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+                <h3 style="margin: 0;">${title}</h3>
+            </div>
+            
+            <div class="generic-content" style="padding: 2rem;">
+                <p>This feature is currently under development.</p>
+                <p>We're working hard to bring you more great features for your biology learning journey!</p>
+                
+                <div class="feature-status" style="
+                    margin: 1.5rem 0;
+                    padding: 1rem;
+                    background: #f8f9fa;
+                    border-radius: 8px;
+                    border-left: 4px solid var(--primary-color);
+                ">
+                    <p style="margin: 0; color: #666;">
+                        <i class="fas fa-tools" style="color: var(--primary-color); margin-right: 0.5rem;"></i>
+                        Status: <strong>In Development</strong>
+                    </p>
+                </div>
+                
+                <button class="btn btn-primary close-generic-modal" style="
+                    padding: 0.75rem 2rem;
+                    border-radius: 8px;
+                    background: var(--primary-color);
+                    color: white;
+                    border: none;
+                    font-weight: 500;
+                    cursor: pointer;
+                ">
+                    Got it!
+                </button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // 关闭事件
+    modal.querySelector('.close-generic-modal').addEventListener('click', function() {
+        document.body.removeChild(modal);
+    });
+    
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            document.body.removeChild(modal);
+        }
+    });
+}
+
+// 显示分享故事表单
+function showShareStoryForm() {
+    const modal = document.createElement('div');
+    modal.className = 'share-story-modal';
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10000;
+        padding: 20px;
+    `;
+    
+    modal.innerHTML = `
+        <div style="
+            background: white;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        ">
+            <div style="
+                padding: 1.5rem 2rem;
+                border-bottom: 1px solid #eee;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background: linear-gradient(135deg, var(--primary-color), #1d8879);
+                color: white;
+                border-radius: 12px 12px 0 0;
+            ">
+                <h3 style="margin: 0;">
+                    <i class="fas fa-share-alt"></i> Share Your Success Story
+                </h3>
+                <button class="close-share-form" style="
+                    background: none;
+                    border: none;
+                    color: white;
+                    font-size: 1.8rem;
+                    cursor: pointer;
+                    line-height: 1;
+                ">&times;</button>
+            </div>
+            
+            <div style="padding: 2rem;">
+                <p>We'd love to hear about your learning journey with BioVision!</p>
+                
+                <form id="shareStoryForm" style="margin-top: 1.5rem;">
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Your Name *</label>
+                        <input type="text" required style="
+                            width: 100%;
+                            padding: 0.75rem;
+                            border: 1px solid #ddd;
+                            border-radius: 6px;
+                            font-size: 1rem;
+                        ">
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Email *</label>
+                        <input type="email" required style="
+                            width: 100%;
+                            padding: 0.75rem;
+                            border: 1px solid #ddd;
+                            border-radius: 6px;
+                            font-size: 1rem;
+                        ">
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Your Achievement *</label>
+                        <input type="text" placeholder="e.g., AP Biology Score 5/5, Medical School Acceptance, etc." required style="
+                            width: 100%;
+                            padding: 0.75rem;
+                            border: 1px solid #ddd;
+                            border-radius: 6px;
+                            font-size: 1rem;
+                        ">
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Your Story *</label>
+                        <textarea rows="6" placeholder="Tell us how BioVision helped you achieve your goals..." required style="
+                            width: 100%;
+                            padding: 0.75rem;
+                            border: 1px solid #ddd;
+                            border-radius: 6px;
+                            font-size: 1rem;
+                            resize: vertical;
+                        "></textarea>
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Photo (optional)</label>
+                        <input type="file" accept="image/*" style="
+                            width: 100%;
+                            padding: 0.75rem;
+                            border: 1px solid #ddd;
+                            border-radius: 6px;
+                            font-size: 1rem;
+                        ">
+                        <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
+                            Share a photo of yourself or your achievement (max 5MB)
+                        </p>
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: flex; align-items: flex-start; cursor: pointer;">
+                            <input type="checkbox" required style="margin-right: 0.5rem; margin-top: 0.25rem;">
+                            <span style="font-size: 0.9rem;">
+                                I agree to share my story publicly on BioVision platform and social media.
+                            </span>
+                        </label>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: flex-end; gap: 1rem;">
+                        <button type="button" class="btn btn-secondary cancel-share" style="
+                            padding: 0.75rem 1.5rem;
+                            border-radius: 6px;
+                            background: #f8f9fa;
+                            color: #333;
+                            border: 1px solid #ddd;
+                            font-weight: 500;
+                            cursor: pointer;
+                        ">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary" style="
+                            padding: 0.75rem 1.5rem;
+                            border-radius: 6px;
+                            background: var(--primary-color);
+                            color: white;
+                            border: none;
+                            font-weight: 500;
+                            cursor: pointer;
+                        ">
+                            <i class="fas fa-paper-plane"></i> Submit Story
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // 关闭事件
+    const closeModal = () => {
+        document.body.removeChild(modal);
+    };
+    
+    modal.querySelector('.close-share-form').addEventListener('click', closeModal);
+    modal.querySelector('.cancel-share').addEventListener('click', closeModal);
+    
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+    
+    // 表单提交
+    modal.querySelector('#shareStoryForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // 在实际应用中，这里会提交到服务器
+        alert('Thank you for sharing your story!\n\nOur team will review your submission and contact you if we decide to feature it.');
+        
+        // 关闭模态框
+        setTimeout(closeModal, 1000);
+    });
+}
+
+// 邮箱验证函数
+function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+}
+
+
+// 初始化3D模型查看器
+function init3DModelViewer() {
+    console.log('初始化3D模型查看器...');
+    
+    // 监听所有3D模型查看按钮
+    const viewModelButtons = document.querySelectorAll('.view-model-btn, .preview-resource-btn[data-type="3dmodel"]');
+    
+    viewModelButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // 获取模型信息
+            const card = this.closest('.resource-card');
+            const modelTitle = card.querySelector('h3').textContent;
+            const modelType = card.getAttribute('data-type');
+            const modelTags = card.getAttribute('data-tags');
+            
+            // 打开3D模型查看器
+            open3DModelViewer(modelTitle, modelType, modelTags);
+        });
+    });
+}
+
+// 打开3D模型查看器模态框
+function open3DModelViewer(modelTitle, modelType, modelTags) {
+    console.log('打开3D模型查看器:', modelTitle);
+    
+    // 创建模态框
+    const modal = document.createElement('div');
+    modal.className = 'model-viewer-modal';
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.9);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10000;
+        padding: 20px;
+    `;
+    
+    // 根据模型类型选择示例模型
+    const modelExamples = {
+        'cell-organelles': {
+            title: 'Cell Organelles 3D Model',
+            description: 'Interactive 3D model showing the internal structures of a eukaryotic cell.',
+            modelType: 'cell'
+        },
+        'dna-helix': {
+            title: 'DNA Double Helix Structure',
+            description: '3D visualization of DNA double helix with base pairing details.',
+            modelType: 'dna'
+        },
+        'enzyme-substrate': {
+            title: 'Enzyme-Substrate Complex',
+            description: '3D model showing enzyme active site and substrate binding mechanism.',
+            modelType: 'enzyme'
+        },
+        'default': {
+            title: '3D Biological Model',
+            description: 'Interactive 3D visualization for biological study.',
+            modelType: 'default'
+        }
+    };
+    
+    // 根据标题选择模型
+    let selectedModel = modelExamples.default;
+    if (modelTitle.includes('Organelles') || modelTitle.includes('Cell')) {
+        selectedModel = modelExamples['cell-organelles'];
+    } else if (modelTitle.includes('DNA') || modelTitle.includes('Helix')) {
+        selectedModel = modelExamples['dna-helix'];
+    } else if (modelTitle.includes('Enzyme')) {
+        selectedModel = modelExamples['enzyme-substrate'];
+    }
+    
+    modal.innerHTML = `
+        <div class="model-viewer-container" style="
+            background: white;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 1200px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        ">
+            <!-- 模态框头部 -->
+            <div class="modal-header" style="
+                padding: 1.5rem 2rem;
+                background: linear-gradient(135deg, #2a9d8f, #1d8879);
+                color: white;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            ">
+                <div>
+                    <h3 style="margin: 0 0 0.5rem 0; font-size: 1.5rem;">
+                        <i class="fas fa-cube"></i> ${modelTitle}
+                    </h3>
+                    <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">${selectedModel.description}</p>
+                </div>
+                <button class="modal-close" style="
+                    background: none;
+                    border: none;
+                    color: white;
+                    font-size: 2rem;
+                    cursor: pointer;
+                    line-height: 1;
+                    padding: 0;
+                    width: 40px;
+                    height: 40px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                ">&times;</button>
+            </div>
+            
+            <!-- 主要内容区域 -->
+            <div class="model-viewer-content" style="
+                display: flex;
+                flex: 1;
+                min-height: 500px;
+            ">
+                <!-- 左侧：3D模型查看器 -->
+                <div class="model-viewport" style="
+                    flex: 3;
+                    background: #1a1a1a;
+                    position: relative;
+                    overflow: hidden;
+                ">
+                    <!-- 3D模型容器 -->
+                    <div id="threejs-container" style="
+                        width: 100%;
+                        height: 100%;
+                        position: relative;
+                    ">
+                        <!-- 模型加载指示器 -->
+                        <div class="model-loading" style="
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            color: white;
+                            text-align: center;
+                            z-index: 10;
+                        ">
+                            <div class="spinner" style="
+                                width: 50px;
+                                height: 50px;
+                                border: 4px solid rgba(255,255,255,0.3);
+                                border-radius: 50%;
+                                border-top-color: #2a9d8f;
+                                animation: spin 1s linear infinite;
+                                margin: 0 auto 1rem auto;
+                            "></div>
+                            <p>Loading 3D Model...</p>
+                        </div>
+                        
+                        <!-- 示例模型（如果没有Three.js） -->
+                        <div class="model-placeholder" style="
+                            display: none;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            background: #2c3e50;
+                            color: white;
+                            text-align: center;
+                            padding-top: 40%;
+                        ">
+                            <i class="fas fa-cube" style="font-size: 4rem; margin-bottom: 1rem; color: #3498db;"></i>
+                            <h4>3D Model Viewer</h4>
+                            <p>Use mouse to rotate, scroll to zoom</p>
+                        </div>
+                        
+                        <!-- Canvas元素用于Three.js渲染 -->
+                        <canvas id="model-canvas" style="
+                            width: 100%;
+                            height: 100%;
+                            display: block;
+                        "></canvas>
+                    </div>
+                    
+                    <!-- 查看器控制说明 -->
+                    <div class="viewer-instructions" style="
+                        position: absolute;
+                        bottom: 20px;
+                        left: 20px;
+                        background: rgba(0,0,0,0.7);
+                        color: white;
+                        padding: 0.75rem 1rem;
+                        border-radius: 8px;
+                        font-size: 0.85rem;
+                        max-width: 300px;
+                        backdrop-filter: blur(5px);
+                    ">
+                        <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                            <i class="fas fa-mouse-pointer" style="margin-right: 0.5rem;"></i>
+                            <span>Drag to rotate</span>
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                            <i class="fas fa-mouse" style="margin-right: 0.5rem;"></i>
+                            <span>Scroll to zoom</span>
+                        </div>
+                        <div style="display: flex; align-items: center;">
+                            <i class="fas fa-arrows-alt" style="margin-right: 0.5rem;"></i>
+                            <span>Right-click to pan</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 视图控制按钮 -->
+                    <div class="view-controls" style="
+                        position: absolute;
+                        top: 20px;
+                        right: 20px;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 0.5rem;
+                    ">
+                        <button class="view-control-btn" data-view="front" style="
+                            background: rgba(255,255,255,0.9);
+                            border: none;
+                            border-radius: 6px;
+                            width: 40px;
+                            height: 40px;
+                            cursor: pointer;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 1.2rem;
+                            color: #333;
+                            transition: all 0.2s;
+                        " title="Front View">
+                            <i class="fas fa-cube"></i>
+                        </button>
+                        <button class="view-control-btn" data-view="top" style="
+                            background: rgba(255,255,255,0.9);
+                            border: none;
+                            border-radius: 6px;
+                            width: 40px;
+                            height: 40px;
+                            cursor: pointer;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 1.2rem;
+                            color: #333;
+                            transition: all 0.2s;
+                        " title="Top View">
+                            <i class="fas fa-arrow-up"></i>
+                        </button>
+                        <button class="view-control-btn" data-view="side" style="
+                            background: rgba(255,255,255,0.9);
+                            border: none;
+                            border-radius: 6px;
+                            width: 40px;
+                            height: 40px;
+                            cursor: pointer;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 1.2rem;
+                            color: #333;
+                            transition: all 0.2s;
+                        " title="Side View">
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                        <button class="view-control-btn" data-view="reset" style="
+                            background: rgba(255,255,255,0.9);
+                            border: none;
+                            border-radius: 6px;
+                            width: 40px;
+                            height: 40px;
+                            cursor: pointer;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 1.2rem;
+                            color: #333;
+                            transition: all 0.2s;
+                        " title="Reset View">
+                            <i class="fas fa-redo"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 右侧：模型信息和控制面板 -->
+                <div class="model-controls" style="
+                    flex: 1;
+                    background: #f8f9fa;
+                    padding: 1.5rem;
+                    min-width: 300px;
+                    overflow-y: auto;
+                    border-left: 1px solid #eee;
+                ">
+                    <div class="model-info">
+                        <h4 style="margin-top: 0; color: #2a9d8f;">
+                            <i class="fas fa-info-circle"></i> Model Information
+                        </h4>
+                        <div class="info-item" style="margin-bottom: 1rem;">
+                            <div style="font-weight: 500; color: #555;">Type</div>
+                            <div style="color: #333;">${selectedModel.modelType.toUpperCase()} Model</div>
+                        </div>
+                        
+                        <div class="info-item" style="margin-bottom: 1rem;">
+                            <div style="font-weight: 500; color: #555;">Format</div>
+                            <div style="color: #333;">Interactive 3D</div>
+                        </div>
+                        
+                        <div class="info-item" style="margin-bottom: 1.5rem;">
+                            <div style="font-weight: 500; color: #555;">Description</div>
+                            <div style="color: #333; line-height: 1.5;">This is an interactive 3D model for educational purposes. You can rotate, zoom, and explore the structure from all angles.</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 显示设置 -->
+                    <div class="display-settings" style="margin-top: 1.5rem;">
+                        <h4 style="margin-bottom: 1rem; color: #2a9d8f;">
+                            <i class="fas fa-sliders-h"></i> Display Settings
+                        </h4>
+                        
+                        <div class="setting-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Wireframe Mode</label>
+                            <label class="toggle-switch" style="
+                                display: inline-block;
+                                width: 50px;
+                                height: 26px;
+                                position: relative;
+                            ">
+                                <input type="checkbox" id="wireframe-toggle" style="opacity: 0; width: 0; height: 0;">
+                                <span class="toggle-slider" style="
+                                    position: absolute;
+                                    cursor: pointer;
+                                    top: 0;
+                                    left: 0;
+                                    right: 0;
+                                    bottom: 0;
+                                    background-color: #ccc;
+                                    transition: .4s;
+                                    border-radius: 34px;
+                                "></span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Model Scale</label>
+                            <input type="range" id="model-scale" min="0.5" max="2" step="0.1" value="1" style="
+                                width: 100%;
+                                height: 6px;
+                                border-radius: 3px;
+                                background: #ddd;
+                                outline: none;
+                                -webkit-appearance: none;
+                            ">
+                            <div style="display: flex; justify-content: space-between; margin-top: 0.25rem;">
+                                <span style="font-size: 0.85rem; color: #666;">Small</span>
+                                <span style="font-size: 0.85rem; color: #666;">Normal</span>
+                                <span style="font-size: 0.85rem; color: #666;">Large</span>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-group" style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Rotation Speed</label>
+                            <input type="range" id="rotation-speed" min="0" max="2" step="0.1" value="1" style="
+                                width: 100%;
+                                height: 6px;
+                                border-radius: 3px;
+                                background: #ddd;
+                                outline: none;
+                                -webkit-appearance: none;
+                            ">
+                            <div style="display: flex; justify-content: space-between; margin-top: 0.25rem;">
+                                <span style="font-size: 0.85rem; color: #666;">Slow</span>
+                                <span style="font-size: 0.85rem; color: #666;">Normal</span>
+                                <span style="font-size: 0.85rem; color: #666;">Fast</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 标签 -->
+                    <div class="model-tags" style="margin-top: 1.5rem;">
+                        <h4 style="margin-bottom: 0.75rem; color: #2a9d8f;">
+                            <i class="fas fa-tags"></i> Tags
+                        </h4>
+                        <div class="tag-container" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                            ${modelTags ? modelTags.split(',').map(tag => `
+                                <span class="tag" style="
+                                    background: rgba(42, 157, 143, 0.1);
+                                    color: #2a9d8f;
+                                    padding: 0.25rem 0.75rem;
+                                    border-radius: 20px;
+                                    font-size: 0.85rem;
+                                ">${tag.trim()}</span>
+                            `).join('') : '<span class="tag">3D Model</span><span class="tag">Biology</span><span class="tag">Interactive</span>'}
+                        </div>
+                    </div>
+                    
+                    <!-- 操作按钮 -->
+                    <div class="action-buttons" style="margin-top: 2rem;">
+                        <button class="btn btn-primary" id="download-model-btn" style="
+                            width: 100%;
+                            margin-bottom: 0.75rem;
+                            padding: 0.75rem;
+                        ">
+                            <i class="fas fa-download"></i> Download Model
+                        </button>
+                        <button class="btn btn-secondary" id="share-model-btn" style="
+                            width: 100%;
+                            padding: 0.75rem;
+                        ">
+                            <i class="fas fa-share-alt"></i> Share
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 模态框底部 -->
+            <div class="modal-footer" style="
+                padding: 1rem 2rem;
+                background: #f0f0f0;
+                border-top: 1px solid #ddd;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            ">
+                <div class="model-stats" style="font-size: 0.9rem; color: #666;">
+                    <span style="margin-right: 1rem;"><i class="fas fa-cube"></i> Polygons: ~10,000</span>
+                    <span><i class="fas fa-memory"></i> Memory: 15MB</span>
+                </div>
+                <div class="footer-actions">
+                    <button class="btn btn-secondary" id="close-model-btn">
+                        Close Viewer
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // 添加CSS动画
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .toggle-switch input:checked + .toggle-slider {
+            background-color: #2a9d8f;
+        }
+        
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        .view-control-btn:hover {
+            background: white !important;
+            transform: scale(1.1);
+        }
+        
+        .model-viewer-container {
+            animation: modalAppear 0.3s ease-out;
+        }
+        
+        @keyframes modalAppear {
+            from {
+                opacity: 0;
+                transform: translateY(-20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        /* 自定义滑块样式 */
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #2a9d8f;
+            cursor: pointer;
+        }
+        
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #2a9d8f;
+            cursor: pointer;
+            border: none;
+        }
+    `;
+    
+    document.head.appendChild(style);
+    document.body.appendChild(modal);
+    
+    // 初始化3D模型查看器
+    init3DViewer(selectedModel.modelType);
+    
+    // 绑定事件
+    const closeModal = () => {
+        modal.style.animation = 'modalDisappear 0.3s ease-out';
+        setTimeout(() => {
+            if (modal.parentNode) {
+                document.body.removeChild(modal);
+            }
+            if (style.parentNode) {
+                document.head.removeChild(style);
+            }
+        }, 300);
+    };
+    
+    // 关闭按钮事件
+    modal.querySelector('.modal-close').addEventListener('click', closeModal);
+    modal.querySelector('#close-model-btn').addEventListener('click', closeModal);
+    
+    // 点击模态框外部关闭
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+    
+    // 视图控制按钮
+    modal.querySelectorAll('.view-control-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const viewType = this.getAttribute('data-view');
+            changeModelView(viewType);
+        });
+    });
+    
+    // 显示设置
+    const wireframeToggle = modal.querySelector('#wireframe-toggle');
+    const scaleSlider = modal.querySelector('#model-scale');
+    const rotationSlider = modal.querySelector('#rotation-speed');
+    
+    wireframeToggle?.addEventListener('change', function() {
+        toggleWireframeMode(this.checked);
+    });
+    
+    scaleSlider?.addEventListener('input', function() {
+        updateModelScale(this.value);
+    });
+    
+    rotationSlider?.addEventListener('input', function() {
+        updateRotationSpeed(this.value);
+    });
+    
+    // 操作按钮
+    modal.querySelector('#download-model-btn')?.addEventListener('click', function() {
+        alert(`Downloading ${modelTitle} model...\n\nIn a real application, this would download the 3D model file.`);
+    });
+    
+    modal.querySelector('#share-model-btn')?.addEventListener('click', function() {
+        alert(`Sharing ${modelTitle}...\n\nShare link copied to clipboard.`);
+    });
+    
+    // 添加关闭动画
+    const closeStyle = document.createElement('style');
+    closeStyle.textContent = `
+        @keyframes modalDisappear {
+            from {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-20px) scale(0.95);
+            }
+        }
+    `;
+    document.head.appendChild(closeStyle);
+}
+
+// 初始化3D查看器（使用Three.js或备选方案）
+function init3DViewer(modelType) {
+    console.log('初始化3D查看器，模型类型:', modelType);
+    
+    const container = document.getElementById('threejs-container');
+    const canvas = document.getElementById('model-canvas');
+    const loadingIndicator = container.querySelector('.model-loading');
+    const placeholder = container.querySelector('.model-placeholder');
+    
+    // 检查是否支持WebGL
+    if (!canvas || !isWebGLAvailable()) {
+        console.log('WebGL不可用，显示备用模型');
+        showFallbackModel(container, modelType);
+        return;
+    }
+    
+    // 尝试加载Three.js
+    loadThreeJS().then(success => {
+        if (success) {
+            // Three.js加载成功，创建3D场景
+            create3DScene(canvas, modelType);
+            loadingIndicator.style.display = 'none';
+        } else {
+            // Three.js加载失败，显示备用模型
+            loadingIndicator.style.display = 'none';
+            showFallbackModel(container, modelType);
+        }
+    }).catch(error => {
+        console.error('加载Three.js失败:', error);
+        loadingIndicator.style.display = 'none';
+        showFallbackModel(container, modelType);
+    });
+}
+
+// 检查WebGL可用性
+function isWebGLAvailable() {
+    try {
+        const canvas = document.createElement('canvas');
+        return !!(window.WebGLRenderingContext && 
+            (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
+    } catch (e) {
+        return false;
+    }
+}
+
+// 动态加载Three.js
+function loadThreeJS() {
+    return new Promise((resolve) => {
+        // 检查Three.js是否已经加载
+        if (window.THREE && window.THREE.Scene) {
+            console.log('Three.js已加载');
+            resolve(true);
+            return;
+        }
+        
+        // 加载Three.js
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+        script.onload = () => {
+            console.log('Three.js加载成功');
+            resolve(true);
+        };
+        script.onerror = () => {
+            console.warn('Three.js加载失败');
+            resolve(false);
+        };
+        document.head.appendChild(script);
+    });
+}
+
+// 创建3D场景
+function create3DScene(canvas, modelType) {
+    if (!window.THREE) {
+        console.error('Three.js未加载');
+        return;
+    }
+    
+    const THREE = window.THREE;
+    
+    // 场景设置
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x1a1a1a);
+    
+    // 相机设置
+    const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+    camera.position.set(5, 5, 5);
+    
+    // 渲染器设置
+    const renderer = new THREE.WebGLRenderer({ 
+        canvas: canvas,
+        antialias: true,
+        alpha: true
+    });
+    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    
+    // 灯光
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
+    
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    directionalLight.position.set(10, 10, 5);
+    scene.add(directionalLight);
+    
+    // 根据模型类型创建不同的模型
+    let model;
+    switch(modelType) {
+        case 'cell':
+            model = createCellModel(THREE);
+            break;
+        case 'dna':
+            model = createDNAModel(THREE);
+            break;
+        case 'enzyme':
+            model = createEnzymeModel(THREE);
+            break;
+        default:
+            model = createDefaultModel(THREE);
+    }
+    
+    scene.add(model);
+    
+    // 添加网格辅助
+    const gridHelper = new THREE.GridHelper(10, 10);
+    gridHelper.material.opacity = 0.2;
+    gridHelper.material.transparent = true;
+    scene.add(gridHelper);
+    
+    // 添加坐标轴辅助
+    const axesHelper = new THREE.AxesHelper(5);
+    scene.add(axesHelper);
+    
+    // 轨道控制器
+    let controls;
+    if (typeof THREE.OrbitControls !== 'undefined') {
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+    } else {
+        // 加载轨道控制器
+        const controlsScript = document.createElement('script');
+        controlsScript.src = 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js';
+        controlsScript.onload = () => {
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+        };
+        document.head.appendChild(controlsScript);
+    }
+    
+    // 动画循环
+    function animate() {
+        requestAnimationFrame(animate);
+        
+        // 自动旋转
+        if (model && window.modelRotationSpeed) {
+            model.rotation.y += 0.005 * window.modelRotationSpeed;
+        }
+        
+        if (controls && controls.update) {
+            controls.update();
+        }
+        
+        renderer.render(scene, camera);
+    }
+    
+    animate();
+    
+    // 窗口大小调整
+    window.addEventListener('resize', function() {
+        camera.aspect = canvas.clientWidth / canvas.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+    });
+    
+    // 存储全局变量供其他函数使用
+    window.currentScene = scene;
+    window.currentModel = model;
+    window.currentCamera = camera;
+    window.currentRenderer = renderer;
+    window.currentControls = controls;
+    window.modelRotationSpeed = 1;
+}
+
+// 创建细胞模型
+function createCellModel(THREE) {
+    const group = new THREE.Group();
+    
+    // 细胞膜（球体）
+    const cellMembraneGeometry = new THREE.SphereGeometry(2, 32, 32);
+    const cellMembraneMaterial = new THREE.MeshPhongMaterial({ 
+        color: 0x3498db,
+        transparent: true,
+        opacity: 0.3,
+        wireframe: false
+    });
+    const cellMembrane = new THREE.Mesh(cellMembraneGeometry, cellMembraneMaterial);
+    group.add(cellMembrane);
+    
+    // 细胞核
+    const nucleusGeometry = new THREE.SphereGeometry(0.7, 24, 24);
+    const nucleusMaterial = new THREE.MeshPhongMaterial({ 
+        color: 0xe74c3c,
+        shininess: 100
+    });
+    const nucleus = new THREE.Mesh(nucleusGeometry, nucleusMaterial);
+    nucleus.position.set(0.5, 0.3, 0.5);
+    group.add(nucleus);
+    
+    // 线粒体
+    const mitochondriaGeometry = new THREE.SphereGeometry(0.3, 16, 16);
+    const mitochondriaMaterial = new THREE.MeshPhongMaterial({ 
+        color: 0x2ecc71
+    });
+    const mitochondria = new THREE.Mesh(mitochondriaGeometry, mitochondriaMaterial);
+    mitochondria.position.set(-0.8, -0.5, 0.6);
+    group.add(mitochondria);
+    
+    // 内质网
+    const erGeometry = new THREE.TorusGeometry(0.5, 0.1, 8, 20);
+    const erMaterial = new THREE.MeshPhongMaterial({ 
+        color: 0xf39c12
+    });
+    const er = new THREE.Mesh(erGeometry, erMaterial);
+    er.rotation.x = Math.PI / 2;
+    er.position.set(0.8, -0.3, -0.5);
+    group.add(er);
+    
+    return group;
+}
+
+// 创建DNA模型
+function createDNAModel(THREE) {
+    const group = new THREE.Group();
+    
+    // 创建DNA双螺旋结构
+    const helixRadius = 0.5;
+    const helixHeight = 4;
+    const segments = 100;
+    
+    // 创建两条链
+    for (let i = 0; i < 2; i++) {
+        const points = [];
+        const phase = i * Math.PI; // 两条链相位差180度
+        
+        for (let j = 0; j <= segments; j++) {
+            const t = j / segments;
+            const angle = t * Math.PI * 8 + phase;
+            const x = Math.cos(angle) * helixRadius;
+            const y = t * helixHeight - helixHeight / 2;
+            const z = Math.sin(angle) * helixRadius;
+            
+            points.push(new THREE.Vector3(x, y, z));
+        }
+        
+        const curve = new THREE.CatmullRomCurve3(points);
+        const tubeGeometry = new THREE.TubeGeometry(curve, segments * 2, 0.05, 8, false);
+        const tubeMaterial = new THREE.MeshPhongMaterial({ 
+            color: i === 0 ? 0x3498db : 0xe74c3c
+        });
+        const tube = new THREE.Mesh(tubeGeometry, tubeMaterial);
+        group.add(tube);
+    }
+    
+    // 添加碱基对连接
+    for (let i = 0; i <= 10; i++) {
+        const t = i / 10;
+        const angle = t * Math.PI * 8;
+        const x1 = Math.cos(angle) * helixRadius;
+        const x2 = Math.cos(angle + Math.PI) * helixRadius;
+        const y = t * helixHeight - helixHeight / 2;
+        const z1 = Math.sin(angle) * helixRadius;
+        const z2 = Math.sin(angle + Math.PI) * helixRadius;
+        
+        const geometry = new THREE.CylinderGeometry(0.02, 0.02, helixRadius * 2);
+        const material = new THREE.MeshPhongMaterial({ color: 0x2ecc71 });
+        const cylinder = new THREE.Mesh(geometry, material);
+        
+        // 定位和旋转圆柱体以连接两点
+        cylinder.position.set(0, y, 0);
+        cylinder.lookAt(new THREE.Vector3(x2 - x1, 0, z2 - z1));
+        
+        group.add(cylinder);
+    }
+    
+    return group;
+}
+
+// 创建酶模型
+function createEnzymeModel(THREE) {
+    const group = new THREE.Group();
+    
+    // 酶分子（不规则形状）
+    const enzymeGeometry = new THREE.DodecahedronGeometry(1, 0);
+    const enzymeMaterial = new THREE.MeshPhongMaterial({ 
+        color: 0x9b59b6,
+        shininess: 100
+    });
+    const enzyme = new THREE.Mesh(enzymeGeometry, enzymeMaterial);
+    group.add(enzyme);
+    
+    // 活性位点（凹陷）
+    const activeSiteGeometry = new THREE.SphereGeometry(0.3, 16, 16);
+    const activeSiteMaterial = new THREE.MeshPhongMaterial({ 
+        color: 0xe74c3c
+    });
+    const activeSite = new THREE.Mesh(activeSiteGeometry, activeSiteMaterial);
+    activeSite.position.set(0.7, 0.5, 0.3);
+    group.add(activeSite);
+    
+    // 底物分子
+    const substrateGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+    const substrateMaterial = new THREE.MeshPhongMaterial({ 
+        color: 0x2ecc71
+    });
+    const substrate = new THREE.Mesh(substrateGeometry, substrateMaterial);
+    substrate.position.set(1.5, 0.8, 0.5);
+    group.add(substrate);
+    
+    // 连接线（显示结合）
+    const lineGeometry = new THREE.BufferGeometry().setFromPoints([
+        new THREE.Vector3(0.7, 0.5, 0.3),
+        new THREE.Vector3(1.5, 0.8, 0.5)
+    ]);
+    const lineMaterial = new THREE.LineBasicMaterial({ color: 0xf39c12 });
+    const line = new THREE.Line(lineGeometry, lineMaterial);
+    group.add(line);
+    
+    return group;
+}
+
+// 创建默认模型
+function createDefaultModel(THREE) {
+    // 创建一个复合模型展示
+    const group = new THREE.Group();
+    
+    // 中心球体
+    const sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
+    const sphereMaterial = new THREE.MeshPhongMaterial({ 
+        color: 0x3498db,
+        shininess: 100
+    });
+    const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+    group.add(sphere);
+    
+    // 环绕的环
+    const ringGeometry = new THREE.TorusGeometry(1.5, 0.1, 8, 30);
+    const ringMaterial = new THREE.MeshPhongMaterial({ 
+        color: 0xe74c3c
+    });
+    const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+    ring.rotation.x = Math.PI / 2;
+    group.add(ring);
+    
+    // 小卫星球体
+    const satelliteGeometry = new THREE.SphereGeometry(0.3, 16, 16);
+    const satelliteMaterial = new THREE.MeshPhongMaterial({ 
+        color: 0x2ecc71
+    });
+    
+    for (let i = 0; i < 8; i++) {
+        const angle = (i / 8) * Math.PI * 2;
+        const satellite = new THREE.Mesh(satelliteGeometry, satelliteMaterial);
+        satellite.position.set(
+            Math.cos(angle) * 2,
+            Math.sin(angle) * 0.5,
+            Math.sin(angle) * 2
+        );
+        group.add(satellite);
+    }
+    
+    return group;
+}
+
+// 显示备用模型（当WebGL不可用时）
+function showFallbackModel(container, modelType) {
+    const placeholder = container.querySelector('.model-placeholder');
+    const canvas = document.getElementById('model-canvas');
+    
+    if (canvas) {
+        canvas.style.display = 'none';
+    }
+    
+    placeholder.style.display = 'block';
+    
+    // 根据模型类型显示不同的图标
+    let icon = 'fa-cube';
+    let description = 'Interactive 3D Model';
+    
+    switch(modelType) {
+        case 'cell':
+            icon = 'fa-circle';
+            description = 'Cell Structure Model';
+            break;
+        case 'dna':
+            icon = 'fa-dna';
+            description = 'DNA Helix Model';
+            break;
+        case 'enzyme':
+            icon = 'fa-atom';
+            description = 'Enzyme-Substrate Model';
+            break;
+    }
+    
+    placeholder.innerHTML = `
+        <i class="fas ${icon}" style="font-size: 4rem; margin-bottom: 1rem; color: #3498db;"></i>
+        <h4>${description}</h4>
+        <p>Use mouse to rotate, scroll to zoom</p>
+        <p style="font-size: 0.9rem; opacity: 0.7; margin-top: 1rem;">
+            <i class="fas fa-info-circle"></i> For full 3D experience, ensure WebGL is enabled in your browser.
+        </p>
+    `;
+    
+    // 添加基本的鼠标交互
+    let isDragging = false;
+    let previousMousePosition = { x: 0, y: 0 };
+    let rotation = { x: 0, y: 0 };
+    let scale = 1;
+    
+    placeholder.addEventListener('mousedown', function(e) {
+        isDragging = true;
+        previousMousePosition = {
+            x: e.clientX,
+            y: e.clientY
+        };
+    });
+    
+    document.addEventListener('mousemove', function(e) {
+        if (!isDragging) return;
+        
+        const deltaX = e.clientX - previousMousePosition.x;
+        const deltaY = e.clientY - previousMousePosition.y;
+        
+        rotation.y += deltaX * 0.01;
+        rotation.x += deltaY * 0.01;
+        
+        const iconElement = placeholder.querySelector('i');
+        iconElement.style.transform = `rotateX(${rotation.x}rad) rotateY(${rotation.y}rad) scale(${scale})`;
+        
+        previousMousePosition = {
+            x: e.clientX,
+            y: e.clientY
+        };
+    });
+    
+    document.addEventListener('mouseup', function() {
+        isDragging = false;
+    });
+    
+    placeholder.addEventListener('wheel', function(e) {
+        e.preventDefault();
+        scale += e.deltaY * -0.001;
+        scale = Math.min(Math.max(0.5, scale), 2);
+        
+        const iconElement = placeholder.querySelector('i');
+        iconElement.style.transform = `rotateX(${rotation.x}rad) rotateY(${rotation.y}rad) scale(${scale})`;
+    });
+}
+
+// 切换线框模式
+function toggleWireframeMode(enabled) {
+    if (!window.currentModel) return;
+    
+    window.currentModel.traverse((child) => {
+        if (child.isMesh) {
+            child.material.wireframe = enabled;
+        }
+    });
+}
+
+// 更新模型比例
+function updateModelScale(value) {
+    if (!window.currentModel) return;
+    
+    window.currentModel.scale.set(value, value, value);
+}
+
+// 更新旋转速度
+function updateRotationSpeed(value) {
+    window.modelRotationSpeed = parseFloat(value);
+}
+
+// 更改模型视图
+function changeModelView(viewType) {
+    if (!window.currentCamera || !window.currentControls) return;
+    
+    switch(viewType) {
+        case 'front':
+            window.currentCamera.position.set(0, 0, 5);
+            break;
+        case 'top':
+            window.currentCamera.position.set(0, 5, 0);
+            window.currentCamera.lookAt(0, 0, 0);
+            break;
+        case 'side':
+            window.currentCamera.position.set(5, 0, 0);
+            break;
+        case 'reset':
+            window.currentCamera.position.set(5, 5, 5);
+            if (window.currentModel) {
+                window.currentModel.rotation.set(0, 0, 0);
+            }
+            break;
+    }
+    
+    if (window.currentControls && window.currentControls.update) {
+        window.currentControls.update();
     }
 }
