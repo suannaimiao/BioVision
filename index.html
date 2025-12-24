@@ -676,15 +676,8 @@
         <!-- 关键词工具提示容器 -->
         <div id="keywordTooltipContainer"></div>
 
-        <!-- 资源库页面 - 调整后 -->
+        <!-- 资源库页面 -->
         <section id="gallery" class="page-content">
-            <div class="page-header">
-                <h1>Resource Gallery</h1>
-                <p>All learning resources are organized here - animations, 3D models, mistake collection, custom
-                    library, and knowledge graph</p>
-            </div>
-
-            <!-- 新增：Gallery页面布局 -->
             <div class="study-layout">
                 <!-- 左侧Gallery目录树 -->
                 <div class="chapter-tree">
@@ -692,537 +685,265 @@
                         <h3><i class="fas fa-sitemap"></i> Gallery Directory</h3>
                     </div>
 
-                    <!-- Gallery Unit 1 - 默认展开 -->
-                    <div class="tree-unit active expanded" data-unit="g1">
+                    <!-- 简化后的目录 - 只保留一级标题 -->
+                    <div class="tree-unit active" data-target="#animation-section">
                         <div class="unit-header">
-                            <i class="fas fa-chevron-down unit-toggle"></i>
                             <i class="fas fa-film"></i>
                             <span class="unit-title">Animation Resources</span>
                         </div>
-                        <div class="unit-content">
-                            <!-- Gallery Chapter 1.1 -->
-                            <div class="tree-chapter expanded" data-chapter="g1.1">
-                                <div class="chapter-header">
-                                    <i class="fas fa-chevron-down chapter-toggle"></i>
-                                    <i class="fas fa-file-alt"></i>
-                                    <span class="chapter-title">DNA & Genetics</span>
-                                </div>
-                                <div class="chapter-content">
-                                    <div class="tree-concept active" data-concept="g1.1.1">
-                                        <i class="fas fa-circle"></i>
-                                        <span class="concept-title">DNA Replication Process</span>
-                                    </div>
-                                    <div class="tree-concept" data-concept="g1.1.2">
-                                        <i class="fas fa-circle"></i>
-                                        <span class="concept-title">Protein Synthesis</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Gallery Chapter 1.2 -->
-                            <div class="tree-chapter" data-chapter="g1.2">
-                                <div class="chapter-header">
-                                    <i class="fas fa-chevron-right chapter-toggle"></i>
-                                    <i class="fas fa-file-alt"></i>
-                                    <span class="chapter-title">Cell Biology</span>
-                                </div>
-                                <div class="chapter-content">
-                                    <div class="tree-concept" data-concept="g1.2.1">
-                                        <i class="fas fa-circle"></i>
-                                        <span class="concept-title">Cell Mitosis</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
-                    <!-- Gallery Unit 2 - 3D Models -->
-                    <div class="tree-unit" data-unit="g2">
+                    <div class="tree-unit" data-target="#models-section">
                         <div class="unit-header">
-                            <i class="fas fa-chevron-right unit-toggle"></i>
                             <i class="fas fa-cube"></i>
                             <span class="unit-title">3D Models</span>
                         </div>
-                        <div class="unit-content">
-                            <!-- 内容会在点击时动态加载 -->
-                        </div>
                     </div>
 
-                    <!-- Gallery Unit 3 - Mistake Collection -->
-                    <div class="tree-unit" data-unit="g3">
+                    <div class="tree-unit" data-target="#mistakes-section">
                         <div class="unit-header">
-                            <i class="fas fa-chevron-right unit-toggle"></i>
                             <i class="fas fa-tags"></i>
                             <span class="unit-title">Mistake Collection & Tags</span>
                         </div>
-                        <div class="unit-content">
-                            <!-- 内容会动态加载 -->
-                        </div>
                     </div>
 
-                    <!-- Gallery Unit 4 - Custom Library -->
-                    <div class="tree-unit" data-unit="g4">
+                    <div class="tree-unit" data-target="#library-section">
                         <div class="unit-header">
-                            <i class="fas fa-chevron-right unit-toggle"></i>
                             <i class="fas fa-book-open"></i>
                             <span class="unit-title">Custom Library</span>
                         </div>
-                        <div class="unit-content">
-                            <!-- 内容会动态加载 -->
-                        </div>
                     </div>
 
-                    <!-- Gallery Unit 5 - Knowledge Graph -->
-                    <div class="tree-unit" data-unit="g5">
+                    <div class="tree-unit" data-target="#graph-section">
                         <div class="unit-header">
-                            <i class="fas fa-chevron-right unit-toggle"></i>
                             <i class="fas fa-project-diagram"></i>
                             <span class="unit-title">Knowledge Graph</span>
-                        </div>
-                        <div class="unit-content">
-                            <!-- 内容会动态加载 -->
                         </div>
                     </div>
                 </div>
 
                 <!-- 右侧内容区 -->
                 <div class="concept-content">
-                    <!-- 概念标题和路径 -->
-                    <div class="concept-header">
-                        <div class="concept-title">
-                            <h2 id="galleryCurrentTitle">DNA Replication Process</h2>
-                            <div class="concept-path" id="galleryCurrentPath">Animation Resources / DNA & Genetics / DNA
-                                Replication Process</div>
+                    <div class="page-header">
+                        <h1>Resource Gallery</h1>
+                        <p>Animations, 3D models, custom library, and knowledge graph - comprehensive learning resources
+                        </p>
+                    </div>
+
+                    <!-- 3.3.1 Animation（动画） -->
+                    <div class="section-title" id="animation-section">
+                        <h2><i class="fas fa-photo-video"></i> Animation Resources</h2>
+                        <a href="#" class="btn btn-primary" id="viewAllAnimationsBtn">View All</a>
+                    </div>
+
+                    <div class="card-container">
+                        <div class="resource-card animation-card" data-type="animation"
+                            data-tags="unit4,genetics,molecular-biology">
+                            <div class="resource-card-header">
+                                <div class="resource-badge animation-badge">
+                                    <i class="fas fa-play-circle"></i> Animation
+                                </div>
+                                <h3>DNA Replication Process</h3>
+                            </div>
+                            <div class="resource-card-body">
+                                <p>Complete animation showing DNA double helix unwinding and replication process</p>
+                                <div class="resource-tags">
+                                    <span class="tag">Unit 4</span>
+                                    <span class="tag">Genetics</span>
+                                    <span class="tag">Molecular Biology</span>
+                                </div>
+                            </div>
+                            <div class="resource-card-footer">
+                                <button class="btn btn-primary btn-sm preview-resource-btn">
+                                    <i class="fas fa-play"></i> Play Animation
+                                </button>
+                            </div>
                         </div>
-                        <div class="header-actions">
-                            <button class="btn btn-secondary" id="saveGalleryConceptBtn">
-                                <i class="fas fa-bookmark"></i> Save
-                            </button>
+
+                        <div class="resource-card animation-card" data-type="animation"
+                            data-tags="unit2,cell-division,cell-cycle">
+                            <div class="resource-card-header">
+                                <div class="resource-badge animation-badge">
+                                    <i class="fas fa-play-circle"></i> Animation
+                                </div>
+                                <h3>Cell Mitosis</h3>
+                            </div>
+                            <div class="resource-card-body">
+                                <p>Detailed animation showing various stages of cell mitosis</p>
+                                <div class="resource-tags">
+                                    <span class="tag">Unit 2</span>
+                                    <span class="tag">Cell Division</span>
+                                    <span class="tag">Cell Cycle</span>
+                                </div>
+                            </div>
+                            <div class="resource-card-footer">
+                                <button class="btn btn-primary btn-sm preview-resource-btn">
+                                    <i class="fas fa-play"></i> Play Animation
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="resource-card animation-card" data-type="animation"
+                            data-tags="unit4,genetics,central-dogma">
+                            <div class="resource-card-header">
+                                <div class="resource-badge animation-badge">
+                                    <i class="fas fa-play-circle"></i> Animation
+                                </div>
+                                <h3>Protein Synthesis</h3>
+                            </div>
+                            <div class="resource-card-body">
+                                <p>Animation showing the complete transcription and translation process from DNA to
+                                    protein</p>
+                                <div class="resource-tags">
+                                    <span class="tag">Unit 4</span>
+                                    <span class="tag">Genetics</span>
+                                    <span class="tag">Central Dogma</span>
+                                </div>
+                            </div>
+                            <div class="resource-card-footer">
+                                <button class="btn btn-primary btn-sm preview-resource-btn">
+                                    <i class="fas fa-play"></i> Play Animation
+                                </button>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- 现有Gallery内容区 -->
-                    <div class="gallery-sections-container">
-                        <!-- 3.3.1 Animation（动画） -->
-                        <div class="gallery-section active" id="animation-section" data-section="g1">
-                            <div class="section-title">
-                                <h2><i class="fas fa-film"></i> Animation Resources</h2>
-                                <p>Visual explanations of biological processes like DNA replication, cell division, and
-                                    more
-                                </p>
+                    <!-- 3.3.2 3D Models（三维模型） -->
+                    <div class="section-title" style="margin-top: 2.5rem;" id="models-section">
+                        <h2><i class="fas fa-cube"></i> 3D Models</h2>
+                        <a href="#" class="btn btn-primary" id="viewAllModelsBtn">View All</a>
+                    </div>
+
+                    <div class="card-container">
+                        <div class="resource-card model-card" data-type="3dmodel"
+                            data-tags="unit2,cell-structure,organelles">
+                            <div class="resource-card-header">
+                                <div class="resource-badge model-badge">
+                                    <i class="fas fa-cube"></i> 3D Model
+                                </div>
+                                <h3>Cell Organelles 3D Model</h3>
                             </div>
-                            <div class="card-container">
-                                <div class="resource-card animation-card" data-type="animation"
-                                    data-tags="unit4,genetics,molecular-biology">
-                                    <div class="resource-card-header">
-                                        <div class="resource-badge animation-badge">
-                                            <i class="fas fa-play-circle"></i> Animation
-                                        </div>
-                                        <h3>DNA Replication Process</h3>
-                                    </div>
-                                    <div class="resource-card-body">
-                                        <div class="resource-preview">
-                                            <div class="preview-placeholder">
-                                                <i class="fas fa-dna"></i>
-                                            </div>
-                                        </div>
-                                        <p class="resource-description">Complete animation showing DNA double helix
-                                            unwinding and replication process</p>
-                                        <div class="resource-tags">
-                                            <span class="tag">Unit 4</span>
-                                            <span class="tag">Genetics</span>
-                                            <span class="tag">Molecular Biology</span>
-                                        </div>
-                                    </div>
-                                    <div class="resource-card-footer">
-                                        <button class="btn btn-secondary btn-sm preview-resource-btn">
-                                            <i class="fas fa-eye"></i> Preview
-                                        </button>
-                                        <button class="btn btn-primary btn-sm play-resource-btn">
-                                            <i class="fas fa-play"></i> Play Animation
-                                        </button>
+                            <div class="resource-card-body">
+                                <p>Complete cell organelle structure model with rotation and zoom capabilities</p>
+                                <div class="resource-tags">
+                                    <span class="tag">Unit 2</span>
+                                    <span class="tag">Cell Structure</span>
+                                    <span class="tag">Organelles</span>
+                                </div>
+                            </div>
+                            <div class="resource-card-footer">
+                                <button class="btn btn-primary btn-sm view-model-btn">
+                                    <i class="fas fa-expand"></i> View Model
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="resource-card model-card" data-type="3dmodel" data-tags="unit4,genetics,dna">
+                            <div class="resource-card-header">
+                                <div class="resource-badge model-badge">
+                                    <i class="fas fa-cube"></i> 3D Model
+                                </div>
+                                <h3>DNA Double Helix Structure</h3>
+                            </div>
+                            <div class="resource-card-body">
+                                <p>Interactive 3D model of DNA double helix structure</p>
+                                <div class="resource-tags">
+                                    <span class="tag">Unit 4</span>
+                                    <span class="tag">Genetics</span>
+                                    <span class="tag">DNA Structure</span>
+                                </div>
+                            </div>
+                            <div class="resource-card-footer">
+                                <button class="btn btn-primary btn-sm view-model-btn">
+                                    <i class="fas fa-expand"></i> View Model
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="resource-card model-card" data-type="3dmodel" data-tags="unit3,enzymes,metabolism">
+                            <div class="resource-card-header">
+                                <div class="resource-badge model-badge">
+                                    <i class="fas fa-cube"></i> 3D Model
+                                </div>
+                                <h3>Enzyme-Substrate Complex</h3>
+                            </div>
+                            <div class="resource-card-body">
+                                <p>3D model showing enzyme active site and substrate binding mechanism</p>
+                                <div class="resource-tags">
+                                    <span class="tag">Unit 3</span>
+                                    <span class="tag">Enzymes</span>
+                                    <span class="tag">Metabolism</span>
+                                </div>
+                            </div>
+                            <div class="resource-card-footer">
+                                <button class="btn btn-primary btn-sm view-model-btn">
+                                    <i class="fas fa-expand"></i> View Model
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3.3.3 收藏标签（Mistake Collection & Tags） -->
+                    <div class="section-title" style="margin-top: 2.5rem;" id="mistakes-section">
+                        <h2><i class="fas fa-tags"></i> Mistake Collection & Tags</h2>
+                        <span>Organized by tags and units</span>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <p>View and organize your mistake collection. Tags can be edited in MyBio Center.</p>
+                            <div class="tag-container">
+                                <span class="tag active" data-tag="all">All Mistakes</span>
+                                <span class="tag" data-tag="unit1">Unit 1</span>
+                                <span class="tag" data-tag="unit2">Unit 2</span>
+                                <span class="tag" data-tag="unit3">Unit 3</span>
+                                <span class="tag" data-tag="unit4">Unit 4</span>
+                                <span class="tag" data-tag="difficult">Difficult</span>
+                                <span class="tag" data-tag="calculation">Calculation</span>
+                                <span class="tag" data-tag="diagram">Diagram</span>
+                            </div>
+
+                            <div class="mistakes-list" style="margin-top: 1.5rem;">
+                                <div class="mistake-item">
+                                    <h4>Why is water considered a polar molecule?</h4>
+                                    <p>You answered: Because it has no charge</p>
+                                    <p><strong>Correct answer:</strong> Because it has uneven charge distribution with
+                                        oxygen being
+                                        slightly negative and hydrogen slightly positive</p>
+                                    <div class="mistake-tags" style="margin-top: 0.5rem;">
+                                        <span class="tag">Unit 1</span>
+                                        <span class="tag">Water Properties</span>
+                                        <span class="tag">Polarity</span>
                                     </div>
                                 </div>
 
-                                <div class="resource-card animation-card" data-type="animation"
-                                    data-tags="unit2,cell-division,cell-cycle">
-                                    <div class="resource-card-header">
-                                        <div class="resource-badge animation-badge">
-                                            <i class="fas fa-play-circle"></i> Animation
-                                        </div>
-                                        <h3>Cell Mitosis</h3>
-                                    </div>
-                                    <div class="resource-card-body">
-                                        <div class="resource-preview">
-                                            <div class="preview-placeholder">
-                                                <i class="fas fa-circle"></i>
-                                            </div>
-                                        </div>
-                                        <p class="resource-description">Detailed animation showing various stages of
-                                            cell
-                                            mitosis</p>
-                                        <div class="resource-tags">
-                                            <span class="tag">Unit 2</span>
-                                            <span class="tag">Cell Division</span>
-                                            <span class="tag">Cell Cycle</span>
-                                        </div>
-                                    </div>
-                                    <div class="resource-card-footer">
-                                        <button class="btn btn-secondary btn-sm preview-resource-btn">
-                                            <i class="fas fa-eye"></i> Preview
-                                        </button>
-                                        <button class="btn btn-primary btn-sm play-resource-btn">
-                                            <i class="fas fa-play"></i> Play Animation
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="resource-card animation-card" data-type="animation"
-                                    data-tags="unit4,genetics,central-dogma">
-                                    <div class="resource-card-header">
-                                        <div class="resource-badge animation-badge">
-                                            <i class="fas fa-play-circle"></i> Animation
-                                        </div>
-                                        <h3>Protein Synthesis</h3>
-                                    </div>
-                                    <div class="resource-card-body">
-                                        <div class="resource-preview">
-                                            <div class="preview-placeholder">
-                                                <i class="fas fa-dna"></i>
-                                            </div>
-                                        </div>
-                                        <p class="resource-description">Animation showing the complete transcription and
-                                            translation process from DNA to protein</p>
-                                        <div class="resource-tags">
-                                            <span class="tag">Unit 4</span>
-                                            <span class="tag">Genetics</span>
-                                            <span class="tag">Central Dogma</span>
-                                        </div>
-                                    </div>
-                                    <div class="resource-card-footer">
-                                        <button class="btn btn-secondary btn-sm preview-resource-btn">
-                                            <i class="fas fa-eye"></i> Preview
-                                        </button>
-                                        <button class="btn btn-primary btn-sm play-resource-btn">
-                                            <i class="fas fa-play"></i> Play Animation
-                                        </button>
+                                <div class="mistake-item" style="margin-top: 1rem;">
+                                    <h4>DNA Replication Fork Diagram Analysis</h4>
+                                    <p>You answered: Leading strand synthesis is discontinuous</p>
+                                    <p><strong>Correct answer:</strong> Leading strand synthesis is continuous, while
+                                        lagging strand is discontinuous (Okazaki fragments)</p>
+                                    <div class="mistake-tags" style="margin-top: 0.5rem;">
+                                        <span class="tag">Unit 4</span>
+                                        <span class="tag">DNA Replication</span>
+                                        <span class="tag">Molecular Biology</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- 3.3.2 3D Models（三维模型） -->
-                        <div class="gallery-section" id="3dmodels-section" data-section="g2">
-                            <div class="section-title">
-                                <h2><i class="fas fa-cube"></i> 3D Models</h2>
-                                <p>Interactive biological structures that can be rotated, zoomed, and explored in 3D</p>
-                            </div>
-                            <div class="card-container">
-                                <div class="resource-card model-card" data-type="3dmodel"
-                                    data-tags="unit2,cell-structure,organelles">
-                                    <div class="resource-card-header">
-                                        <div class="resource-badge model-badge">
-                                            <i class="fas fa-cube"></i> 3D Model
-                                        </div>
-                                        <h3>Cell Organelles 3D Model</h3>
-                                    </div>
-                                    <div class="resource-card-body">
-                                        <div class="resource-preview">
-                                            <div class="preview-placeholder model-preview">
-                                                <i class="fas fa-microscope"></i>
-                                            </div>
-                                        </div>
-                                        <p class="resource-description">Complete cell organelle structure model with
-                                            rotation and zoom capabilities</p>
-                                        <div class="resource-tags">
-                                            <span class="tag">Unit 2</span>
-                                            <span class="tag">Cell Structure</span>
-                                            <span class="tag">Organelles</span>
-                                        </div>
-                                    </div>
-                                    <div class="resource-card-footer">
-                                        <button class="btn btn-secondary btn-sm preview-resource-btn">
-                                            <i class="fas fa-eye"></i> Preview
-                                        </button>
-                                        <button class="btn btn-primary btn-sm view-model-btn">
-                                            <i class="fas fa-expand"></i> View in 3D
-                                        </button>
-                                    </div>
-                                </div>
+                    <!-- 3.3.4 自制文库 -->
+                    <div class="section-title" style="margin-top: 2.5rem;" id="library-section">
+                        <h2><i class="fas fa-book-open"></i> Custom Library</h2>
+                        <span>Team-created resources: explanation videos and handouts</span>
+                    </div>
 
-                                <div class="resource-card model-card" data-type="3dmodel"
-                                    data-tags="unit4,genetics,dna">
-                                    <div class="resource-card-header">
-                                        <div class="resource-badge model-badge">
-                                            <i class="fas fa-cube"></i> 3D Model
-                                        </div>
-                                        <h3>DNA Double Helix Structure</h3>
-                                    </div>
-                                    <div class="resource-card-body">
-                                        <div class="resource-preview">
-                                            <div class="preview-placeholder model-preview">
-                                                <i class="fas fa-dna"></i>
-                                            </div>
-                                        </div>
-                                        <p class="resource-description">Interactive 3D model of DNA double helix
-                                            structure
-                                            with base pairing visualization</p>
-                                        <div class="resource-tags">
-                                            <span class="tag">Unit 4</span>
-                                            <span class="tag">Genetics</span>
-                                            <span class="tag">DNA Structure</span>
-                                        </div>
-                                    </div>
-                                    <div class="resource-card-footer">
-                                        <button class="btn btn-secondary btn-sm preview-resource-btn">
-                                            <i class="fas fa-eye"></i> Preview
-                                        </button>
-                                        <button class="btn btn-primary btn-sm view-model-btn">
-                                            <i class="fas fa-expand"></i> View in 3D
-                                        </button>
-                                    </div>
-                                </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <p>All resources in this section are created by our team of educators and students. No
+                                copyrighted textbook content is included.</p>
 
-                                <div class="resource-card model-card" data-type="3dmodel"
-                                    data-tags="unit3,enzymes,metabolism">
-                                    <div class="resource-card-header">
-                                        <div class="resource-badge model-badge">
-                                            <i class="fas fa-cube"></i> 3D Model
-                                        </div>
-                                        <h3>Enzyme-Substrate Complex</h3>
-                                    </div>
-                                    <div class="resource-card-body">
-                                        <div class="resource-preview">
-                                            <div class="preview-placeholder model-preview">
-                                                <i class="fas fa-atom"></i>
-                                            </div>
-                                        </div>
-                                        <p class="resource-description">3D model showing enzyme active site and
-                                            substrate
-                                            binding mechanism</p>
-                                        <div class="resource-tags">
-                                            <span class="tag">Unit 3</span>
-                                            <span class="tag">Enzymes</span>
-                                            <span class="tag">Metabolism</span>
-                                        </div>
-                                    </div>
-                                    <div class="resource-card-footer">
-                                        <button class="btn btn-secondary btn-sm preview-resource-btn">
-                                            <i class="fas fa-eye"></i> Preview
-                                        </button>
-                                        <button class="btn btn-primary btn-sm view-model-btn">
-                                            <i class="fas fa-expand"></i> View in 3D
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 3.3.3 收藏标签（Mistake Collection & Tags） -->
-                        <div class="gallery-section" id="mistakes-section" data-section="g3">
-                            <div class="section-title">
-                                <h2><i class="fas fa-tags"></i> Mistake Collection & Tags</h2>
-                                <p>Organize and review your mistakes by tags and units. Edit tags in MyBio, view
-                                    mistakes
-                                    here.</p>
-                            </div>
-
-                            <div class="mistakes-container">
-                                <!-- 过滤标签 -->
-                                <div class="filters-section">
-                                    <h4>Filter by Tags:</h4>
-                                    <div class="tag-filter-container">
-                                        <div class="tag-category">
-                                            <h5>By Unit:</h5>
-                                            <div class="tag-list">
-                                                <span class="tag filter-tag active" data-filter="all">All Units</span>
-                                                <span class="tag filter-tag" data-filter="unit1">Unit 1</span>
-                                                <span class="tag filter-tag" data-filter="unit2">Unit 2</span>
-                                                <span class="tag filter-tag" data-filter="unit3">Unit 3</span>
-                                                <span class="tag filter-tag" data-filter="unit4">Unit 4</span>
-                                            </div>
-                                        </div>
-                                        <div class="tag-category">
-                                            <h5>By Difficulty:</h5>
-                                            <div class="tag-list">
-                                                <span class="tag filter-tag" data-filter="easy">Easy</span>
-                                                <span class="tag filter-tag" data-filter="medium">Medium</span>
-                                                <span class="tag filter-tag" data-filter="hard">Hard</span>
-                                            </div>
-                                        </div>
-                                        <div class="tag-category">
-                                            <h5>By Topic:</h5>
-                                            <div class="tag-list">
-                                                <span class="tag filter-tag"
-                                                    data-filter="calculation">Calculation</span>
-                                                <span class="tag filter-tag" data-filter="diagram">Diagram
-                                                    Analysis</span>
-                                                <span class="tag filter-tag" data-filter="concept">Conceptual</span>
-                                                <span class="tag filter-tag"
-                                                    data-filter="application">Application</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- 错题列表 -->
-                                <div class="mistakes-list">
-                                    <div class="mistake-item" data-units="unit1" data-difficulty="medium"
-                                        data-topics="concept">
-                                        <div class="mistake-header">
-                                            <h4>Why is water considered a polar molecule?</h4>
-                                            <span class="mistake-date">Added: 2023-10-15</span>
-                                        </div>
-                                        <div class="mistake-content">
-                                            <div class="mistake-question">
-                                                <p><strong>Your Answer:</strong> Because it has no charge</p>
-                                                <p><strong>Correct Answer:</strong> Because it has uneven charge
-                                                    distribution with oxygen being slightly negative and hydrogen
-                                                    slightly
-                                                    positive</p>
-                                            </div>
-                                            <div class="mistake-explanation">
-                                                <p><strong>Explanation:</strong> Water molecules are polar due to the
-                                                    electronegativity difference between oxygen and hydrogen atoms,
-                                                    creating
-                                                    partial charges.</p>
-                                            </div>
-                                        </div>
-                                        <div class="mistake-tags">
-                                            <span class="tag">Unit 1</span>
-                                            <span class="tag">Water Properties</span>
-                                            <span class="tag">Polarity</span>
-                                            <span class="tag difficulty-medium">Medium</span>
-                                        </div>
-                                        <div class="mistake-actions">
-                                            <button class="btn btn-secondary btn-sm practice-again-btn">
-                                                <i class="fas fa-redo"></i> Practice Again
-                                            </button>
-                                            <button class="btn btn-secondary btn-sm view-concept-btn">
-                                                <i class="fas fa-book"></i> Review Concept
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <div class="mistake-item" data-units="unit4" data-difficulty="hard"
-                                        data-topics="diagram,application">
-                                        <div class="mistake-header">
-                                            <h4>DNA Replication Fork Diagram Analysis</h4>
-                                            <span class="mistake-date">Added: 2023-10-10</span>
-                                        </div>
-                                        <div class="mistake-content">
-                                            <div class="mistake-question">
-                                                <p><strong>Your Answer:</strong> Leading strand synthesis is
-                                                    discontinuous
-                                                </p>
-                                                <p><strong>Correct Answer:</strong> Leading strand synthesis is
-                                                    continuous,
-                                                    while lagging strand is discontinuous (Okazaki fragments)</p>
-                                            </div>
-                                            <div class="mistake-explanation">
-                                                <p><strong>Explanation:</strong> Due to the anti-parallel nature of DNA
-                                                    and
-                                                    the 5'→3' synthesis direction, the leading strand is synthesized
-                                                    continuously while the lagging strand is synthesized in fragments.
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="mistake-tags">
-                                            <span class="tag">Unit 4</span>
-                                            <span class="tag">DNA Replication</span>
-                                            <span class="tag">Molecular Biology</span>
-                                            <span class="tag difficulty-hard">Hard</span>
-                                        </div>
-                                        <div class="mistake-actions">
-                                            <button class="btn btn-secondary btn-sm practice-again-btn">
-                                                <i class="fas fa-redo"></i> Practice Again
-                                            </button>
-                                            <button class="btn btn-secondary btn-sm view-concept-btn">
-                                                <i class="fas fa-book"></i> Review Concept
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <div class="mistake-item" data-units="unit3" data-difficulty="easy"
-                                        data-topics="calculation">
-                                        <div class="mistake-header">
-                                            <h4>Enzyme Kinetics Calculation</h4>
-                                            <span class="mistake-date">Added: 2023-10-05</span>
-                                        </div>
-                                        <div class="mistake-content">
-                                            <div class="mistake-question">
-                                                <p><strong>Your Answer:</strong> Vmax = 50 μmol/min, Km = 2 mM</p>
-                                                <p><strong>Correct Answer:</strong> Vmax = 100 μmol/min, Km = 1 mM</p>
-                                            </div>
-                                            <div class="mistake-explanation">
-                                                <p><strong>Explanation:</strong> From the Lineweaver-Burk plot,
-                                                    intercept =
-                                                    1/Vmax, slope = Km/Vmax. Recalculate using proper linear regression.
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="mistake-tags">
-                                            <span class="tag">Unit 3</span>
-                                            <span class="tag">Enzyme Kinetics</span>
-                                            <span class="tag">Calculation</span>
-                                            <span class="tag difficulty-easy">Easy</span>
-                                        </div>
-                                        <div class="mistake-actions">
-                                            <button class="btn btn-secondary btn-sm practice-again-btn">
-                                                <i class="fas fa-redo"></i> Practice Again
-                                            </button>
-                                            <button class="btn btn-secondary btn-sm view-concept-btn">
-                                                <i class="fas fa-book"></i> Review Concept
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="mistakes-stats">
-                                    <div class="stat-card">
-                                        <h4>Total Mistakes</h4>
-                                        <div class="stat-number">24</div>
-                                        <p>Questions in collection</p>
-                                    </div>
-                                    <div class="stat-card">
-                                        <h4>By Difficulty</h4>
-                                        <div class="stat-number">8 Easy / 10 Med / 6 Hard</div>
-                                        <p>Distribution</p>
-                                    </div>
-                                    <div class="stat-card">
-                                        <h4>Most Common</h4>
-                                        <div class="stat-number">Unit 4</div>
-                                        <p>Genetics topics</p>
-                                    </div>
-                                    <div class="stat-card">
-                                        <h4>Last Reviewed</h4>
-                                        <div class="stat-number">3 days ago</div>
-                                        <p>Keep practicing!</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 3.3.4 自制文库 -->
-                        <div class="gallery-section" id="custom-library-section" data-section="g4">
-                            <div class="section-title">
-                                <h2><i class="fas fa-book-open"></i> Custom Library</h2>
-                                <p>Team-created resources: explanation videos and handouts (No copyrighted textbook
-                                    content)
-                                </p>
-                            </div>
-
-                            <div class="custom-library-intro">
-                                <div class="intro-card">
-                                    <i class="fas fa-users"></i>
-                                    <h3>Team-Created Resources</h3>
-                                    <p>All resources in this section are created by our team of educators and students.
-                                        No
-                                        copyrighted textbook content is included.</p>
-                                </div>
-                            </div>
-
-                            <div class="card-container">
+                            <div class="card-container" style="margin-top: 1.5rem;">
                                 <div class="resource-card custom-card" data-type="video"
                                     data-tags="team-created,explanation,unit1">
                                     <div class="resource-card-header">
@@ -1232,18 +953,8 @@
                                         <h3>Water Properties Explained</h3>
                                     </div>
                                     <div class="resource-card-body">
-                                        <div class="resource-preview">
-                                            <div class="preview-placeholder custom-preview">
-                                                <i class="fas fa-tint"></i>
-                                            </div>
-                                        </div>
-                                        <p class="resource-description">Team-created explanation video covering
-                                            cohesion,
-                                            adhesion, and polarity of water molecules</p>
-                                        <div class="resource-meta">
-                                            <span><i class="fas fa-user-friends"></i> Team: BioVision Educators</span>
-                                            <span><i class="fas fa-clock"></i> Duration: 12:45</span>
-                                        </div>
+                                        <p>Team-created explanation video covering cohesion, adhesion, and polarity of
+                                            water molecules</p>
                                         <div class="resource-tags">
                                             <span class="tag">Team Created</span>
                                             <span class="tag">Unit 1</span>
@@ -1251,10 +962,7 @@
                                         </div>
                                     </div>
                                     <div class="resource-card-footer">
-                                        <button class="btn btn-secondary btn-sm preview-resource-btn">
-                                            <i class="fas fa-eye"></i> Preview
-                                        </button>
-                                        <button class="btn btn-primary btn-sm play-resource-btn">
+                                        <button class="btn btn-primary btn-sm preview-resource-btn">
                                             <i class="fas fa-play"></i> Watch Video
                                         </button>
                                     </div>
@@ -1269,18 +977,8 @@
                                         <h3>DNA Replication Summary</h3>
                                     </div>
                                     <div class="resource-card-body">
-                                        <div class="resource-preview">
-                                            <div class="preview-placeholder custom-preview">
-                                                <i class="fas fa-file-alt"></i>
-                                            </div>
-                                        </div>
-                                        <p class="resource-description">Comprehensive handout summarizing DNA
-                                            replication
-                                            process, enzymes involved, and key concepts</p>
-                                        <div class="resource-meta">
-                                            <span><i class="fas fa-user-friends"></i> Team: Student Contributors</span>
-                                            <span><i class="fas fa-file"></i> Pages: 8</span>
-                                        </div>
+                                        <p>Comprehensive handout summarizing DNA replication process, enzymes involved,
+                                            and key concepts</p>
                                         <div class="resource-tags">
                                             <span class="tag">Team Created</span>
                                             <span class="tag">Unit 4</span>
@@ -1288,270 +986,57 @@
                                         </div>
                                     </div>
                                     <div class="resource-card-footer">
-                                        <button class="btn btn-secondary btn-sm preview-resource-btn">
-                                            <i class="fas fa-eye"></i> Preview
-                                        </button>
                                         <button class="btn btn-primary btn-sm download-resource-btn">
                                             <i class="fas fa-download"></i> Download PDF
                                         </button>
                                     </div>
                                 </div>
-
-                                <div class="resource-card custom-card" data-type="video"
-                                    data-tags="team-created,explanation,unit2">
-                                    <div class="resource-card-header">
-                                        <div class="resource-badge custom-badge">
-                                            <i class="fas fa-video"></i> Team Video
-                                        </div>
-                                        <h3>Cell Membrane Transport</h3>
-                                    </div>
-                                    <div class="resource-card-body">
-                                        <div class="resource-preview">
-                                            <div class="preview-placeholder custom-preview">
-                                                <i class="fas fa-border-all"></i>
-                                            </div>
-                                        </div>
-                                        <p class="resource-description">Visual explanation of passive and active
-                                            transport
-                                            mechanisms across cell membranes</p>
-                                        <div class="resource-meta">
-                                            <span><i class="fas fa-user-friends"></i> Team: BioVision Animators</span>
-                                            <span><i class="fas fa-clock"></i> Duration: 15:30</span>
-                                        </div>
-                                        <div class="resource-tags">
-                                            <span class="tag">Team Created</span>
-                                            <span class="tag">Unit 2</span>
-                                            <span class="tag">Animation</span>
-                                        </div>
-                                    </div>
-                                    <div class="resource-card-footer">
-                                        <button class="btn btn-secondary btn-sm preview-resource-btn">
-                                            <i class="fas fa-eye"></i> Preview
-                                        </button>
-                                        <button class="btn btn-primary btn-sm play-resource-btn">
-                                            <i class="fas fa-play"></i> Watch Video
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="contribution-info">
-                                <h4><i class="fas fa-hands-helping"></i> Want to Contribute?</h4>
-                                <p>Are you interested in creating educational resources for the BioVision community?
-                                    Contact
-                                    us to join our team of contributors!</p>
-                                <button class="btn btn-secondary" id="contributeBtn">
-                                    <i class="fas fa-pencil-alt"></i> Learn About Contributing
-                                </button>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- 3.3.5 生物考纲知识图谱（Concept Web） -->
-                        <div class="gallery-section" id="concept-web-section" data-section="g5">
-                            <div class="section-title">
-                                <h2><i class="fas fa-project-diagram"></i> Biology Syllabus Knowledge Graph</h2>
-                                <p>Networked concept map - click any concept to jump to its learning page</p>
-                            </div>
+                    <!-- 3.3.5 生物考纲知识图谱（Concept Web） -->
+                    <div class="section-title" style="margin-top: 2.5rem;" id="graph-section">
+                        <h2><i class="fas fa-project-diagram"></i> Knowledge Graph (Concept Web)</h2>
+                        <span>Networked concept relationship diagram</span>
+                    </div>
 
-                            <div class="concept-web-intro">
-                                <div class="intro-card">
-                                    <i class="fas fa-network-wired"></i>
-                                    <h3>Interactive Concept Web</h3>
-                                    <p>Explore the interconnectedness of biological concepts. Each node represents a key
-                                        concept that links to related topics and learning materials.</p>
+                    <div class="card">
+                        <div class="card-body">
+                            <p>Biology syllabus concept network diagram, click concepts to jump to corresponding
+                                learning pages.</p>
+
+                            <div class="concept-web-preview">
+                                <div class="concept-node" data-concept="water-properties">
+                                    <h4>Water Properties</h4>
+                                    <p>Polarity, Cohesion, Adhesion</p>
+                                </div>
+                                <div class="concept-node" data-concept="ph-scale">
+                                    <h4>pH Scale</h4>
+                                    <p>Acids, Bases, Buffers</p>
+                                </div>
+                                <div class="concept-node" data-concept="macromolecules">
+                                    <h4>Macromolecules</h4>
+                                    <p>Carbs, Lipids, Proteins, Nucleic Acids</p>
+                                </div>
+                                <div class="concept-node" data-concept="cell-structure">
+                                    <h4>Cell Structure</h4>
+                                    <p>Organelles, Membranes, Transport</p>
+                                </div>
+                                <div class="concept-node" data-concept="molecular-genetics">
+                                    <h4>Molecular Genetics</h4>
+                                    <p>DNA, RNA, Protein Synthesis</p>
+                                </div>
+                                <div class="concept-node" data-concept="evolution-mechanisms">
+                                    <h4>Evolution Mechanisms</h4>
+                                    <p>Natural Selection, Speciation</p>
                                 </div>
                             </div>
 
-                            <div class="concept-web-container">
-                                <div class="concept-web-nav">
-                                    <div class="web-filters">
-                                        <h4>Filter by Unit:</h4>
-                                        <div class="unit-filters">
-                                            <button class="btn btn-sm btn-secondary unit-filter active"
-                                                data-unit="all">All
-                                                Units</button>
-                                            <button class="btn btn-sm btn-secondary unit-filter" data-unit="1">Unit
-                                                1</button>
-                                            <button class="btn btn-sm btn-secondary unit-filter" data-unit="2">Unit
-                                                2</button>
-                                            <button class="btn btn-sm btn-secondary unit-filter" data-unit="3">Unit
-                                                3</button>
-                                            <button class="btn btn-sm btn-secondary unit-filter" data-unit="4">Unit
-                                                4</button>
-                                            <button class="btn btn-sm btn-secondary unit-filter" data-unit="5">Unit
-                                                5</button>
-                                        </div>
-                                    </div>
-
-                                    <div class="search-concept">
-                                        <input type="text" id="searchConceptInput" placeholder="Search for concepts...">
-                                        <i class="fas fa-search"></i>
-                                    </div>
-                                </div>
-
-                                <div class="concept-web-visualization">
-                                    <!-- 概念网络图可视化区域 -->
-                                    <div class="concept-web-preview">
-                                        <div class="concept-web-center">
-                                            <div class="central-concept" data-concept="biology-foundations">
-                                                <div class="concept-node main-node">
-                                                    <h4>Biology Foundations</h4>
-                                                    <p>Core Principles</p>
-                                                </div>
-                                            </div>
-
-                                            <div class="concept-branch" data-branch="chemistry">
-                                                <div class="branch-label">Chemical Basis</div>
-                                                <div class="concept-node" data-concept="water-properties" data-unit="1">
-                                                    <h4>Water Properties</h4>
-                                                    <p>Polarity, Cohesion, Adhesion</p>
-                                                    <div class="node-connections">3 connections</div>
-                                                </div>
-                                                <div class="concept-node" data-concept="ph-scale" data-unit="1">
-                                                    <h4>pH Scale</h4>
-                                                    <p>Acids, Bases, Buffers</p>
-                                                    <div class="node-connections">2 connections</div>
-                                                </div>
-                                                <div class="concept-node" data-concept="macromolecules" data-unit="1">
-                                                    <h4>Macromolecules</h4>
-                                                    <p>Carbs, Lipids, Proteins, Nucleic Acids</p>
-                                                    <div class="node-connections">4 connections</div>
-                                                </div>
-                                            </div>
-
-                                            <div class="concept-branch" data-branch="cell-biology">
-                                                <div class="branch-label">Cell Biology</div>
-                                                <div class="concept-node" data-concept="cell-structure" data-unit="2">
-                                                    <h4>Cell Structure</h4>
-                                                    <p>Organelles, Membranes, Transport</p>
-                                                    <div class="node-connections">5 connections</div>
-                                                </div>
-                                                <div class="concept-node" data-concept="cell-metabolism" data-unit="3">
-                                                    <h4>Cell Metabolism</h4>
-                                                    <p>Enzymes, Respiration, Photosynthesis</p>
-                                                    <div class="node-connections">6 connections</div>
-                                                </div>
-                                                <div class="concept-node" data-concept="cell-division" data-unit="2">
-                                                    <h4>Cell Division</h4>
-                                                    <p>Mitosis, Meiosis, Cell Cycle</p>
-                                                    <div class="node-connections">4 connections</div>
-                                                </div>
-                                            </div>
-
-                                            <div class="concept-branch" data-branch="genetics">
-                                                <div class="branch-label">Genetics</div>
-                                                <div class="concept-node" data-concept="molecular-genetics"
-                                                    data-unit="4">
-                                                    <h4>Molecular Genetics</h4>
-                                                    <p>DNA, RNA, Protein Synthesis</p>
-                                                    <div class="node-connections">7 connections</div>
-                                                </div>
-                                                <div class="concept-node" data-concept="inheritance" data-unit="4">
-                                                    <h4>Inheritance</h4>
-                                                    <p>Mendelian, Non-Mendelian</p>
-                                                    <div class="node-connections">5 connections</div>
-                                                </div>
-                                                <div class="concept-node" data-concept="biotechnology" data-unit="4">
-                                                    <h4>Biotechnology</h4>
-                                                    <p>DNA Tech, Genetic Engineering</p>
-                                                    <div class="node-connections">3 connections</div>
-                                                </div>
-                                            </div>
-
-                                            <div class="concept-branch" data-branch="evolution">
-                                                <div class="branch-label">Evolution & Diversity</div>
-                                                <div class="concept-node" data-concept="evolution-mechanisms"
-                                                    data-unit="5">
-                                                    <h4>Evolution Mechanisms</h4>
-                                                    <p>Natural Selection, Speciation</p>
-                                                    <div class="node-connections">4 connections</div>
-                                                </div>
-                                                <div class="concept-node" data-concept="phylogeny" data-unit="5">
-                                                    <h4>Phylogeny</h4>
-                                                    <p>Classification, Evolutionary History</p>
-                                                    <div class="node-connections">3 connections</div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- 连接线（视觉表示） -->
-                                        <div class="concept-connections">
-                                            <div class="connection" data-from="water-properties"
-                                                data-to="cell-structure">
-                                            </div>
-                                            <div class="connection" data-from="macromolecules"
-                                                data-to="molecular-genetics">
-                                            </div>
-                                            <div class="connection" data-from="cell-metabolism"
-                                                data-to="evolution-mechanisms"></div>
-                                            <!-- 更多连接线... -->
-                                        </div>
-                                    </div>
-
-                                    <div class="concept-web-legend">
-                                        <h4>Legend:</h4>
-                                        <div class="legend-item">
-                                            <div class="legend-color unit1"></div>
-                                            <span>Unit 1: Chemical Basis</span>
-                                        </div>
-                                        <div class="legend-item">
-                                            <div class="legend-color unit2"></div>
-                                            <span>Unit 2: Cell Structure</span>
-                                        </div>
-                                        <div class="legend-item">
-                                            <div class="legend-color unit3"></div>
-                                            <span>Unit 3: Cell Metabolism</span>
-                                        </div>
-                                        <div class="legend-item">
-                                            <div class="legend-color unit4"></div>
-                                            <span>Unit 4: Genetics</span>
-                                        </div>
-                                        <div class="legend-item">
-                                            <div class="legend-color unit5"></div>
-                                            <span>Unit 5: Evolution</span>
-                                        </div>
-                                        <div class="legend-item">
-                                            <div class="legend-dot connected"></div>
-                                            <span>Connected Concept</span>
-                                        </div>
-                                        <div class="legend-item">
-                                            <div class="legend-dot central"></div>
-                                            <span>Central Concept</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="concept-web-controls">
-                                    <button class="btn btn-secondary" id="zoomInBtn">
-                                        <i class="fas fa-search-plus"></i> Zoom In
-                                    </button>
-                                    <button class="btn btn-secondary" id="zoomOutBtn">
-                                        <i class="fas fa-search-minus"></i> Zoom Out
-                                    </button>
-                                    <button class="btn btn-secondary" id="resetViewBtn">
-                                        <i class="fas fa-sync-alt"></i> Reset View
-                                    </button>
-                                    <button class="btn btn-primary" id="fullscreenGraphBtn">
-                                        <i class="fas fa-expand"></i> Full Screen
-                                    </button>
-                                </div>
-
-                                <div class="selected-concept-info" id="selectedConceptInfo">
-                                    <h4>Selected Concept: <span id="currentConceptName">Water Properties</span></h4>
-                                    <p id="currentConceptDescription">Water's unique properties including polarity,
-                                        cohesion, adhesion, and its role as a universal solvent.</p>
-                                    <div class="concept-actions">
-                                        <button class="btn btn-primary btn-sm" id="goToConceptPageBtn">
-                                            <i class="fas fa-external-link-alt"></i> Go to Concept Page
-                                        </button>
-                                        <button class="btn btn-secondary btn-sm" id="viewRelatedBtn">
-                                            <i class="fas fa-link"></i> View Related Concepts
-                                        </button>
-                                        <button class="btn btn-secondary btn-sm" id="viewResourcesBtn">
-                                            <i class="fas fa-book"></i> View Learning Resources
-                                        </button>
-                                    </div>
-                                </div>
+                            <div style="text-align: center; margin-top: 1.5rem;">
+                                <button class="btn btn-primary" id="openKnowledgeGraphBtn">
+                                    <i class="fas fa-expand"></i> Open Full Knowledge Graph
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -1880,10 +1365,6 @@
             <p>&copy; 2025 BioVision Educational Platform. All rights reserved. | Designed for biology education</p>
         </div>
     </footer>
-
-
-
-
 
     <script src="script.js"></script>
 </body>

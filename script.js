@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     initHeaderScroll();
-    initNavigation(); // 这个函数会设置正确的初始活动页面
+    initNavigation();
     initSearch();
     initCarousel();
     initLearningSteps();
@@ -16,20 +16,53 @@ document.addEventListener('DOMContentLoaded', function() {
             initStudyPage();
             initCollapsibleTree();
             loadDynamicContent();
+        }else if (e.detail.page === 'gallery') {
+            console.log('初始化资源库页面');
+            initGalleryPage();
         }
+        // 页面切换后滚动到顶部
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // 页面加载后，确保只有 home 页面是活动的
-    // 这行代码可以确保即使HTML有误，JS也能纠正初始状态
-    const homePage = document.getElementById('home');
-    const studyPage = document.getElementById('study');
-    if (homePage && studyPage && studyPage.classList.contains('active')) {
-        studyPage.classList.remove('active');
-        console.log('已纠正初始页面状态：仅显示首页');
-    }
+    // 确保初始状态正确
+    ensureInitialState();
+
+    // // 页面加载后，确保只有 home 页面是活动的
+    // // 这行代码可以确保即使HTML有误，JS也能纠正初始状态
+    // const homePage = document.getElementById('home');
+    // const studyPage = document.getElementById('study');
+    // if (homePage && studyPage && studyPage.classList.contains('active')) {
+    //     studyPage.classList.remove('active');
+    //     console.log('已纠正初始页面状态：仅显示首页');
+    // }
 });
 
 
+// 确保初始状态正确
+function ensureInitialState() {
+    const homePage = document.getElementById('home');
+    const studyPage = document.getElementById('study');
+    const galleryPage = document.getElementById('gallery');
+    
+    // 检查是否有多个活动页面
+    const activePages = document.querySelectorAll('.page-content.active');
+    if (activePages.length > 1) {
+        activePages.forEach((page, index) => {
+            if (index > 0) page.classList.remove('active');
+        });
+    }
+    
+    // 如果学习页面或资源库页面是初始活动页面，纠正为首页
+    if (studyPage && studyPage.classList.contains('active')) {
+        studyPage.classList.remove('active');
+        console.log('已纠正初始页面状态：显示首页');
+    }
+    
+    if (galleryPage && galleryPage.classList.contains('active')) {
+        galleryPage.classList.remove('active');
+        console.log('已纠正初始页面状态：显示首页');
+    }
+}
 
 // 在initStudyPage函数中确保视频相关初始化
 function initStudyPage() {
@@ -1593,5 +1626,806 @@ function fixMissingTooltips() {
             tooltip.appendChild(titleElement);
             tooltip.appendChild(contentElement);
         }
+    });
+}
+
+
+
+
+// 资源库
+
+// 初始化资源库页面
+function initGalleryPage() {
+    console.log('初始化资源库页面功能');
+    
+    // 初始化目录树跳转功能
+    initGalleryTreeNavigation();
+    
+    // 初始化资源卡片交互
+    initResourceCards();
+    
+    // 初始化标签过滤功能
+    initGalleryTagFilters();
+    
+    // 初始化知识图谱节点
+    initGalleryConceptNodes();
+    
+    // 初始化查看全部按钮
+    initViewAllButtons();
+
+    // 修复：使用新的错误标签过滤函数
+    initMistakeTagFilters();
+    
+    // 修复：初始化错误概念链接
+    initMistakeConceptLinks();
+    
+    // // 初始化错误标签过滤
+    // initMistakeTags();
+}
+
+// 初始化资源库目录树跳转
+function initGalleryTreeNavigation() {
+    const treeUnits = document.querySelectorAll('#gallery .tree-unit');
+    
+    treeUnits.forEach(unit => {
+        unit.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // 移除所有活动状态
+            treeUnits.forEach(u => {
+                u.classList.remove('active');
+            });
+            
+            // 添加当前活动状态
+            this.classList.add('active');
+            
+            // 获取目标区域
+            const targetSelector = this.getAttribute('data-target');
+            const targetSection = document.querySelector(targetSelector);
+            
+            if (targetSection) {
+                // 计算导航栏高度
+                const header = document.querySelector('.site-header');
+                const headerHeight = header ? header.offsetHeight : 80;
+                
+                // 计算目标位置（减去导航栏高度）
+                const targetPosition = targetSection.offsetTop - headerHeight;
+                
+                // 平滑滚动到目标位置
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+                
+                // 添加高亮效果
+                targetSection.classList.add('highlight-section');
+                setTimeout(() => {
+                    targetSection.classList.remove('highlight-section');
+                }, 1500);
+                
+                console.log('跳转到:', targetSelector);
+            } else {
+                console.error('找不到目标元素:', targetSelector);
+                alert(`无法跳转到 ${targetSelector}，该章节不存在或ID不匹配。`);
+            }
+        });
+    });
+    
+    // 添加键盘导航支持
+    document.addEventListener('keydown', function(e) {
+        // 只在资源库页面生效
+        if (!document.getElementById('gallery').classList.contains('active')) return;
+        
+        const activeUnit = document.querySelector('#gallery .tree-unit.active');
+        if (!activeUnit) return;
+        
+        const allUnits = Array.from(document.querySelectorAll('#gallery .tree-unit'));
+        const currentIndex = allUnits.indexOf(activeUnit);
+        
+        switch(e.key) {
+            case 'ArrowUp':
+                e.preventDefault();
+                if (currentIndex > 0) {
+                    allUnits[currentIndex - 1].click();
+                }
+                break;
+            case 'ArrowDown':
+                e.preventDefault();
+                if (currentIndex < allUnits.length - 1) {
+                    allUnits[currentIndex + 1].click();
+                }
+                break;
+            case 'Home':
+                e.preventDefault();
+                allUnits[0].click();
+                break;
+            case 'End':
+                e.preventDefault();
+                allUnits[allUnits.length - 1].click();
+                break;
+        }
+    });
+}
+
+// 初始化资源卡片交互
+function initResourceCards() {
+    // 播放动画/预览资源按钮
+    const previewButtons = document.querySelectorAll('.preview-resource-btn, .view-model-btn, .download-resource-btn');
+    
+    previewButtons.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const card = this.closest('.resource-card');
+            const resourceType = card.getAttribute('data-type');
+            const resourceTitle = card.querySelector('h3').textContent;
+            const tags = card.getAttribute('data-tags');
+            
+            // 根据按钮类型执行不同操作
+            if (this.classList.contains('preview-resource-btn')) {
+                if (resourceType === 'animation' || resourceType === 'video') {
+                    openResourceModal(resourceTitle, 'preview', resourceType);
+                }
+            } else if (this.classList.contains('view-model-btn')) {
+                openResourceModal(resourceTitle, '3dviewer', resourceType);
+            } else if (this.classList.contains('download-resource-btn')) {
+                openResourceModal(resourceTitle, 'download', resourceType);
+            }
+        });
+    });
+    
+    // 卡片悬停效果
+    const resourceCards = document.querySelectorAll('.resource-card');
+    resourceCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px)';
+            this.style.boxShadow = '0 10px 25px rgba(0,0,0,0.1)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
+        });
+        
+        // 卡片点击（可选，提供更多信息）
+        card.addEventListener('click', function(e) {
+            // 确保不是点击了按钮
+            if (!e.target.closest('button')) {
+                const title = this.querySelector('h3').textContent;
+                const description = this.querySelector('.resource-card-body p').textContent;
+                const tags = Array.from(this.querySelectorAll('.tag')).map(tag => tag.textContent);
+                
+                showResourceDetails(title, description, tags);
+            }
+        });
+    });
+}
+
+// 打开资源模态框
+function openResourceModal(title, action, resourceType) {
+    const modalMessages = {
+        'preview': {
+            'animation': `播放动画: ${title}`,
+            'video': `播放视频: ${title}`
+        },
+        '3dviewer': `打开3D模型查看器: ${title}`,
+        'download': `下载资源: ${title}`
+    };
+    
+    const message = modalMessages[action] ? 
+        modalMessages[action][resourceType] || modalMessages[action] : 
+        `执行 ${action} 操作: ${title}`;
+    
+    alert(`${message}\n\n提示: 在实际应用中，这里会打开相应的查看器或下载文件。`);
+}
+
+// 显示资源详情
+function showResourceDetails(title, description, tags) {
+    // 创建详情模态框
+    const modal = document.createElement('div');
+    modal.className = 'resource-modal';
+    modal.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        z-index: 1000;
+        max-width: 500px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+    `;
+    
+    modal.innerHTML = `
+        <div style="margin-bottom: 1.5rem;">
+            <h3 style="color: var(--primary-color); margin-bottom: 1rem;">${title}</h3>
+            <p style="color: #666; line-height: 1.6;">${description}</p>
+        </div>
+        
+        <div style="margin-bottom: 1.5rem;">
+            <h4 style="color: #555; margin-bottom: 0.5rem;">标签:</h4>
+            <div>${tags.map(tag => `<span class="tag" style="margin-right: 0.5rem;">${tag}</span>`).join('')}</div>
+        </div>
+        
+        <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem;">
+            <button class="btn btn-secondary" id="closeResourceModal">关闭</button>
+            <button class="btn btn-primary" id="openResourceBtn">打开资源</button>
+        </div>
+    `;
+    
+    // 创建遮罩层
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 999;
+    `;
+    
+    document.body.appendChild(overlay);
+    document.body.appendChild(modal);
+    
+    // 添加事件监听器
+    document.getElementById('closeResourceModal').addEventListener('click', () => {
+        document.body.removeChild(modal);
+        document.body.removeChild(overlay);
+    });
+    
+    document.getElementById('openResourceBtn').addEventListener('click', () => {
+        alert(`正在打开: ${title}`);
+        document.body.removeChild(modal);
+        document.body.removeChild(overlay);
+    });
+    
+    // 点击遮罩层关闭
+    overlay.addEventListener('click', () => {
+        document.body.removeChild(modal);
+        document.body.removeChild(overlay);
+    });
+}
+
+// 初始化画廊标签过滤
+function initGalleryTagFilters() {
+    const tags = document.querySelectorAll('#animation-section .tag-container .tag, #models-section .tag-container .tag');
+    const resourceCards = document.querySelectorAll('#gallery .resource-card');
+    
+    tags.forEach(tag => {
+        tag.addEventListener('click', function() {
+            const selectedTag = this.getAttribute('data-tag');
+            
+            // 更新标签状态
+            tags.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            
+            // 过滤资源卡片
+            resourceCards.forEach(card => {
+                if (selectedTag === 'all') {
+                    card.style.display = 'block';
+                } else {
+                    const cardTags = card.getAttribute('data-tags');
+                    if (cardTags && cardTags.includes(selectedTag)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                }
+            });
+            
+            // 添加动画效果
+            const visibleCards = Array.from(resourceCards).filter(card => 
+                card.style.display !== 'none'
+            );
+            
+            visibleCards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.05}s`;
+                card.classList.add('fade-in');
+                setTimeout(() => {
+                    card.classList.remove('fade-in');
+                }, 300);
+            });
+            
+            // 更新计数
+            updateResourceCount(visibleCards.length, resourceCards.length);
+        });
+    });
+}
+
+// 更新资源计数
+function updateResourceCount(visible, total) {
+    // 可以添加计数显示元素
+    let counter = document.querySelector('.resource-counter');
+    if (!counter) {
+        counter = document.createElement('div');
+        counter.className = 'resource-counter';
+        counter.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary-color);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        `;
+        document.body.appendChild(counter);
+    }
+    
+    counter.textContent = `显示 ${visible} / ${total} 个资源`;
+    counter.style.opacity = '1';
+    
+    // 3秒后淡出
+    setTimeout(() => {
+        counter.style.opacity = '0';
+        setTimeout(() => {
+            if (counter.parentNode) {
+                document.body.removeChild(counter);
+            }
+        }, 500);
+    }, 3000);
+}
+
+// 初始化知识图谱节点
+function initGalleryConceptNodes() {
+    const conceptNodes = document.querySelectorAll('#gallery .concept-node');
+    
+    conceptNodes.forEach(node => {
+        node.addEventListener('click', function() {
+            const concept = this.getAttribute('data-concept');
+            const title = this.querySelector('h4').textContent;
+            
+            // 显示概念详情
+            showConceptDetail(concept, title);
+        });
+        
+        // 悬停效果
+        node.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.05)';
+            this.style.boxShadow = '0 8px 20px rgba(0,0,0,0.15)';
+        });
+        
+        node.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1)';
+            this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+        });
+    });
+    
+    // 打开完整知识图谱按钮
+    const openGraphBtn = document.getElementById('openKnowledgeGraphBtn');
+    if (openGraphBtn) {
+        openGraphBtn.addEventListener('click', function() {
+            alert('打开完整知识图谱可视化界面...\n\n提示: 在实际应用中，这里会打开一个交互式知识图谱。');
+        });
+    }
+}
+
+// 显示概念详情
+function showConceptDetail(conceptId, title) {
+    const conceptDetails = {
+        'water-properties': {
+            description: '水的特性包括极性、内聚力和粘附力，这些特性使水成为生命的必要物质。',
+            relatedConcepts: ['pH Scale', 'Macromolecules', 'Cell Structure'],
+            resources: ['Water Properties Explained', 'Cohesion Animation']
+        },
+        'ph-scale': {
+            description: 'pH 值表示溶液的酸碱度，范围从 0（酸性）到 14（碱性），7 为中性。',
+            relatedConcepts: ['Water Properties', 'Enzyme Activity'],
+            resources: ['pH Scale Interactive', 'Buffer System Animation']
+        },
+        'macromolecules': {
+            description: '生物大分子包括碳水化合物、脂质、蛋白质和核酸，是生命的基础。',
+            relatedConcepts: ['Cell Structure', 'Molecular Genetics'],
+            resources: ['Macromolecules 3D Model', 'Protein Synthesis Animation']
+        }
+    };
+    
+    const detail = conceptDetails[conceptId] || {
+        description: `关于 ${title} 的详细信息。`,
+        relatedConcepts: [],
+        resources: []
+    };
+    
+    const modal = document.createElement('div');
+    modal.className = 'concept-modal';
+    modal.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        z-index: 1000;
+        max-width: 600px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+    `;
+    
+    modal.innerHTML = `
+        <div style="margin-bottom: 1.5rem;">
+            <h3 style="color: var(--primary-color); margin-bottom: 1rem;">${title}</h3>
+            <p style="color: #666; line-height: 1.6; margin-bottom: 1.5rem;">${detail.description}</p>
+            
+            ${detail.relatedConcepts.length ? `
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="color: #555; margin-bottom: 0.5rem;">相关概念:</h4>
+                    <div>${detail.relatedConcepts.map(concept => 
+                        `<span class="tag" style="margin-right: 0.5rem; margin-bottom: 0.5rem;">${concept}</span>`
+                    ).join('')}</div>
+                </div>
+            ` : ''}
+            
+            ${detail.resources.length ? `
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="color: #555; margin-bottom: 0.5rem;">相关资源:</h4>
+                    <ul style="padding-left: 1.5rem; color: #666;">
+                        ${detail.resources.map(resource => 
+                            `<li style="margin-bottom: 0.5rem;">${resource}</li>`
+                        ).join('')}
+                    </ul>
+                </div>
+            ` : ''}
+        </div>
+        
+        <div style="display: flex; justify-content: flex-end; gap: 1rem;">
+            <button class="btn btn-secondary" id="closeConceptModal">关闭</button>
+            <button class="btn btn-primary" id="gotoConceptBtn">前往学习页面</button>
+        </div>
+    `;
+    
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 999;
+    `;
+    
+    document.body.appendChild(overlay);
+    document.body.appendChild(modal);
+    
+    // 事件监听器
+    document.getElementById('closeConceptModal').addEventListener('click', () => {
+        document.body.removeChild(modal);
+        document.body.removeChild(overlay);
+    });
+    
+    document.getElementById('gotoConceptBtn').addEventListener('click', () => {
+        // 导航到学习页面
+        document.querySelector('[data-page="study"]').click();
+        setTimeout(() => {
+            // 模拟选择对应概念
+            alert(`正在加载 ${title} 的学习内容...`);
+            document.body.removeChild(modal);
+            document.body.removeChild(overlay);
+        }, 100);
+    });
+    
+    overlay.addEventListener('click', () => {
+        document.body.removeChild(modal);
+        document.body.removeChild(overlay);
+    });
+}
+
+// 初始化查看全部按钮
+function initViewAllButtons() {
+    const viewAllAnimationsBtn = document.getElementById('viewAllAnimationsBtn');
+    const viewAllModelsBtn = document.getElementById('viewAllModelsBtn');
+    
+    if (viewAllAnimationsBtn) {
+        viewAllAnimationsBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            // 过滤只显示动画资源
+            filterResourcesByType('animation');
+        });
+    }
+    
+    if (viewAllModelsBtn) {
+        viewAllModelsBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            // 过滤只显示3D模型
+            filterResourcesByType('3dmodel');
+        });
+    }
+}
+
+// 按类型过滤资源
+function filterResourcesByType(type) {
+    const resourceCards = document.querySelectorAll('#gallery .resource-card');
+    const sections = document.querySelectorAll('#gallery .section-title');
+    
+    // 隐藏所有卡片
+    resourceCards.forEach(card => {
+        card.style.display = 'none';
+    });
+    
+    // 显示指定类型的卡片
+    const filteredCards = Array.from(resourceCards).filter(card => 
+        card.getAttribute('data-type') === type
+    );
+    
+    filteredCards.forEach((card, index) => {
+        setTimeout(() => {
+            card.style.display = 'block';
+            card.classList.add('fade-in');
+            setTimeout(() => {
+                card.classList.remove('fade-in');
+            }, 300);
+        }, index * 50);
+    });
+    
+    // 滚动到对应部分
+    let targetSection;
+    if (type === 'animation') {
+        targetSection = document.querySelector('#animation-section') || sections[0];
+    } else if (type === '3dmodel') {
+        targetSection = document.querySelector('#models-section') || sections[1];
+    }
+    
+    if (targetSection) {
+        targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    
+    // 更新计数
+    updateResourceCount(filteredCards.length, resourceCards.length);
+}
+
+// 初始化错误标签过滤
+function initMistakeTags() {
+    const mistakeTags = document.querySelectorAll('#gallery .mistake-tags .tag');
+    const mistakeItems = document.querySelectorAll('#gallery .mistake-item');
+    
+    if (mistakeTags.length === 0 || mistakeItems.length === 0) return;
+    
+    // 创建标签容器（如果不存在）
+    let tagContainer = document.querySelector('#gallery .tag-container');
+    if (!tagContainer) {
+        const mistakesList = document.querySelector('#gallery .mistakes-list');
+        if (mistakesList) {
+            tagContainer = document.createElement('div');
+            tagContainer.className = 'tag-container';
+            tagContainer.style.marginBottom = '1rem';
+            mistakesList.parentNode.insertBefore(tagContainer, mistakesList);
+        }
+    }
+    
+    // 为每个错误项添加数据属性
+    mistakeItems.forEach((item, index) => {
+        const tags = Array.from(item.querySelectorAll('.tag')).map(tag => 
+            tag.textContent.toLowerCase().replace(/\s+/g, '-')
+        );
+        item.setAttribute('data-tags', tags.join(' '));
+    });
+    
+    // 标签点击事件
+    mistakeTags.forEach(tag => {
+        tag.addEventListener('click', function() {
+            const selectedTag = this.textContent.toLowerCase().replace(/\s+/g, '-');
+            
+            // 过滤错误项
+            mistakeItems.forEach(item => {
+                const itemTags = item.getAttribute('data-tags');
+                if (itemTags && itemTags.includes(selectedTag)) {
+                    item.style.display = 'block';
+                    item.classList.add('fade-in');
+                    setTimeout(() => {
+                        item.classList.remove('fade-in');
+                    }, 300);
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    });
+}
+
+
+// 修复标签过滤功能
+// 修复标签过滤功能的JavaScript - 确保样式正确切换
+function initMistakeTagFilters() {
+    console.log('初始化错误标签过滤...');
+    
+    const filterTags = document.querySelectorAll('#mistakes-section .tag-container .tag');
+    const mistakeItems = document.querySelectorAll('#mistakes-section .mistake-item');
+    
+    if (!filterTags.length || !mistakeItems.length) {
+        console.log('未找到错误标签或错误项');
+        return;
+    }
+    
+    // 为每个错误项添加数据属性
+    mistakeItems.forEach((item, index) => {
+        const mistakeTags = item.querySelectorAll('.mistake-tags .tag');
+        const tagValues = Array.from(mistakeTags).map(tag => {
+            const text = tag.textContent.trim().toLowerCase();
+            return text.replace(/\s+/g, '-');
+        });
+        
+        if (item.textContent.includes('Unit 1')) tagValues.push('unit1');
+        if (item.textContent.includes('Unit 2')) tagValues.push('unit2');
+        if (item.textContent.includes('Unit 3')) tagValues.push('unit3');
+        if (item.textContent.includes('Unit 4')) tagValues.push('unit4');
+        
+        if (item.textContent.includes('Diagram')) tagValues.push('diagram');
+        
+        item.setAttribute('data-tags', tagValues.join(' '));
+    });
+    
+    // 过滤标签点击事件
+    filterTags.forEach(tag => {
+        tag.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const selectedTag = this.getAttribute('data-tag');
+            console.log('选择标签:', selectedTag);
+            
+            // 移除所有标签的活动状态 - 使用更彻底的方法
+            filterTags.forEach(t => {
+                // 移除所有样式类，然后重新添加基础类
+                t.className = 'tag';
+                // 确保基础样式
+                t.style.backgroundColor = '';
+                t.style.color = '';
+                t.style.borderColor = '';
+                t.style.fontWeight = '';
+                t.style.boxShadow = '';
+            });
+            
+            // 添加当前标签的活动状态
+            this.className = 'tag active';
+            this.style.backgroundColor = 'var(--primary)';
+            this.style.color = 'white';
+            this.style.borderColor = 'var(--primary)';
+            this.style.fontWeight = '600';
+            this.style.boxShadow = '0 2px 8px rgba(42, 157, 143, 0.3)';
+            
+            // 过滤错误项
+            mistakeItems.forEach(item => {
+                const itemTags = item.getAttribute('data-tags');
+                
+                if (selectedTag === 'all') {
+                    item.style.display = 'block';
+                    item.classList.add('fade-in');
+                } else if (itemTags && itemTags.includes(selectedTag)) {
+                    item.style.display = 'block';
+                    item.classList.add('fade-in');
+                } else {
+                    item.style.display = 'none';
+                }
+                
+                setTimeout(() => {
+                    item.classList.remove('fade-in');
+                }, 300);
+            });
+            
+            // 更新计数显示
+            updateMistakeCount(selectedTag);
+        });
+    });
+    
+    // 初始化显示所有错误
+    if (filterTags.length > 0) {
+        const allTag = document.querySelector('#gallery .tag[data-tag="all"]');
+        if (allTag) {
+            // 直接设置样式
+            allTag.className = 'tag active';
+            allTag.style.backgroundColor = 'var(--primary)';
+            allTag.style.color = 'white';
+            allTag.style.borderColor = 'var(--primary)';
+            allTag.style.fontWeight = '600';
+            allTag.style.boxShadow = '0 2px 8px rgba(42, 157, 143, 0.3)';
+            
+            updateMistakeCount('all');
+        }
+    }
+}
+
+// 更新错误计数
+function updateMistakeCount(selectedTag) {
+    const mistakeItems = document.querySelectorAll('#gallery .mistake-item');
+    let visibleCount = 0;
+    
+    if (selectedTag === 'all') {
+        visibleCount = mistakeItems.length;
+    } else {
+        mistakeItems.forEach(item => {
+            const itemTags = item.getAttribute('data-tags');
+            if (itemTags && itemTags.includes(selectedTag)) {
+                visibleCount++;
+            }
+        });
+    }
+    
+    // 更新或创建计数显示
+    let counter = document.querySelector('#gallery .mistake-counter');
+    const container = document.querySelector('#gallery .card-body .tag-container');
+    
+    if (!counter && container) {
+        counter = document.createElement('div');
+        counter.className = 'mistake-counter';
+        counter.style.cssText = `
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+            font-weight: 500;
+        `;
+        container.parentNode.insertBefore(counter, container.nextElementSibling);
+    }
+    
+    if (counter) {
+        const tagNames = {
+            'all': '所有错误',
+            'unit1': '第一单元',
+            'unit2': '第二单元',
+            'unit3': '第三单元',
+            'unit4': '第四单元',
+            'difficult': '困难题目',
+            'calculation': '计算题',
+            'diagram': '图表题'
+        };
+        
+        counter.textContent = `${tagNames[selectedTag] || selectedTag}: 显示 ${visibleCount} 个错误`;
+    }
+}
+
+// 修复错误标签点击跳转到概念的功能
+function initMistakeConceptLinks() {
+    const mistakeTags = document.querySelectorAll('#gallery .mistake-tags .tag');
+    
+    mistakeTags.forEach(tag => {
+        tag.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const tagText = this.textContent.trim();
+            console.log('点击错误标签:', tagText);
+            
+            // 根据标签文本跳转到对应概念
+            const conceptMap = {
+                'Unit 1': 'Water Properties',
+                'Unit 2': 'Cell Structure',
+                'Unit 3': 'Enzymes',
+                'Unit 4': 'Molecular Genetics',
+                'Water Properties': 'water-properties',
+                'Polarity': 'water-properties',
+                'DNA Replication': 'molecular-genetics',
+                'Molecular Biology': 'molecular-genetics'
+            };
+            
+            const conceptName = conceptMap[tagText];
+            if (conceptName) {
+                // 导航到学习页面
+                const studyLink = document.querySelector('[data-page="study"]');
+                if (studyLink) {
+                    studyLink.click();
+                    
+                    // 显示提示信息
+                    setTimeout(() => {
+                        alert(`正在跳转到相关概念: ${conceptName}\n\n您可以在学习页面找到关于 ${tagText} 的详细内容。`);
+                    }, 500);
+                }
+            } else {
+                // 如果没有特定概念映射，显示通用提示
+                alert(`标签: ${tagText}\n\n提示: 您可以在MyBio中心编辑和管理标签。`);
+            }
+        });
     });
 }

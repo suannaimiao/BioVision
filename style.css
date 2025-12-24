@@ -1257,12 +1257,6 @@ body {
     color: var(--primary);
 }
 
-.tag.active {
-    background-color: var(--primary);
-    color: white;
-    border-color: var(--primary);
-}
-
 .questions-list {
     margin: 1.5rem 0;
 }
@@ -1481,11 +1475,6 @@ body {
     margin-right: 0.5rem;
     margin-bottom: 0.5rem;
     cursor: pointer;
-}
-
-.tag.active {
-    background-color: var(--primary);
-    color: white;
 }
 
 .tag-container {
@@ -2574,3 +2563,256 @@ footer {
 }
 
 
+
+/* 在现有CSS中添加以下样式 */
+.highlight-section {
+    animation: highlight-pulse 1.5s ease-in-out;
+    position: relative;
+}
+
+@keyframes highlight-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(42, 157, 143, 0.3); }
+    50% { box-shadow: 0 0 0 10px rgba(42, 157, 143, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(42, 157, 143, 0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.concept-web-preview {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.concept-node {
+    background: white;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.concept-node:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-3px);
+}
+
+.concept-node h4 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.concept-node p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.tag {
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.tag:hover {
+    transform: translateY(-2px);
+}
+
+.tag.active {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+}
+
+/* 资源卡片动画 */
+.resource-card {
+    transition: all 0.3s ease;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .concept-web-preview {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+    
+    .concept-node {
+        padding: 0.75rem;
+    }
+}
+
+
+/* 修复标签样式冲突 - 添加到CSS文件末尾 */
+
+/* 重置所有标签的默认样式，避免冲突 */
+#gallery .tag {
+    background-color: rgba(42, 157, 143, 0.1) !important;
+    color: var(--primary) !important;
+    border: 1px solid rgba(42, 157, 143, 0.2) !important;
+    padding: 0.4rem 1rem !important;
+    border-radius: 20px !important;
+    font-size: 0.85rem !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    margin-right: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+    display: inline-block !important;
+    font-weight: normal !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+}
+
+/* 悬停状态 */
+#gallery .tag:hover {
+    background-color: rgba(42, 157, 143, 0.2) !important;
+    transform: translateY(-2px) !important;
+    border-color: var(--primary) !important;
+}
+
+/* 激活状态 - 确保文字清晰可见 */
+#gallery .tag.active {
+    background-color: var(--primary) !important;
+    color: white !important;
+    border-color: var(--primary) !important;
+    font-weight: 600 !important;
+    box-shadow: 0 2px 8px rgba(42, 157, 143, 0.3) !important;
+}
+
+/* 错误标签特殊样式 */
+#gallery .mistake-tags .tag {
+    background-color: rgba(231, 111, 81, 0.1) !important;
+    color: #e76f51 !important;
+    border-color: rgba(231, 111, 81, 0.2) !important;
+}
+
+#gallery .mistake-tags .tag:hover {
+    background-color: rgba(231, 111, 81, 0.2) !important;
+    border-color: #e76f51 !important;
+}
+
+#gallery .mistake-tags .tag.active {
+    background-color: #e76f51 !important;
+    color: white !important;
+    border-color: #e76f51 !important;
+    box-shadow: 0 2px 8px rgba(231, 111, 81, 0.3) !important;
+}
+
+/* 标签容器样式 */
+#gallery .tag-container {
+    margin-bottom: 1rem !important;
+    padding: 0.5rem 0 !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+}
+
+/* 错误项内的标签容器 */
+#gallery .mistakes-list .tag-container {
+    margin-top: 0.5rem !important;
+}
+
+/* 确保资源卡片内的标签样式也正确 */
+#gallery .resource-tags .tag {
+    background-color: rgba(66, 153, 225, 0.1) !important;
+    color: #4299e1 !important;
+    border-color: rgba(66, 153, 225, 0.2) !important;
+    font-size: 0.8rem !important;
+    padding: 0.3rem 0.6rem !important;
+}
+
+#gallery .resource-tags .tag:hover {
+    background-color: rgba(66, 153, 225, 0.2) !important;
+}
+
+/* 覆盖所有其他可能的冲突样式 */
+.content .tag,
+.card .tag,
+.card-body .tag {
+    /* 重置继承的样式 */
+    all: unset;
+    /* 重新应用我们的样式 */
+    background-color: rgba(42, 157, 143, 0.1) !important;
+    color: var(--primary) !important;
+    border: 1px solid rgba(42, 157, 143, 0.2) !important;
+    padding: 0.4rem 1rem !important;
+    border-radius: 20px !important;
+    font-size: 0.85rem !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    margin-right: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+    display: inline-block !important;
+    font-weight: normal !important;
+}
+
+/* 确保卡片内的标签也正确 */
+#gallery .card .card-body .tag-container .tag {
+    background-color: rgba(42, 157, 143, 0.1) !important;
+    color: var(--primary) !important;
+    border: 1px solid rgba(42, 157, 143, 0.2) !important;
+    padding: 0.4rem 1rem !important;
+    border-radius: 20px !important;
+    font-size: 0.85rem !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    margin-right: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+    display: inline-block !important;
+    font-weight: normal !important;
+}
+
+#gallery .card .card-body .tag-container .tag.active {
+    background-color: var(--primary) !important;
+    color: white !important;
+    border-color: var(--primary) !important;
+    font-weight: 600 !important;
+}
+
+/* 增加特异性以确保样式生效 */
+section#gallery .tag {
+    background-color: rgba(42, 157, 143, 0.1) !important;
+    color: var(--primary) !important;
+}
+
+section#gallery .tag.active {
+    background-color: var(--primary) !important;
+    color: white !important;
+}
+
+/* 动画效果 */
+#gallery .tag {
+    animation-duration: 0.3s !important;
+    animation-timing-function: ease !important;
+}
+
+#gallery .tag.active {
+    animation: tagActivate 0.3s ease !important;
+}
+
+@keyframes tagActivate {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* 确保激活状态在打印时也可见 */
+@media print {
+    #gallery .tag.active {
+        background-color: #2a9d8f !important;
+        color: white !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+}
