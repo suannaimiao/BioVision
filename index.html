@@ -1914,79 +1914,341 @@
             </div>
         </section>
 
-
         <!-- 个人中心页面 -->
         <section id="mybio" class="page-content">
             <div class="page-header">
-                <h1>MyBio Center</h1>
-                <p>View learning history, saved content, mistake collection, and personal settings</p>
-            </div>
-            <div class="card-container">
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Learning Progress</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Concepts Learned: <strong id="conceptsLearned">42</strong> / 156</p>
-                        <p>Learning Time: <strong id="learningTime">36</strong> hours</p>
-                        <div class="progress-bar">
-                            <div id="progressFill"></div>
+                <div class="container">
+                    <!-- 用户基本信息 -->
+                    <div class="user-profile-header">
+                        <div class="user-avatar-section">
+                            <div class="avatar-wrapper">
+                                <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="User Avatar">
+                                <span class="online-status"></span>
+                            </div>
+                            <div class="user-info">
+                                <h1>Emma Chen</h1>
+                                <p>@emma_biology • AP Biology Student</p>
+                                <div class="user-stats">
+                                    <span><strong>156</strong> Following</span>
+                                    <span><strong>2.3k</strong> Followers</span>
+                                    <span><strong>342</strong> Posts</span>
+                                </div>
+                            </div>
                         </div>
-                        <p>Overall Progress: <span id="progressPercent">27</span>%</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Mistake Collection</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Total Mistakes: <strong id="totalMistakes">24</strong> questions</p>
-                        <p>Recent Mistakes: DNA Replication • Cellular Respiration • Photosynthesis</p>
-                        <button class="btn btn-primary" id="viewMistakesBtn">View Mistakes</button>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Saved Content</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Saved Animations: <strong id="savedAnimations">8</strong></p>
-                        <p>Saved Questions: <strong id="savedQuestions">15</strong></p>
-                        <p>Saved Concepts: <strong id="savedConcepts">12</strong></p>
-                        <button class="btn btn-primary" id="manageSavedBtn">Manage Saved</button>
-                    </div>
-                </div>
-            </div>
-            <div class="section-title">
-                <h2>Tag Management</h2>
-                <span>Custom learning tags</span>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    <p>Edit and manage personalized tags in MyBio Center. These tags apply to mistake collection and
-                        saved content.</p>
-                    <div id="userTags" class="tag-container">
-                        <span class="tag">Important Exam Point</span>
-                        <span class="tag">Easy to Confuse</span>
-                        <span class="tag">Need to Memorize</span>
-                        <span class="tag">Experiment Related</span>
-                        <span class="tag">Calculation Problem</span>
-                        <span class="tag">Diagram Analysis</span>
-                    </div>
-                    <div class="create-tag-section">
-                        <h4>Create New Tag</h4>
-                        <div>
-                            <input type="text" id="newTagName" placeholder="Tag name">
-                            <select id="newTagColor">
-                                <option value="primary">Blue (Default)</option>
-                                <option value="success">Green</option>
-                                <option value="warning">Yellow</option>
-                                <option value="danger">Red</option>
-                            </select>
-                            <button class="btn btn-primary" id="addNewTagBtn">
-                                <i class="fas fa-plus"></i> Add Tag
+
+                        <!-- 用户标签 -->
+                        <div class="user-tags">
+                            <span class="tag">🎓 AP Biology</span>
+                            <span class="tag">🔬 Science Lover</span>
+                            <span class="tag">📚 Study Notes</span>
+                            <span class="tag">🏆 Top Contributor</span>
+                        </div>
+
+                        <!-- 操作按钮 -->
+                        <div class="user-actions">
+                            <button class="btn btn-primary" id="followUserBtn">
+                                <i class="fas fa-plus"></i> Follow
+                            </button>
+                            <button class="btn btn-secondary" id="messageUserBtn">
+                                <i class="fas fa-envelope"></i> Message
+                            </button>
+                            <button class="btn btn-primary" id="enterClassroomBtn">
+                                <i class="fas fa-door-open"></i> Enter Classroom
+                            </button>
+                            <button class="btn btn-secondary" id="moreOptionsBtn">
+                                <i class="fas fa-ellipsis-h"></i>
                             </button>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <!-- 搜索用户功能 -->
+                <div class="search-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-search"></i> Search Users</h3>
+                        <button class="btn btn-primary" id="addFriendBtn">
+                            <i class="fas fa-user-plus"></i> Add Friend
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="search-container">
+                            <input type="text" id="searchUsers" placeholder="Search by username, interests, or tags...">
+                            <button class="btn btn-primary" id="searchUsersBtn">
+                                <i class="fas fa-search"></i> Search
+                            </button>
+                        </div>
+
+                        <!-- 好友推荐 -->
+                        <div class="friend-suggestions">
+                            <h4>Suggested Friends</h4>
+                            <div class="suggestions-grid">
+                                <!-- 推荐用户卡片 -->
+                                <div class="suggestion-card">
+                                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User">
+                                    <h5>Alex Johnson</h5>
+                                    <p>Biology Major</p>
+                                    <button class="btn btn-primary">Follow</button>
+                                </div>
+
+                                <div class="suggestion-card">
+                                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User">
+                                    <h5>Sophia Williams</h5>
+                                    <p>AP Bio Tutor</p>
+                                    <button class="btn btn-primary">Follow</button>
+                                </div>
+
+                                <div class="suggestion-card">
+                                    <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="User">
+                                    <h5>Michael Chen</h5>
+                                    <p>Science Educator</p>
+                                    <button class="btn btn-primary">Follow</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 内容选项卡 -->
+                <div class="content-tabs">
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="posts">Posts</button>
+                        <button class="tab-btn" data-tab="learning">Learning</button>
+                        <button class="tab-btn" data-tab="saved">Saved</button>
+                        <button class="tab-btn" data-tab="following">Following</button>
+                        <button class="tab-btn" data-tab="analytics">Analytics</button>
+                    </div>
+                </div>
+
+                <!-- 帖子网格 - 类似小红书 -->
+                <div class="posts-grid active" id="postsTab">
+                    <div class="grid-header">
+                        <h3>My Study Notes & Posts</h3>
+                        <button class="btn btn-primary" id="createPostBtn_bio">
+                            <i class="fas fa-plus"></i> Create Post
+                        </button>
+                    </div>
+
+                    <div class="posts-container">
+                        <!-- 帖子卡片 1 -->
+                        <div class="post-card">
+                            <div class="post-image">
+                                <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                                    alt="Biology Notes">
+                                <div class="post-type study-notes">Study Notes</div>
+                            </div>
+                            <div class="post-content">
+                                <h4>DNA Replication Simplified</h4>
+                                <p>Step-by-step guide to understanding DNA replication with easy diagrams...</p>
+                                <div class="post-tags">
+                                    <span class="tag">Unit 4</span>
+                                    <span class="tag">Genetics</span>
+                                    <span class="tag">DNA</span>
+                                </div>
+                                <div class="post-stats">
+                                    <span><i class="fas fa-heart"></i> 142</span>
+                                    <span><i class="fas fa-comment"></i> 23</span>
+                                    <span><i class="fas fa-share"></i> 8</span>
+                                    <span><i class="fas fa-bookmark"></i> 45</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 帖子卡片 2 -->
+                        <div class="post-card">
+                            <div class="post-image">
+                                <img src="https://t4.ftcdn.net/jpg/01/45/53/11/360_F_145531127_BJGPesAP7B0eYjnCrYmefHDQR6ziH11J.jpg"
+                                    alt="Cell Diagram">
+                                <div class="post-type diagram">Diagram</div>
+                            </div>
+                            <div class="post-content">
+                                <h4>Mitochondria Structure Explained</h4>
+                                <p>Detailed labeled diagram of mitochondria with functions of each part...</p>
+                                <div class="post-tags">
+                                    <span class="tag">Unit 2</span>
+                                    <span class="tag">Cell Biology</span>
+                                    <span class="tag">Organelles</span>
+                                </div>
+                                <div class="post-stats">
+                                    <span><i class="fas fa-heart"></i> 89</span>
+                                    <span><i class="fas fa-comment"></i> 12</span>
+                                    <span><i class="fas fa-share"></i> 5</span>
+                                    <span><i class="fas fa-bookmark"></i> 32</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 帖子卡片 3 -->
+                        <div class="post-card">
+                            <div class="post-image">
+                                <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                                    alt="Experiment">
+                                <div class="post-type experiment">Experiment</div>
+                            </div>
+                            <div class="post-content">
+                                <h4>Photosynthesis Lab Results</h4>
+                                <p>My experiment results and analysis on factors affecting photosynthesis rate...</p>
+                                <div class="post-tags">
+                                    <span class="tag">Unit 3</span>
+                                    <span class="tag">Photosynthesis</span>
+                                    <span class="tag">Lab Report</span>
+                                </div>
+                                <div class="post-stats">
+                                    <span><i class="fas fa-heart"></i> 156</span>
+                                    <span><i class="fas fa-comment"></i> 34</span>
+                                    <span><i class="fas fa-share"></i> 12</span>
+                                    <span><i class="fas fa-bookmark"></i> 67</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 学习记录选项卡 -->
+                <div class="learning-tab" id="learningTab">
+                    <div class="grid-header">
+                        <h3><i class="fas fa-chart-line"></i> Learning Analytics</h3>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div>42</div>
+                            <div>Concepts Learned</div>
+                            <div>Out of 156</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div>36</div>
+                            <div>Learning Hours</div>
+                            <div>This Month</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div>87%</div>
+                            <div>Avg. Quiz Score</div>
+                            <div>Last 10 quizzes</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div>24</div>
+                            <div>Mistakes Collected</div>
+                            <div>For review</div>
+                        </div>
+                    </div>
+
+                    <!-- 学习习惯 -->
+                    <div class="learning-habits">
+                        <h4><i class="fas fa-calendar-alt"></i> Study Habits</h4>
+                        <div class="habit-container">
+                            <div class="habit-summary">
+                                <span>Most Active Day: <strong>Monday</strong></span>
+                                <span>Best Time: <strong>7-9 PM</strong></span>
+                                <span>Streak: <strong>14 days</strong></span>
+                            </div>
+                            <div class="habit-chart">
+                                <div class="habit-bar" style="opacity: 1;"></div>
+                                <div class="habit-bar" style="opacity: 0.8;"></div>
+                                <div class="habit-bar" style="opacity: 0.6;"></div>
+                                <div class="habit-bar" style="opacity: 0.9;"></div>
+                                <div class="habit-bar" style="opacity: 1;"></div>
+                                <div class="habit-bar" style="opacity: 0.7;"></div>
+                                <div class="habit-bar" style="opacity: 0.5;"></div>
+                            </div>
+                            <div>Weekly study time distribution</div>
+                        </div>
+                    </div>
+
+                    <!-- 学习进度 -->
+                    <div class="learning-progress">
+                        <h4><i class="fas fa-tasks"></i> Progress Overview</h4>
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                <span>AP Biology Complete</span>
+                                <span>27%</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill" style="width: 27%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                <span>Practice Questions</span>
+                                <span>68%</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill secondary" style="width: 68%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 标签编辑部分 -->
+                <div class="tags-section">
+                    <div class="section-title">
+                        <h2><i class="fas fa-tags"></i> Tag Management</h2>
+                        <span>Customize your learning tags</span>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="userTags" class="tag-container">
+                                <span class="tag">
+                                    Important Exam Point
+                                    <button class="tag-remove">×</button>
+                                </span>
+                                <span class="tag">
+                                    Easy to Confuse
+                                    <button class="tag-remove">×</button>
+                                </span>
+                                <span class="tag">
+                                    Need to Memorize
+                                    <button class="tag-remove">×</button>
+                                </span>
+                                <span class="tag">
+                                    Experiment Related
+                                    <button class="tag-remove">×</button>
+                                </span>
+                            </div>
+
+                            <div class="create-tag-section">
+                                <h4>Create New Tag</h4>
+                                <div>
+                                    <input type="text" id="newTagName" placeholder="Tag name">
+                                    <select id="newTagColor">
+                                        <option value="primary">Blue (Default)</option>
+                                        <option value="success">Green</option>
+                                        <option value="warning">Yellow</option>
+                                        <option value="danger">Red</option>
+                                    </select>
+                                    <button class="btn btn-primary" id="addNewTagBtn">
+                                        <i class="fas fa-plus"></i> Add Tag
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 私信模态框 -->
+            <div id="messageModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-envelope"></i> Send Message</h3>
+                        <button class="modal-close">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <label>To:</label>
+                        <input type="text" id="messageRecipient" value="Emma Chen" readonly>
+
+                        <label>Message:</label>
+                        <textarea id="messageContent" rows="5" placeholder="Type your message here..."></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" id="sendMessageBtn">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
                     </div>
                 </div>
             </div>

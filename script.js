@@ -25,6 +25,9 @@ document.addEventListener('DOMContentLoaded', function () {
         } else if (e.detail.page === 'forum') {
             console.log('初始化讨论区页面');
             initForumPage(); // 新增的行
+        } else if (e.detail.page === 'mybio') {
+            console.log('初始化MyBio页面');
+            initMyBioPage(); // 新增的MyBio页面初始化
         }
         // 页面切换后滚动到顶部
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -4067,5 +4070,420 @@ function filterPostsByConcept(conceptId, conceptName) {
         //         post.style.display = 'none';
         //     }
         // });
+    }
+}
+
+
+
+// 初始化MyBio页面
+function initMyBioPage() {
+    console.log('初始化MyBio页面 - 小红书风格');
+    
+    // 初始化选项卡
+    initBioTabs();
+    
+    // 初始化关注按钮
+    initFollowButton();
+    
+    // 初始化私信功能
+    initMessageFunction();
+    
+    // 初始化搜索用户功能
+    initUserSearch();
+    
+    // 初始化创建帖子按钮
+    initCreatePostBio();
+    
+    // 初始化标签管理
+    initBioTagManagement();
+    
+    // 初始化进入课堂按钮
+    initEnterClassroom();
+}
+
+// 初始化MyBio选项卡
+function initBioTabs() {
+    const tabBtns = document.querySelectorAll('#mybio .tab-btn');
+    const tabContents = {
+        'posts': document.getElementById('postsTab'),
+        'learning': document.getElementById('learningTab'),
+        'saved': document.querySelector('#mybio .saved-tab'),
+        'following': document.querySelector('#mybio .following-tab'),
+        'analytics': document.querySelector('#mybio .analytics-tab')
+    };
+    
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const tabId = this.getAttribute('data-tab');
+            
+            // 更新按钮状态
+            tabBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            // 更新内容显示
+            Object.keys(tabContents).forEach(key => {
+                if (tabContents[key]) {
+                    tabContents[key].style.display = key === tabId ? 'block' : 'none';
+                }
+            });
+            
+            // 如果是following标签，加载关注用户列表
+            if (tabId === 'following') {
+                loadFollowingList();
+            }
+            
+            console.log('切换到标签:', tabId);
+        });
+    });
+}
+
+// 初始化关注按钮
+function initFollowButton() {
+    const followBtn = document.getElementById('followUserBtn');
+    if (followBtn) {
+        followBtn.addEventListener('click', function() {
+            const isFollowing = this.innerHTML.includes('Following');
+            
+            if (isFollowing) {
+                this.innerHTML = '<i class="fas fa-plus"></i> Follow';
+                this.style.background = '#ff2442';
+                alert('You have unfollowed Emma Chen');
+            } else {
+                this.innerHTML = '<i class="fas fa-check"></i> Following';
+                this.style.background = '#666';
+                alert('You are now following Emma Chen');
+            }
+        });
+    }
+}
+
+// 初始化私信功能
+function initMessageFunction() {
+    const messageBtn = document.getElementById('messageUserBtn');
+    const messageModal = document.getElementById('messageModal');
+    const closeModal = messageModal?.querySelector('.modal-close');
+    const sendBtn = document.getElementById('sendMessageBtn');
+    
+    if (messageBtn && messageModal) {
+        // 打开私信模态框
+        messageBtn.addEventListener('click', function() {
+            messageModal.style.display = 'flex';
+        });
+        
+        // 关闭模态框
+        if (closeModal) {
+            closeModal.addEventListener('click', function() {
+                messageModal.style.display = 'none';
+            });
+        }
+        
+        // 点击模态框外部关闭
+        messageModal.addEventListener('click', function(e) {
+            if (e.target === messageModal) {
+                messageModal.style.display = 'none';
+            }
+        });
+        
+        // 发送消息
+        if (sendBtn) {
+            sendBtn.addEventListener('click', function() {
+                const messageContent = document.getElementById('messageContent').value;
+                if (messageContent.trim()) {
+                    alert('Message sent to Emma Chen!');
+                    messageModal.style.display = 'none';
+                    document.getElementById('messageContent').value = '';
+                } else {
+                    alert('Please enter a message');
+                }
+            });
+        }
+    }
+}
+
+// 初始化用户搜索
+function initUserSearch() {
+    const searchBtn = document.getElementById('searchUsersBtn');
+    const searchInput = document.getElementById('searchUsers');
+    
+    if (searchBtn && searchInput) {
+        searchBtn.addEventListener('click', function() {
+            const query = searchInput.value.trim();
+            if (query) {
+                alert(`Searching for users with query: "${query}"\n\nIn a real application, this would show search results.`);
+            } else {
+                alert('Please enter a search query');
+            }
+        });
+        
+        // 支持按Enter键搜索
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchBtn.click();
+            }
+        });
+    }
+    
+    // 初始化添加好友按钮
+    const addFriendBtn = document.getElementById('addFriendBtn');
+    if (addFriendBtn) {
+        addFriendBtn.addEventListener('click', function() {
+            alert('Opening friend search interface...\n\nYou can search for and add new friends here.');
+        });
+    }
+}
+
+// 初始化创建帖子按钮
+function initCreatePostBio() {
+    const createPostBtn = document.getElementById('createPostBtn_bio');
+    
+    if (createPostBtn) {
+        createPostBtn.addEventListener('click', function() {
+            // 创建帖子模态框
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; padding: 2rem; border-radius: 12px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h3><i class="fas fa-edit"></i> Create New Post</h3>
+                        <span class="modal-close" style="font-size: 1.5rem; cursor: pointer;">&times;</span>
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <input type="text" id="postTitleInput" placeholder="Post title" 
+                               style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 1rem;">
+                        
+                        <textarea id="postContentInput" placeholder="Write your post content here..." rows="8"
+                                  style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; resize: vertical; margin-bottom: 1rem;"></textarea>
+                        
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem;">Upload Image (optional):</label>
+                            <input type="file" id="postImageInput" accept="image/*" style="width: 100%;">
+                        </div>
+                        
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem;">Tags:</label>
+                            <input type="text" id="postTagsInput" placeholder="Add tags separated by commas" 
+                                   style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px;">
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: flex-end; gap: 1rem;">
+                        <button class="btn btn-secondary" id="cancelPostBtnBio">Cancel</button>
+                        <button class="btn btn-primary" id="submitPostBtnBio">Publish Post</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // 关闭模态框
+            const closeModal = () => {
+                document.body.removeChild(modal);
+            };
+            
+            modal.querySelector('.modal-close').addEventListener('click', closeModal);
+            modal.querySelector('#cancelPostBtnBio').addEventListener('click', closeModal);
+            
+            // 提交帖子
+            modal.querySelector('#submitPostBtnBio').addEventListener('click', function() {
+                const title = modal.querySelector('#postTitleInput').value.trim();
+                const content = modal.querySelector('#postContentInput').value.trim();
+                
+                if (!title || !content) {
+                    alert('Please fill in both title and content');
+                    return;
+                }
+                
+                // 在实际应用中，这里会提交到服务器
+                alert('Post published successfully! It will appear in your profile.');
+                closeModal();
+                
+                // 模拟添加新帖子到网格
+                addNewPostToGrid({
+                    title: title,
+                    content: content.substring(0, 100) + '...',
+                    tags: ['New Post', 'Study Notes']
+                });
+            });
+            
+            // 点击模态框外部关闭
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+        });
+    }
+}
+
+// 添加新帖子到网格
+function addNewPostToGrid(postData) {
+    const postsContainer = document.querySelector('#mybio .posts-container');
+    if (!postsContainer) return;
+    
+    const postCard = document.createElement('div');
+    postCard.className = 'post-card';
+    postCard.style.cssText = 'border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); background: white;';
+    
+    const imageUrl = 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80';
+    
+    postCard.innerHTML = `
+        <div class="post-image" style="position: relative;">
+            <img src="${imageUrl}" alt="New Post" style="width: 100%; height: 200px; object-fit: cover;">
+            <div class="post-type" style="position: absolute; top: 10px; right: 10px; background: #2a9d8f; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">
+                New Post
+            </div>
+        </div>
+        <div class="post-content" style="padding: 1rem;">
+            <h4 style="margin: 0 0 0.5rem 0;">${postData.title}</h4>
+            <p style="color: #666; font-size: 0.875rem; margin-bottom: 1rem;">${postData.content}</p>
+            <div class="post-tags" style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
+                ${postData.tags.map(tag => `
+                    <span class="tag" style="background: #f0f8ff; color: #2a9d8f; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">${tag}</span>
+                `).join('')}
+            </div>
+            <div class="post-stats" style="display: flex; justify-content: space-between; color: #999; font-size: 0.875rem;">
+                <span><i class="fas fa-heart"></i> 0</span>
+                <span><i class="fas fa-comment"></i> 0</span>
+                <span><i class="fas fa-share"></i> 0</span>
+                <span><i class="fas fa-bookmark"></i> 0</span>
+            </div>
+        </div>
+    `;
+    
+    // 添加到网格开头
+    postsContainer.insertBefore(postCard, postsContainer.firstChild);
+}
+
+// 初始化标签管理
+function initBioTagManagement() {
+    const addTagBtn = document.getElementById('addNewTagBtn');
+    const newTagName = document.getElementById('newTagName');
+    const newTagColor = document.getElementById('newTagColor');
+    const userTags = document.getElementById('userTags');
+    
+    if (addTagBtn && newTagName && newTagColor && userTags) {
+        addTagBtn.addEventListener('click', function() {
+            const tagName = newTagName.value.trim();
+            if (!tagName) {
+                alert('Please enter a tag name');
+                return;
+            }
+            
+            const colorClass = newTagColor.value;
+            const colorMap = {
+                'primary': { bg: 'rgba(42, 157, 143, 0.1)', color: '#2a9d8f' },
+                'success': { bg: 'rgba(76, 175, 80, 0.1)', color: '#4CAF50' },
+                'warning': { bg: 'rgba(255, 152, 0, 0.1)', color: '#FF9800' },
+                'danger': { bg: 'rgba(233, 30, 99, 0.1)', color: '#e91e63' }
+            };
+            
+            const colors = colorMap[colorClass] || colorMap.primary;
+            
+            const newTag = document.createElement('span');
+            newTag.className = 'tag';
+            newTag.style.cssText = `background: ${colors.bg}; color: ${colors.color}; padding: 0.5rem 1rem; border-radius: 20px; display: flex; align-items: center;`;
+            newTag.innerHTML = `
+                ${tagName} 
+                <button class="tag-remove" style="margin-left: 0.5rem; background: none; border: none; color: #666; cursor: pointer;">×</button>
+            `;
+            
+            userTags.appendChild(newTag);
+            newTagName.value = '';
+            
+            // 为新标签添加移除功能
+            newTag.querySelector('.tag-remove').addEventListener('click', function() {
+                userTags.removeChild(newTag);
+            });
+            
+            alert(`Tag "${tagName}" added successfully!`);
+        });
+        
+        // 为现有标签添加移除功能
+        const existingTags = userTags.querySelectorAll('.tag-remove');
+        existingTags.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const tag = this.closest('.tag');
+                userTags.removeChild(tag);
+            });
+        });
+    }
+}
+
+// 加载关注用户列表
+function loadFollowingList() {
+    const followingTab = document.querySelector('#mybio .following-tab');
+    if (!followingTab) {
+        // 创建关注标签内容
+        const tabsContainer = document.querySelector('#mybio .content-tabs');
+        if (tabsContainer) {
+            const followingDiv = document.createElement('div');
+            followingDiv.className = 'following-tab';
+            followingDiv.style.cssText = 'display: none;';
+            followingDiv.innerHTML = `
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-users"></i> Following</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="following-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem;">
+                            <!-- 关注用户卡片会动态加载 -->
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            tabsContainer.parentNode.insertBefore(followingDiv, tabsContainer.nextElementSibling);
+        }
+    }
+    
+    // 模拟加载关注用户数据
+    const followingUsers = [
+        { name: 'Alex Johnson', role: 'Biology Major', avatar: 'https://randomuser.me/api/portraits/men/32.jpg', mutual: 12 },
+        { name: 'Sophia Williams', role: 'AP Bio Tutor', avatar: 'https://randomuser.me/api/portraits/women/44.jpg', mutual: 8 },
+        { name: 'Michael Chen', role: 'Science Educator', avatar: 'https://randomuser.me/api/portraits/men/22.jpg', mutual: 15 },
+        { name: 'David Miller', role: 'Pre-Med Student', avatar: 'https://randomuser.me/api/portraits/men/65.jpg', mutual: 5 },
+        { name: 'Lisa Wang', role: 'Biology Researcher', avatar: 'https://randomuser.me/api/portraits/women/22.jpg', mutual: 20 }
+    ];
+    
+    const followingGrid = document.querySelector('.following-grid');
+    if (followingGrid) {
+        followingGrid.innerHTML = followingUsers.map(user => `
+            <div class="following-card" style="border: 1px solid #eee; border-radius: 8px; padding: 1.5rem; display: flex; align-items: center;">
+                <img src="${user.avatar}" alt="${user.name}" 
+                     style="width: 60px; height: 60px; border-radius: 50%; margin-right: 1rem;">
+                <div style="flex: 1;">
+                    <h5 style="margin: 0 0 0.25rem 0;">${user.name}</h5>
+                    <p style="margin: 0 0 0.5rem 0; color: #666; font-size: 0.875rem;">${user.role}</p>
+                    <p style="margin: 0; color: #888; font-size: 0.75rem;">${user.mutual} mutual connections</p>
+                </div>
+                <button class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.25rem 0.75rem;">Message</button>
+            </div>
+        `).join('');
+    }
+}
+
+// 初始化进入课堂按钮
+function initEnterClassroom() {
+    const enterClassroomBtn = document.getElementById('enterClassroomBtn');
+    if (enterClassroomBtn) {
+        enterClassroomBtn.addEventListener('click', function() {
+            alert('Entering Classroom...\n\nThis would redirect to the main learning interface.');
+            // 在实际应用中，这里会导航到学习页面
+            document.querySelector('[data-page="study"]').click();
+        });
     }
 }

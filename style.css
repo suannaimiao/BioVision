@@ -3966,3 +3966,974 @@ section#gallery .tag.active {
 }
 
 
+
+
+/* ============================
+   MyBio 页面 - 小红书风格个人页面
+   ============================ */
+
+/* 页面头部 - 渐变背景 */
+#mybio .page-header {
+    background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+    color: white;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+    border-bottom: none;
+}
+
+#mybio .page-header .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* 用户个人信息头部 */
+#mybio .user-profile-header {
+    padding: 1rem 0;
+}
+
+#mybio .user-avatar-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+#mybio .avatar-wrapper {
+    position: relative;
+    flex-shrink: 0;
+}
+
+#mybio .avatar-wrapper img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 4px solid white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    object-fit: cover;
+}
+
+#mybio .online-status {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 15px;
+    height: 15px;
+    background-color: #4CAF50;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+#mybio .user-info {
+    flex: 1;
+    min-width: 300px;
+}
+
+#mybio .user-info h1 {
+    font-size: 2rem;
+    margin: 0 0 0.5rem 0;
+    color: white;
+}
+
+#mybio .user-info p {
+    margin: 0 0 0.5rem 0;
+    opacity: 0.9;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+#mybio .user-stats {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+#mybio .user-stats span {
+    color: white;
+    font-size: 0.95rem;
+}
+
+#mybio .user-stats strong {
+    font-weight: 600;
+    margin-right: 0.25rem;
+}
+
+/* 用户标签 */
+#mybio .user-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+#mybio .user-tags .tag {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+#mybio .user-tags .tag:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+/* 用户操作按钮 */
+#mybio .user-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+#mybio .user-actions .btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#mybio #followUserBtn {
+    background: #ff2442;
+    border: none;
+    color: white;
+}
+
+#mybio #followUserBtn:hover {
+    background: #e61e3d;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 36, 66, 0.3);
+}
+
+#mybio #messageUserBtn {
+    background: white;
+    color: var(--secondary);
+    border: 1px solid white;
+}
+
+#mybio #messageUserBtn:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px);
+}
+
+#mybio #enterClassroomBtn {
+    background: var(--primary);
+    border: none;
+    color: white;
+}
+
+#mybio #enterClassroomBtn:hover {
+    background: var(--secondary);
+    transform: translateY(-2px);
+}
+
+/* 主内容容器 */
+#mybio .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem 2rem;
+}
+
+/* 搜索用户卡片 */
+#mybio .search-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+    overflow: hidden;
+}
+
+#mybio .search-card .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    background: var(--primary);
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#mybio .search-card .card-header h3 {
+    margin: 0;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#mybio .search-card .card-body {
+    padding: 1.5rem;
+}
+
+/* 搜索容器 */
+#mybio .search-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+#mybio .search-container input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+#mybio .search-container input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.1);
+}
+
+/* 好友推荐 */
+#mybio .friend-suggestions {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
+}
+
+#mybio .friend-suggestions h4 {
+    color: var(--secondary);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+#mybio .suggestions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+#mybio .suggestion-card {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+#mybio .suggestion-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary);
+}
+
+#mybio .suggestion-card img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-bottom: 0.5rem;
+    object-fit: cover;
+    border: 3px solid white;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+#mybio .suggestion-card h5 {
+    margin: 0.5rem 0;
+    color: var(--secondary);
+    font-size: 1rem;
+}
+
+#mybio .suggestion-card p {
+    font-size: 0.875rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+#mybio .suggestion-card .btn {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+}
+
+/* 内容选项卡 */
+#mybio .content-tabs {
+    margin-bottom: 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+#mybio .tabs {
+    display: flex;
+    border-bottom: 2px solid #eee;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+#mybio .tabs::-webkit-scrollbar {
+    display: none;
+}
+
+#mybio .tab-btn {
+    padding: 1rem 1.5rem;
+    background: none;
+    border: none;
+    color: #666;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    position: relative;
+}
+
+#mybio .tab-btn:hover {
+    color: var(--primary);
+    background: rgba(42, 157, 143, 0.05);
+}
+
+#mybio .tab-btn.active {
+    color: var(--primary);
+    border-bottom: 2px solid var(--primary);
+    font-weight: 600;
+}
+
+/* 帖子网格 */
+#mybio .posts-grid,
+#mybio .learning-tab,
+#mybio .saved-tab,
+#mybio .following-tab,
+#mybio .analytics-tab {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+#mybio .grid-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+#mybio .grid-header h3 {
+    color: var(--secondary);
+    margin: 0;
+    font-size: 1.4rem;
+}
+
+/* 帖子容器 */
+#mybio .posts-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+/* 帖子卡片 */
+#mybio .post-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border: 1px solid #eee;
+}
+
+#mybio .post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    border-color: var(--primary);
+}
+
+#mybio .post-image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+#mybio .post-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+#mybio .post-card:hover .post-image img {
+    transform: scale(1.05);
+}
+
+#mybio .post-type {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--primary);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    z-index: 2;
+}
+
+#mybio .post-type.study-notes {
+    background: var(--primary);
+}
+
+#mybio .post-type.diagram {
+    background: #4CAF50;
+}
+
+#mybio .post-type.experiment {
+    background: #FF9800;
+}
+
+#mybio .post-content {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#mybio .post-content h4 {
+    margin: 0 0 0.5rem 0;
+    color: var(--secondary);
+    font-size: 1.1rem;
+    line-height: 1.4;
+}
+
+#mybio .post-content > p {
+    color: #666;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    flex: 1;
+}
+
+/* 帖子标签 */
+#mybio .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+#mybio .post-tags .tag {
+    background: #f0f8ff;
+    color: var(--primary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    border: none;
+}
+
+/* 帖子统计 */
+#mybio .post-stats {
+    display: flex;
+    justify-content: space-between;
+    color: #999;
+    font-size: 0.875rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+    margin-top: auto;
+}
+
+#mybio .post-stats span {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+#mybio .post-stats i {
+    font-size: 0.875rem;
+}
+
+/* 学习选项卡样式 */
+#mybio .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+#mybio .stat-card {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid #eee;
+}
+
+#mybio .stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary);
+}
+
+#mybio .stat-card > div:first-child {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+#mybio .stat-card > div:nth-child(2) {
+    font-weight: 600;
+    color: var(--secondary);
+    margin-bottom: 0.25rem;
+}
+
+#mybio .stat-card > div:last-child {
+    font-size: 0.875rem;
+    color: #666;
+}
+
+/* 学习习惯 */
+#mybio .learning-habits {
+    margin-bottom: 2rem;
+}
+
+#mybio .learning-habits h4 {
+    color: var(--secondary);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#mybio .habit-container {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 10px;
+    border: 1px solid #eee;
+}
+
+#mybio .habit-summary {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+#mybio .habit-summary span {
+    color: var(--secondary);
+    font-weight: 500;
+}
+
+#mybio .habit-summary strong {
+    color: var(--primary);
+}
+
+#mybio .habit-chart {
+    display: flex;
+    height: 30px;
+    margin-bottom: 1rem;
+    gap: 2px;
+}
+
+#mybio .habit-bar {
+    flex: 1;
+    background: var(--primary);
+    border-radius: 4px;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+#mybio .habit-bar:hover {
+    opacity: 1;
+    transform: scaleY(1.1);
+}
+
+/* 学习进度 */
+#mybio .learning-progress {
+    margin-top: 2rem;
+}
+
+#mybio .progress-item {
+    margin-bottom: 1.5rem;
+}
+
+#mybio .progress-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+#mybio .progress-header span {
+    color: var(--secondary);
+    font-weight: 500;
+}
+
+#mybio .progress-header span:last-child {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+#mybio .progress-track {
+    height: 10px;
+    background: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+#mybio .progress-fill {
+    height: 100%;
+    background: var(--primary);
+    border-radius: 5px;
+    transition: width 0.5s ease;
+}
+
+#mybio .progress-fill.secondary {
+    background: #4CAF50;
+}
+
+/* 标签编辑部分 */
+#mybio .tags-section {
+    margin-top: 2rem;
+}
+
+#mybio .tags-section .section-title {
+    margin-bottom: 1.5rem;
+}
+
+#mybio .tags-section .card {
+    border: 1px solid #eee;
+}
+
+#mybio .tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+#mybio .tag-container .tag {
+    background: rgba(42, 157, 143, 0.1);
+    color: var(--primary);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+#mybio .tag-container .tag:hover {
+    background: rgba(42, 157, 143, 0.2);
+    transform: translateY(-2px);
+}
+
+#mybio .tag-remove {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    font-size: 1.2rem;
+    line-height: 1;
+    padding: 0;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+#mybio .tag-remove:hover {
+    background: rgba(0, 0, 0, 0.1);
+    color: var(--danger);
+}
+
+#mybio .create-tag-section {
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
+}
+
+#mybio .create-tag-section h4 {
+    color: var(--secondary);
+    margin-bottom: 1rem;
+}
+
+#mybio .create-tag-section > div {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+#mybio #newTagName {
+    flex: 1;
+    min-width: 200px;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+#mybio #newTagColor {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    min-width: 150px;
+}
+
+#mybio #addNewTagBtn {
+    padding: 0.75rem 1.5rem;
+}
+
+/* 模态框 */
+#mybio .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+}
+
+#mybio .modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#mybio .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+#mybio .modal-close {
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #666;
+    background: none;
+    border: none;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+#mybio .modal-close:hover {
+    background-color: #f8f9fa;
+    color: var(--danger);
+}
+
+#mybio .modal-body {
+    margin-bottom: 1.5rem;
+}
+
+#mybio .modal-body label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--secondary);
+}
+
+#mybio .modal-body input,
+#mybio .modal-body textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+#mybio .modal-body textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+#mybio .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    #mybio .user-avatar-section {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    #mybio .user-info {
+        min-width: auto;
+    }
+    
+    #mybio .user-stats {
+        justify-content: center;
+    }
+    
+    #mybio .user-actions {
+        justify-content: center;
+    }
+    
+    #mybio .user-actions .btn {
+        flex: 1;
+        min-width: 140px;
+        justify-content: center;
+    }
+    
+    #mybio .posts-container {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+    
+    #mybio .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    #mybio .tabs {
+        overflow-x: auto;
+    }
+    
+    #mybio .tab-btn {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    #mybio .search-container {
+        flex-direction: column;
+    }
+    
+    #mybio .suggestions-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    #mybio .posts-container {
+        grid-template-columns: 1fr;
+    }
+    
+    #mybio .modal-content {
+        width: 95%;
+        padding: 1rem;
+    }
+    
+    #mybio .create-tag-section > div {
+        flex-direction: column;
+    }
+    
+    #mybio #newTagName,
+    #mybio #newTagColor {
+        min-width: auto;
+        width: 100%;
+    }
+}
+
+/* 动画效果 */
+#mybio .post-card,
+#mybio .suggestion-card,
+#mybio .stat-card {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 加载动画 */
+#mybio .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+}
+
+#mybio .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(42, 157, 143, 0.1);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 空状态 */
+#mybio .empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #666;
+}
+
+#mybio .empty-state i {
+    font-size: 3rem;
+    color: #ddd;
+    margin-bottom: 1rem;
+}
+
+#mybio .empty-state h4 {
+    color: var(--secondary);
+    margin-bottom: 0.5rem;
+}
+
+/* 隐藏其他选项卡内容 */
+#mybio .learning-tab,
+#mybio .saved-tab,
+#mybio .following-tab,
+#mybio .analytics-tab {
+    display: none;
+}
+
+/* 显示活动选项卡 */
+#mybio .learning-tab.active,
+#mybio .saved-tab.active,
+#mybio .following-tab.active,
+#mybio .analytics-tab.active {
+    display: block;
+}
