@@ -921,6 +921,9 @@ function initStudyPage() {
     initResourceNavigation();
     initQuestionFilters();
 
+    // 初始化Study页面的3D模型查看器
+    initStudyPage3DViewer();
+
     // 确保步骤动画容器可见
     const stepAnimation = document.getElementById('step-animation');
     if (stepAnimation) {
@@ -930,6 +933,32 @@ function initStudyPage() {
     }
 }
 
+
+// 初始化Study页面的3D模型查看器
+function initStudyPage3DViewer() {
+    console.log('初始化Study页面3D模型查看器...');
+
+    const viewModelButtons = document.querySelectorAll('#study .view-model-btn');
+
+    viewModelButtons.forEach(button => {
+        const newButton = button.cloneNode(true);
+        button.parentNode.replaceChild(newButton, button);
+
+        newButton.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // 获取模型信息
+            const card = this.closest('.model-card');
+            const modelTitle = card.querySelector('h4').textContent;
+            const modelType = card.getAttribute('data-type') || '3dmodel';
+            const modelTags = card.getAttribute('data-tags');
+
+            // 打开3D模型查看器
+            open3DModelViewer(modelTitle, modelType, modelTags);
+        });
+    });
+}
 
 function ensureVideoContainer() {
     const stepAnimation = document.getElementById('step-animation');
@@ -1684,10 +1713,23 @@ function initButtonEvents() {
     });
 
     // 查看模型按钮
+    // 修改查看模型按钮事件处理
     document.querySelectorAll('.view-model-btn').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const model = this.closest('.model-card').getAttribute('data-model');
-            alert(`Opening 3D model viewer for: ${model}\nInteractive 3D visualization will load.`);
+        // 移除原有的事件监听器
+        const newBtn = btn.cloneNode(true);
+        btn.parentNode.replaceChild(newBtn, btn);
+
+        newBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const card = this.closest('.model-card');
+            const modelTitle = card.querySelector('h4').textContent;
+            const modelType = card.getAttribute('data-type');
+            const modelTags = card.getAttribute('data-tags');
+
+            // 打开3D模型查看器
+            open3DModelViewer(modelTitle, modelType, modelTags);
         });
     });
 
@@ -4075,25 +4117,25 @@ function filterPostsByConcept(conceptId, conceptName) {
 // 初始化MyBio页面
 function initMyBioPage() {
     console.log('初始化MyBio页面 - 小红书风格');
-    
+
     // 初始化选项卡
     initBioTabs();
-    
+
     // 初始化关注按钮
     initFollowButton();
-    
+
     // 初始化私信功能
     initMessageFunction();
-    
+
     // 初始化搜索用户功能
     initUserSearch();
-    
+
     // 初始化创建帖子按钮
     initCreatePostBio();
-    
+
     // 初始化标签管理
     initBioTagManagement();
-    
+
     // 初始化进入课堂按钮
     initEnterClassroom();
 }
@@ -4108,27 +4150,27 @@ function initBioTabs() {
         'following': document.querySelector('#mybio .following-tab'),
         'analytics': document.querySelector('#mybio .analytics-tab')
     };
-    
+
     tabBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
             const tabId = this.getAttribute('data-tab');
-            
+
             // 更新按钮状态
             tabBtns.forEach(b => b.classList.remove('active'));
             this.classList.add('active');
-            
+
             // 更新内容显示
             Object.keys(tabContents).forEach(key => {
                 if (tabContents[key]) {
                     tabContents[key].style.display = key === tabId ? 'block' : 'none';
                 }
             });
-            
+
             // 如果是following标签，加载关注用户列表
             if (tabId === 'following') {
                 loadFollowingList();
             }
-            
+
             console.log('切换到标签:', tabId);
         });
     });
@@ -4138,9 +4180,9 @@ function initBioTabs() {
 function initFollowButton() {
     const followBtn = document.getElementById('followUserBtn');
     if (followBtn) {
-        followBtn.addEventListener('click', function() {
+        followBtn.addEventListener('click', function () {
             const isFollowing = this.innerHTML.includes('Following');
-            
+
             if (isFollowing) {
                 this.innerHTML = '<i class="fas fa-plus"></i> Follow';
                 this.style.background = '#ff2442';
@@ -4160,30 +4202,30 @@ function initMessageFunction() {
     const messageModal = document.getElementById('messageModal');
     const closeModal = messageModal?.querySelector('.modal-close');
     const sendBtn = document.getElementById('sendMessageBtn');
-    
+
     if (messageBtn && messageModal) {
         // 打开私信模态框
-        messageBtn.addEventListener('click', function() {
+        messageBtn.addEventListener('click', function () {
             messageModal.style.display = 'flex';
         });
-        
+
         // 关闭模态框
         if (closeModal) {
-            closeModal.addEventListener('click', function() {
+            closeModal.addEventListener('click', function () {
                 messageModal.style.display = 'none';
             });
         }
-        
+
         // 点击模态框外部关闭
-        messageModal.addEventListener('click', function(e) {
+        messageModal.addEventListener('click', function (e) {
             if (e.target === messageModal) {
                 messageModal.style.display = 'none';
             }
         });
-        
+
         // 发送消息
         if (sendBtn) {
-            sendBtn.addEventListener('click', function() {
+            sendBtn.addEventListener('click', function () {
                 const messageContent = document.getElementById('messageContent').value;
                 if (messageContent.trim()) {
                     alert('Message sent to Emma Chen!');
@@ -4201,9 +4243,9 @@ function initMessageFunction() {
 function initUserSearch() {
     const searchBtn = document.getElementById('searchUsersBtn');
     const searchInput = document.getElementById('searchUsers');
-    
+
     if (searchBtn && searchInput) {
-        searchBtn.addEventListener('click', function() {
+        searchBtn.addEventListener('click', function () {
             const query = searchInput.value.trim();
             if (query) {
                 alert(`Searching for users with query: "${query}"\n\nIn a real application, this would show search results.`);
@@ -4211,19 +4253,19 @@ function initUserSearch() {
                 alert('Please enter a search query');
             }
         });
-        
+
         // 支持按Enter键搜索
-        searchInput.addEventListener('keypress', function(e) {
+        searchInput.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 searchBtn.click();
             }
         });
     }
-    
+
     // 初始化添加好友按钮
     const addFriendBtn = document.getElementById('addFriendBtn');
     if (addFriendBtn) {
-        addFriendBtn.addEventListener('click', function() {
+        addFriendBtn.addEventListener('click', function () {
             alert('Opening friend search interface...\n\nYou can search for and add new friends here.');
         });
     }
@@ -4232,9 +4274,9 @@ function initUserSearch() {
 // 初始化创建帖子按钮
 function initCreatePostBio() {
     const createPostBtn = document.getElementById('createPostBtn_bio');
-    
+
     if (createPostBtn) {
-        createPostBtn.addEventListener('click', function() {
+        createPostBtn.addEventListener('click', function () {
             // 创建帖子模态框
             const modal = document.createElement('div');
             modal.className = 'modal';
@@ -4250,7 +4292,7 @@ function initCreatePostBio() {
                 align-items: center;
                 z-index: 1000;
             `;
-            
+
             modal.innerHTML = `
                 <div style="background: white; padding: 2rem; border-radius: 12px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
@@ -4283,31 +4325,31 @@ function initCreatePostBio() {
                     </div>
                 </div>
             `;
-            
+
             document.body.appendChild(modal);
-            
+
             // 关闭模态框
             const closeModal = () => {
                 document.body.removeChild(modal);
             };
-            
+
             modal.querySelector('.modal-close').addEventListener('click', closeModal);
             modal.querySelector('#cancelPostBtnBio').addEventListener('click', closeModal);
-            
+
             // 提交帖子
-            modal.querySelector('#submitPostBtnBio').addEventListener('click', function() {
+            modal.querySelector('#submitPostBtnBio').addEventListener('click', function () {
                 const title = modal.querySelector('#postTitleInput').value.trim();
                 const content = modal.querySelector('#postContentInput').value.trim();
-                
+
                 if (!title || !content) {
                     alert('Please fill in both title and content');
                     return;
                 }
-                
+
                 // 在实际应用中，这里会提交到服务器
                 alert('Post published successfully! It will appear in your profile.');
                 closeModal();
-                
+
                 // 模拟添加新帖子到网格
                 addNewPostToGrid({
                     title: title,
@@ -4315,9 +4357,9 @@ function initCreatePostBio() {
                     tags: ['New Post', 'Study Notes']
                 });
             });
-            
+
             // 点击模态框外部关闭
-            modal.addEventListener('click', function(e) {
+            modal.addEventListener('click', function (e) {
                 if (e.target === modal) {
                     closeModal();
                 }
@@ -4330,13 +4372,13 @@ function initCreatePostBio() {
 function addNewPostToGrid(postData) {
     const postsContainer = document.querySelector('#mybio .posts-container');
     if (!postsContainer) return;
-    
+
     const postCard = document.createElement('div');
     postCard.className = 'post-card';
     postCard.style.cssText = 'border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); background: white;';
-    
+
     const imageUrl = 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80';
-    
+
     postCard.innerHTML = `
         <div class="post-image" style="position: relative;">
             <img src="${imageUrl}" alt="New Post" style="width: 100%; height: 200px; object-fit: cover;">
@@ -4360,7 +4402,7 @@ function addNewPostToGrid(postData) {
             </div>
         </div>
     `;
-    
+
     // 添加到网格开头
     postsContainer.insertBefore(postCard, postsContainer.firstChild);
 }
@@ -4371,15 +4413,15 @@ function initBioTagManagement() {
     const newTagName = document.getElementById('newTagName');
     const newTagColor = document.getElementById('newTagColor');
     const userTags = document.getElementById('userTags');
-    
+
     if (addTagBtn && newTagName && newTagColor && userTags) {
-        addTagBtn.addEventListener('click', function() {
+        addTagBtn.addEventListener('click', function () {
             const tagName = newTagName.value.trim();
             if (!tagName) {
                 alert('Please enter a tag name');
                 return;
             }
-            
+
             const colorClass = newTagColor.value;
             const colorMap = {
                 'primary': { bg: 'rgba(42, 157, 143, 0.1)', color: '#2a9d8f' },
@@ -4387,9 +4429,9 @@ function initBioTagManagement() {
                 'warning': { bg: 'rgba(255, 152, 0, 0.1)', color: '#FF9800' },
                 'danger': { bg: 'rgba(233, 30, 99, 0.1)', color: '#e91e63' }
             };
-            
+
             const colors = colorMap[colorClass] || colorMap.primary;
-            
+
             const newTag = document.createElement('span');
             newTag.className = 'tag';
             newTag.style.cssText = `background: ${colors.bg}; color: ${colors.color}; padding: 0.5rem 1rem; border-radius: 20px; display: flex; align-items: center;`;
@@ -4397,22 +4439,22 @@ function initBioTagManagement() {
                 ${tagName} 
                 <button class="tag-remove" style="margin-left: 0.5rem; background: none; border: none; color: #666; cursor: pointer;">×</button>
             `;
-            
+
             userTags.appendChild(newTag);
             newTagName.value = '';
-            
+
             // 为新标签添加移除功能
-            newTag.querySelector('.tag-remove').addEventListener('click', function() {
+            newTag.querySelector('.tag-remove').addEventListener('click', function () {
                 userTags.removeChild(newTag);
             });
-            
+
             alert(`Tag "${tagName}" added successfully!`);
         });
-        
+
         // 为现有标签添加移除功能
         const existingTags = userTags.querySelectorAll('.tag-remove');
         existingTags.forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function () {
                 const tag = this.closest('.tag');
                 userTags.removeChild(tag);
             });
@@ -4442,11 +4484,11 @@ function loadFollowingList() {
                     </div>
                 </div>
             `;
-            
+
             tabsContainer.parentNode.insertBefore(followingDiv, tabsContainer.nextElementSibling);
         }
     }
-    
+
     // 模拟加载关注用户数据
     const followingUsers = [
         { name: 'Alex Johnson', role: 'Biology Major', avatar: 'https://randomuser.me/api/portraits/men/32.jpg', mutual: 12 },
@@ -4455,7 +4497,7 @@ function loadFollowingList() {
         { name: 'David Miller', role: 'Pre-Med Student', avatar: 'https://randomuser.me/api/portraits/men/65.jpg', mutual: 5 },
         { name: 'Lisa Wang', role: 'Biology Researcher', avatar: 'https://randomuser.me/api/portraits/women/22.jpg', mutual: 20 }
     ];
-    
+
     const followingGrid = document.querySelector('.following-grid');
     if (followingGrid) {
         followingGrid.innerHTML = followingUsers.map(user => `
@@ -4477,7 +4519,7 @@ function loadFollowingList() {
 function initEnterClassroom() {
     const enterClassroomBtn = document.getElementById('enterClassroomBtn');
     if (enterClassroomBtn) {
-        enterClassroomBtn.addEventListener('click', function() {
+        enterClassroomBtn.addEventListener('click', function () {
             alert('Entering Classroom...\n\nThis would redirect to the main learning interface.');
             // 在实际应用中，这里会导航到学习页面
             document.querySelector('[data-page="study"]').click();
@@ -4489,10 +4531,10 @@ function initEnterClassroom() {
 // 初始化页脚功能
 function initFooterFunctions() {
     console.log('初始化页脚功能');
-    
+
     // 获取页脚所有链接
     const footerLinks = document.querySelectorAll('footer a');
-    
+
     // 定义页面映射关系
     const pageMap = {
         'All Courses': 'study',
@@ -4501,7 +4543,7 @@ function initFooterFunctions() {
         'Practice Questions': 'exam',
         'Discussion Forum': 'forum'
     };
-    
+
     // 定义弹窗内容
     const modalContent = {
         'about': {
@@ -4788,30 +4830,30 @@ function initFooterFunctions() {
             `
         }
     };
-    
+
     // 为每个页脚链接添加点击事件
     footerLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', function (e) {
             e.preventDefault();
-            
+
             const linkText = this.textContent.trim();
             const href = this.getAttribute('href');
-            
+
             console.log('页脚链接点击:', linkText);
-            
+
             // 检查是否有对应的页面跳转
             if (pageMap[linkText]) {
                 // 跳转到对应页面
                 const pageId = pageMap[linkText];
                 const navLink = document.querySelector(`.nav-links a[data-page="${pageId}"]`);
-                
+
                 if (navLink) {
                     // 触发导航链接点击
                     navLink.click();
-                    
+
                     // 滚动到顶部
                     window.scrollTo({ top: 0, behavior: 'smooth' });
-                    
+
                     // 如果跳转到Gallery页面，可能需要滚动到特定部分
                     if (pageId === 'gallery') {
                         setTimeout(() => {
@@ -4828,14 +4870,14 @@ function initFooterFunctions() {
                             }
                         }, 500);
                     }
-                    
+
                     return;
                 }
             }
-            
+
             // 处理弹窗内容
             let modalType = '';
-            
+
             // 根据链接文本确定弹窗类型
             if (linkText.includes('About')) {
                 modalType = 'about';
@@ -4861,7 +4903,7 @@ function initFooterFunctions() {
                 showGenericModal(linkText);
                 return;
             }
-            
+
             // 显示对应的弹窗
             if (modalContent[modalType]) {
                 showFooterModal(modalContent[modalType].title, modalContent[modalType].content, modalType);
@@ -4891,7 +4933,7 @@ function showFooterModal(title, content, modalType) {
         padding: 20px;
         backdrop-filter: blur(5px);
     `;
-    
+
     // 创建模态框内容
     modal.innerHTML = `
         <div class="footer-modal" style="
@@ -4959,10 +5001,10 @@ function showFooterModal(title, content, modalType) {
             </div>
         </div>
     `;
-    
+
     // 添加到页面
     document.body.appendChild(modal);
-    
+
     // 添加CSS动画
     const style = document.createElement('style');
     style.textContent = `
@@ -5142,7 +5184,7 @@ function showFooterModal(title, content, modalType) {
         }
     `;
     document.head.appendChild(style);
-    
+
     // 关闭按钮事件
     const closeModal = () => {
         modal.style.animation = 'modalSlideOut 0.3s ease-out';
@@ -5155,7 +5197,7 @@ function showFooterModal(title, content, modalType) {
             }
         }, 300);
     };
-    
+
     // 添加关闭动画
     const closeStyle = document.createElement('style');
     closeStyle.textContent = `
@@ -5171,37 +5213,37 @@ function showFooterModal(title, content, modalType) {
         }
     `;
     document.head.appendChild(closeStyle);
-    
+
     // 绑定关闭事件
     modal.querySelector('.modal-close').addEventListener('click', closeModal);
     modal.querySelector('.close-modal-btn').addEventListener('click', closeModal);
-    
+
     // 点击模态框外部关闭
-    modal.addEventListener('click', function(e) {
+    modal.addEventListener('click', function (e) {
         if (e.target === modal) {
             closeModal();
         }
     });
-    
+
     // 特殊按钮事件
     if (modalType === 'contact') {
-        modal.querySelector('#contactSupportBtn')?.addEventListener('click', function() {
+        modal.querySelector('#contactSupportBtn')?.addEventListener('click', function () {
             alert('Opening support ticket system...\n\nIn a real application, this would open a support ticket form or chat.');
         });
     }
-    
+
     if (modalType === 'student-blogs') {
-        modal.querySelector('#betaTesterBtn')?.addEventListener('click', function() {
+        modal.querySelector('#betaTesterBtn')?.addEventListener('click', function () {
             alert('Thank you for your interest in the Beta Program!\n\nWe will contact you via email with more details.');
         });
     }
-    
+
     if (modalType === 'study-groups') {
         const notifyBtn = modal.querySelector('#notifyStudyGroupsBtn');
         const emailInput = modal.querySelector('#studyGroupEmail');
-        
+
         if (notifyBtn && emailInput) {
-            notifyBtn.addEventListener('click', function() {
+            notifyBtn.addEventListener('click', function () {
                 const email = emailInput.value.trim();
                 if (email && validateEmail(email)) {
                     alert(`Thank you! We'll notify you at ${email} when Study Groups launch.`);
@@ -5212,15 +5254,15 @@ function showFooterModal(title, content, modalType) {
             });
         }
     }
-    
+
     if (modalType === 'success-stories') {
-        modal.querySelector('#shareStoryBtn')?.addEventListener('click', function() {
+        modal.querySelector('#shareStoryBtn')?.addEventListener('click', function () {
             showShareStoryForm();
         });
     }
-    
+
     // 阻止模态框内容点击时关闭
-    modal.querySelector('.footer-modal').addEventListener('click', function(e) {
+    modal.querySelector('.footer-modal').addEventListener('click', function (e) {
         e.stopPropagation();
     });
 }
@@ -5253,14 +5295,14 @@ function showSocialMediaModal(platform) {
             color: '#FF0000'
         }
     };
-    
+
     const info = platformInfo[platform] || {
         name: platform.charAt(0).toUpperCase() + platform.slice(1),
         handle: 'BioVision',
         url: '#',
         color: 'var(--primary-color)'
     };
-    
+
     const modal = document.createElement('div');
     modal.className = 'social-modal-overlay';
     modal.style.cssText = `
@@ -5276,7 +5318,7 @@ function showSocialMediaModal(platform) {
         z-index: 9999;
         padding: 20px;
     `;
-    
+
     modal.innerHTML = `
         <div class="social-modal" style="
             background: white;
@@ -5356,9 +5398,9 @@ function showSocialMediaModal(platform) {
             </div>
         </div>
     `;
-    
+
     document.body.appendChild(modal);
-    
+
     // 关闭事件
     const closeModal = () => {
         modal.style.opacity = '0';
@@ -5368,9 +5410,9 @@ function showSocialMediaModal(platform) {
             }
         }, 300);
     };
-    
+
     modal.querySelector('.close-social-modal').addEventListener('click', closeModal);
-    modal.addEventListener('click', function(e) {
+    modal.addEventListener('click', function (e) {
         if (e.target === modal) {
             closeModal();
         }
@@ -5394,7 +5436,7 @@ function showGenericModal(title) {
         z-index: 9999;
         padding: 20px;
     `;
-    
+
     modal.innerHTML = `
         <div class="generic-modal" style="
             background: white;
@@ -5445,15 +5487,15 @@ function showGenericModal(title) {
             </div>
         </div>
     `;
-    
+
     document.body.appendChild(modal);
-    
+
     // 关闭事件
-    modal.querySelector('.close-generic-modal').addEventListener('click', function() {
+    modal.querySelector('.close-generic-modal').addEventListener('click', function () {
         document.body.removeChild(modal);
     });
-    
-    modal.addEventListener('click', function(e) {
+
+    modal.addEventListener('click', function (e) {
         if (e.target === modal) {
             document.body.removeChild(modal);
         }
@@ -5477,7 +5519,7 @@ function showShareStoryForm() {
         z-index: 10000;
         padding: 20px;
     `;
-    
+
     modal.innerHTML = `
         <div style="
             background: white;
@@ -5611,30 +5653,30 @@ function showShareStoryForm() {
             </div>
         </div>
     `;
-    
+
     document.body.appendChild(modal);
-    
+
     // 关闭事件
     const closeModal = () => {
         document.body.removeChild(modal);
     };
-    
+
     modal.querySelector('.close-share-form').addEventListener('click', closeModal);
     modal.querySelector('.cancel-share').addEventListener('click', closeModal);
-    
-    modal.addEventListener('click', function(e) {
+
+    modal.addEventListener('click', function (e) {
         if (e.target === modal) {
             closeModal();
         }
     });
-    
+
     // 表单提交
-    modal.querySelector('#shareStoryForm').addEventListener('submit', function(e) {
+    modal.querySelector('#shareStoryForm').addEventListener('submit', function (e) {
         e.preventDefault();
-        
+
         // 在实际应用中，这里会提交到服务器
         alert('Thank you for sharing your story!\n\nOur team will review your submission and contact you if we decide to feature it.');
-        
+
         // 关闭模态框
         setTimeout(closeModal, 1000);
     });
@@ -5650,21 +5692,21 @@ function validateEmail(email) {
 // 初始化3D模型查看器
 function init3DModelViewer() {
     console.log('初始化3D模型查看器...');
-    
+
     // 监听所有3D模型查看按钮
     const viewModelButtons = document.querySelectorAll('.view-model-btn, .preview-resource-btn[data-type="3dmodel"]');
-    
+
     viewModelButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
+        button.addEventListener('click', function (e) {
             e.preventDefault();
             e.stopPropagation();
-            
+
             // 获取模型信息
             const card = this.closest('.resource-card');
             const modelTitle = card.querySelector('h3').textContent;
             const modelType = card.getAttribute('data-type');
             const modelTags = card.getAttribute('data-tags');
-            
+
             // 打开3D模型查看器
             open3DModelViewer(modelTitle, modelType, modelTags);
         });
@@ -5674,7 +5716,7 @@ function init3DModelViewer() {
 // 打开3D模型查看器模态框
 function open3DModelViewer(modelTitle, modelType, modelTags) {
     console.log('打开3D模型查看器:', modelTitle);
-    
+
     // 创建模态框
     const modal = document.createElement('div');
     modal.className = 'model-viewer-modal';
@@ -5691,41 +5733,65 @@ function open3DModelViewer(modelTitle, modelType, modelTags) {
         z-index: 10000;
         padding: 20px;
     `;
-    
-    // 根据模型类型选择示例模型
+
+    // 根据模型标题选择示例模型
     const modelExamples = {
-        'cell-organelles': {
+        'Water Molecule 3D': {
+            title: 'Water Molecule 3D Model',
+            description: 'Interactive 3D model showing the polar structure of water molecule with hydrogen bonds.',
+            modelType: 'water',
+            color: '#3498db'
+        },
+        'Hydrogen Bonding': {
+            title: 'Hydrogen Bonding',
+            description: '3D visualization of hydrogen bonds between water molecules.',
+            modelType: 'hydrogen',
+            color: '#9b59b6'
+        },
+        'Capillary Action': {
+            title: 'Capillary Action',
+            description: '3D model demonstrating capillary action in plants through adhesion and cohesion.',
+            modelType: 'capillary',
+            color: '#2ecc71'
+        },
+        'Cell Organelles 3D Model': {
             title: 'Cell Organelles 3D Model',
             description: 'Interactive 3D model showing the internal structures of a eukaryotic cell.',
-            modelType: 'cell'
+            modelType: 'cell',
+            color: '#e74c3c'
         },
-        'dna-helix': {
+        'DNA Double Helix Structure': {
             title: 'DNA Double Helix Structure',
             description: '3D visualization of DNA double helix with base pairing details.',
-            modelType: 'dna'
+            modelType: 'dna',
+            color: '#f39c12'
         },
-        'enzyme-substrate': {
+        'Enzyme-Substrate Complex': {
             title: 'Enzyme-Substrate Complex',
             description: '3D model showing enzyme active site and substrate binding mechanism.',
-            modelType: 'enzyme'
+            modelType: 'enzyme',
+            color: '#1abc9c'
         },
         'default': {
             title: '3D Biological Model',
             description: 'Interactive 3D visualization for biological study.',
-            modelType: 'default'
+            modelType: 'default',
+            color: '#2a9d8f'
         }
     };
-    
-    // 根据标题选择模型
-    let selectedModel = modelExamples.default;
-    if (modelTitle.includes('Organelles') || modelTitle.includes('Cell')) {
-        selectedModel = modelExamples['cell-organelles'];
-    } else if (modelTitle.includes('DNA') || modelTitle.includes('Helix')) {
-        selectedModel = modelExamples['dna-helix'];
-    } else if (modelTitle.includes('Enzyme')) {
-        selectedModel = modelExamples['enzyme-substrate'];
+
+    // 选择模型
+    let selectedModel = modelExamples[modelTitle] || modelExamples.default;
+
+    // 检查是否有更精确的匹配
+    if (modelTitle.includes('Water') || modelTitle.includes('Molecule')) {
+        selectedModel = modelExamples['Water Molecule 3D'];
+    } else if (modelTitle.includes('Hydrogen') || modelTitle.includes('Bond')) {
+        selectedModel = modelExamples['Hydrogen Bonding'];
+    } else if (modelTitle.includes('Capillary')) {
+        selectedModel = modelExamples['Capillary Action'];
     }
-    
+
     modal.innerHTML = `
         <div class="model-viewer-container" style="
             background: white;
@@ -5741,7 +5807,7 @@ function open3DModelViewer(modelTitle, modelType, modelTags) {
             <!-- 模态框头部 -->
             <div class="modal-header" style="
                 padding: 1.5rem 2rem;
-                background: linear-gradient(135deg, #2a9d8f, #1d8879);
+                background: linear-gradient(135deg, ${selectedModel.color || '#2a9d8f'}, ${darkenColor(selectedModel.color || '#2a9d8f', 20)});
                 color: white;
                 display: flex;
                 justify-content: space-between;
@@ -5803,7 +5869,7 @@ function open3DModelViewer(modelTitle, modelType, modelTags) {
                                 height: 50px;
                                 border: 4px solid rgba(255,255,255,0.3);
                                 border-radius: 50%;
-                                border-top-color: #2a9d8f;
+                                border-top-color: ${selectedModel.color || '#2a9d8f'};
                                 animation: spin 1s linear infinite;
                                 margin: 0 auto 1rem auto;
                             "></div>
@@ -5823,8 +5889,8 @@ function open3DModelViewer(modelTitle, modelType, modelTags) {
                             text-align: center;
                             padding-top: 40%;
                         ">
-                            <i class="fas fa-cube" style="font-size: 4rem; margin-bottom: 1rem; color: #3498db;"></i>
-                            <h4>3D Model Viewer</h4>
+                            <i class="fas fa-cube" style="font-size: 4rem; margin-bottom: 1rem; color: ${selectedModel.color || '#3498db'};"></i>
+                            <h4>${modelTitle}</h4>
                             <p>Use mouse to rotate, scroll to zoom</p>
                         </div>
                         
@@ -5949,7 +6015,7 @@ function open3DModelViewer(modelTitle, modelType, modelTags) {
                     border-left: 1px solid #eee;
                 ">
                     <div class="model-info">
-                        <h4 style="margin-top: 0; color: #2a9d8f;">
+                        <h4 style="margin-top: 0; color: ${selectedModel.color || '#2a9d8f'};">
                             <i class="fas fa-info-circle"></i> Model Information
                         </h4>
                         <div class="info-item" style="margin-bottom: 1rem;">
@@ -5964,13 +6030,13 @@ function open3DModelViewer(modelTitle, modelType, modelTags) {
                         
                         <div class="info-item" style="margin-bottom: 1.5rem;">
                             <div style="font-weight: 500; color: #555;">Description</div>
-                            <div style="color: #333; line-height: 1.5;">This is an interactive 3D model for educational purposes. You can rotate, zoom, and explore the structure from all angles.</div>
+                            <div style="color: #333; line-height: 1.5;">${selectedModel.description}</div>
                         </div>
                     </div>
                     
                     <!-- 显示设置 -->
                     <div class="display-settings" style="margin-top: 1.5rem;">
-                        <h4 style="margin-bottom: 1rem; color: #2a9d8f;">
+                        <h4 style="margin-bottom: 1rem; color: ${selectedModel.color || '#2a9d8f'};">
                             <i class="fas fa-sliders-h"></i> Display Settings
                         </h4>
                         
@@ -6034,19 +6100,19 @@ function open3DModelViewer(modelTitle, modelType, modelTags) {
                     
                     <!-- 标签 -->
                     <div class="model-tags" style="margin-top: 1.5rem;">
-                        <h4 style="margin-bottom: 0.75rem; color: #2a9d8f;">
+                        <h4 style="margin-bottom: 0.75rem; color: ${selectedModel.color || '#2a9d8f'};">
                             <i class="fas fa-tags"></i> Tags
                         </h4>
                         <div class="tag-container" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
                             ${modelTags ? modelTags.split(',').map(tag => `
                                 <span class="tag" style="
-                                    background: rgba(42, 157, 143, 0.1);
-                                    color: #2a9d8f;
+                                    background: rgba(${hexToRgb(selectedModel.color || '#2a9d8f').r}, ${hexToRgb(selectedModel.color || '#2a9d8f').g}, ${hexToRgb(selectedModel.color || '#2a9d8f').b}, 0.1);
+                                    color: ${selectedModel.color || '#2a9d8f'};
                                     padding: 0.25rem 0.75rem;
                                     border-radius: 20px;
                                     font-size: 0.85rem;
                                 ">${tag.trim()}</span>
-                            `).join('') : '<span class="tag">3D Model</span><span class="tag">Biology</span><span class="tag">Interactive</span>'}
+                            `).join('') : '<span class="tag" style="background: rgba(42, 157, 143, 0.1); color: #2a9d8f; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.85rem;">3D Model</span><span class="tag" style="background: rgba(42, 157, 143, 0.1); color: #2a9d8f; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.85rem;">Biology</span><span class="tag" style="background: rgba(42, 157, 143, 0.1); color: #2a9d8f; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.85rem;">Interactive</span>'}
                         </div>
                     </div>
                     
@@ -6056,6 +6122,8 @@ function open3DModelViewer(modelTitle, modelType, modelTags) {
                             width: 100%;
                             margin-bottom: 0.75rem;
                             padding: 0.75rem;
+                            background: ${selectedModel.color || '#2a9d8f'};
+                            border-color: ${selectedModel.color || '#2a9d8f'};
                         ">
                             <i class="fas fa-download"></i> Download Model
                         </button>
@@ -6090,7 +6158,7 @@ function open3DModelViewer(modelTitle, modelType, modelTags) {
             </div>
         </div>
     `;
-    
+
     // 添加CSS动画
     const style = document.createElement('style');
     style.textContent = `
@@ -6100,7 +6168,7 @@ function open3DModelViewer(modelTitle, modelType, modelTags) {
         }
         
         .toggle-switch input:checked + .toggle-slider {
-            background-color: #2a9d8f;
+            background-color: ${selectedModel.color || '#2a9d8f'};
         }
         
         .toggle-switch input:checked + .toggle-slider:before {
@@ -6146,7 +6214,7 @@ function open3DModelViewer(modelTitle, modelType, modelTags) {
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: #2a9d8f;
+            background: ${selectedModel.color || '#2a9d8f'};
             cursor: pointer;
         }
         
@@ -6154,109 +6222,138 @@ function open3DModelViewer(modelTitle, modelType, modelTags) {
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: #2a9d8f;
+            background: ${selectedModel.color || '#2a9d8f'};
             cursor: pointer;
             border: none;
         }
     `;
-    
+
     document.head.appendChild(style);
     document.body.appendChild(modal);
-    
+
     // 初始化3D模型查看器
     init3DViewer(selectedModel.modelType);
-    
-    // 绑定事件
+
+    // 绑定事件（与之前相同）
+    // ... [保留原有的所有事件绑定代码]
+
+    // 创建关闭函数
     const closeModal = () => {
-        modal.style.animation = 'modalDisappear 0.3s ease-out';
+        console.log('关闭3D模型查看器');
+
+        // 添加关闭动画
+        const modalContainer = modal.querySelector('.model-viewer-container');
+        if (modalContainer) {
+            modalContainer.style.animation = 'modalDisappear 0.3s ease-out';
+        }
+
+        // 停止3D动画循环
+        if (window.animationFrameId) {
+            cancelAnimationFrame(window.animationFrameId);
+            delete window.animationFrameId;
+        }
+
+        // 清理Three.js资源
+        if (window.currentRenderer) {
+            window.currentRenderer.dispose();
+            delete window.currentRenderer;
+        }
+
+        // 清理其他全局变量
+        delete window.currentScene;
+        delete window.currentModel;
+        delete window.currentCamera;
+        delete window.currentControls;
+        delete window.modelRotationSpeed;
+
         setTimeout(() => {
-            if (modal.parentNode) {
+            // 移除模态框和样式
+            if (modal && modal.parentNode) {
                 document.body.removeChild(modal);
             }
-            if (style.parentNode) {
+            if (style && style.parentNode) {
                 document.head.removeChild(style);
+            }
+            if (closeStyle && closeStyle.parentNode) {
+                document.head.removeChild(closeStyle);
             }
         }, 300);
     };
-    
-    // 关闭按钮事件
-    modal.querySelector('.modal-close').addEventListener('click', closeModal);
-    modal.querySelector('#close-model-btn').addEventListener('click', closeModal);
-    
+
+    // 关闭按钮事件绑定
+    const closeButtons = [
+        modal.querySelector('.modal-close'),
+        modal.querySelector('#close-model-btn')
+    ];
+
+    closeButtons.forEach(btn => {
+        if (btn) {
+            // 使用事件委托确保绑定成功
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                closeModal();
+            });
+        }
+    });
+
     // 点击模态框外部关闭
-    modal.addEventListener('click', function(e) {
+    modal.addEventListener('click', function (e) {
         if (e.target === modal) {
             closeModal();
         }
     });
-    
-    // 视图控制按钮
-    modal.querySelectorAll('.view-control-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const viewType = this.getAttribute('data-view');
-            changeModelView(viewType);
+
+    // 阻止模态框内容点击时触发外部关闭
+    const modalContainer = modal.querySelector('.model-viewer-container');
+    if (modalContainer) {
+        modalContainer.addEventListener('click', function (e) {
+            e.stopPropagation();
         });
-    });
-    
-    // 显示设置
-    const wireframeToggle = modal.querySelector('#wireframe-toggle');
-    const scaleSlider = modal.querySelector('#model-scale');
-    const rotationSlider = modal.querySelector('#rotation-speed');
-    
-    wireframeToggle?.addEventListener('change', function() {
-        toggleWireframeMode(this.checked);
-    });
-    
-    scaleSlider?.addEventListener('input', function() {
-        updateModelScale(this.value);
-    });
-    
-    rotationSlider?.addEventListener('input', function() {
-        updateRotationSpeed(this.value);
-    });
-    
-    // 操作按钮
-    modal.querySelector('#download-model-btn')?.addEventListener('click', function() {
-        alert(`Downloading ${modelTitle} model...\n\nIn a real application, this would download the 3D model file.`);
-    });
-    
-    modal.querySelector('#share-model-btn')?.addEventListener('click', function() {
-        alert(`Sharing ${modelTitle}...\n\nShare link copied to clipboard.`);
-    });
-    
-    // 添加关闭动画
-    const closeStyle = document.createElement('style');
-    closeStyle.textContent = `
-        @keyframes modalDisappear {
-            from {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-            to {
-                opacity: 0;
-                transform: translateY(-20px) scale(0.95);
-            }
-        }
-    `;
-    document.head.appendChild(closeStyle);
+    }
 }
 
+// 工具函数：颜色变暗
+function darkenColor(color, percent) {
+    const num = parseInt(color.replace("#", ""), 16);
+    const amt = Math.round(2.55 * percent);
+    const R = (num >> 16) - amt;
+    const G = (num >> 8 & 0x00FF) - amt;
+    const B = (num & 0x0000FF) - amt;
+
+    return "#" + (
+        0x1000000 +
+        (R < 255 ? (R < 1 ? 0 : R) : 255) * 0x10000 +
+        (G < 255 ? (G < 1 ? 0 : G) : 255) * 0x100 +
+        (B < 255 ? (B < 1 ? 0 : B) : 255)
+    ).toString(16).slice(1);
+}
+
+// 工具函数：十六进制转RGB
+function hexToRgb(hex) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : { r: 42, g: 157, b: 143 };
+}
 // 初始化3D查看器（使用Three.js或备选方案）
 function init3DViewer(modelType) {
     console.log('初始化3D查看器，模型类型:', modelType);
-    
+
     const container = document.getElementById('threejs-container');
     const canvas = document.getElementById('model-canvas');
     const loadingIndicator = container.querySelector('.model-loading');
     const placeholder = container.querySelector('.model-placeholder');
-    
+
     // 检查是否支持WebGL
     if (!canvas || !isWebGLAvailable()) {
         console.log('WebGL不可用，显示备用模型');
         showFallbackModel(container, modelType);
         return;
     }
-    
+
     // 尝试加载Three.js
     loadThreeJS().then(success => {
         if (success) {
@@ -6279,7 +6376,7 @@ function init3DViewer(modelType) {
 function isWebGLAvailable() {
     try {
         const canvas = document.createElement('canvas');
-        return !!(window.WebGLRenderingContext && 
+        return !!(window.WebGLRenderingContext &&
             (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
     } catch (e) {
         return false;
@@ -6295,7 +6392,7 @@ function loadThreeJS() {
             resolve(true);
             return;
         }
-        
+
         // 加载Three.js
         const script = document.createElement('script');
         script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
@@ -6317,37 +6414,37 @@ function create3DScene(canvas, modelType) {
         console.error('Three.js未加载');
         return;
     }
-    
+
     const THREE = window.THREE;
-    
+
     // 场景设置
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x1a1a1a);
-    
+
     // 相机设置
     const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
     camera.position.set(5, 5, 5);
-    
+
     // 渲染器设置
-    const renderer = new THREE.WebGLRenderer({ 
+    const renderer = new THREE.WebGLRenderer({
         canvas: canvas,
         antialias: true,
         alpha: true
     });
     renderer.setSize(canvas.clientWidth, canvas.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
-    
+
     // 灯光
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
     scene.add(ambientLight);
-    
+
     const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
     directionalLight.position.set(10, 10, 5);
     scene.add(directionalLight);
-    
+
     // 根据模型类型创建不同的模型
     let model;
-    switch(modelType) {
+    switch (modelType) {
         case 'cell':
             model = createCellModel(THREE);
             break;
@@ -6357,22 +6454,31 @@ function create3DScene(canvas, modelType) {
         case 'enzyme':
             model = createEnzymeModel(THREE);
             break;
+        case 'water':
+            model = createWaterMoleculeModel(THREE);
+            break;
+        case 'hydrogen':
+            model = createHydrogenBondModel(THREE);
+            break;
+        case 'capillary':
+            model = createCapillaryActionModel(THREE);
+            break;
         default:
             model = createDefaultModel(THREE);
     }
-    
+
     scene.add(model);
-    
+
     // 添加网格辅助
     const gridHelper = new THREE.GridHelper(10, 10);
     gridHelper.material.opacity = 0.2;
     gridHelper.material.transparent = true;
     scene.add(gridHelper);
-    
+
     // 添加坐标轴辅助
     const axesHelper = new THREE.AxesHelper(5);
     scene.add(axesHelper);
-    
+
     // 轨道控制器
     let controls;
     if (typeof THREE.OrbitControls !== 'undefined') {
@@ -6390,32 +6496,32 @@ function create3DScene(canvas, modelType) {
         };
         document.head.appendChild(controlsScript);
     }
-    
+
     // 动画循环
     function animate() {
         requestAnimationFrame(animate);
-        
+
         // 自动旋转
         if (model && window.modelRotationSpeed) {
             model.rotation.y += 0.005 * window.modelRotationSpeed;
         }
-        
+
         if (controls && controls.update) {
             controls.update();
         }
-        
+
         renderer.render(scene, camera);
     }
-    
+
     animate();
-    
+
     // 窗口大小调整
-    window.addEventListener('resize', function() {
+    window.addEventListener('resize', function () {
         camera.aspect = canvas.clientWidth / canvas.clientHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(canvas.clientWidth, canvas.clientHeight);
     });
-    
+
     // 存储全局变量供其他函数使用
     window.currentScene = scene;
     window.currentModel = model;
@@ -6425,13 +6531,156 @@ function create3DScene(canvas, modelType) {
     window.modelRotationSpeed = 1;
 }
 
+
+// 创建水分子模型
+function createWaterMoleculeModel(THREE) {
+    const group = new THREE.Group();
+
+    // 氧原子（中心）
+    const oxygenGeometry = new THREE.SphereGeometry(0.3, 16, 16);
+    const oxygenMaterial = new THREE.MeshPhongMaterial({
+        color: 0xe74c3c, // 红色
+        shininess: 100
+    });
+    const oxygen = new THREE.Mesh(oxygenGeometry, oxygenMaterial);
+    group.add(oxygen);
+
+    // 氢原子
+    const hydrogenGeometry = new THREE.SphereGeometry(0.2, 16, 16);
+    const hydrogenMaterial = new THREE.MeshPhongMaterial({
+        color: 0x3498db, // 蓝色
+        shininess: 100
+    });
+
+    // 第一个氢原子
+    const hydrogen1 = new THREE.Mesh(hydrogenGeometry, hydrogenMaterial);
+    hydrogen1.position.set(0.9, 0.5, 0);
+    group.add(hydrogen1);
+
+    // 第二个氢原子
+    const hydrogen2 = new THREE.Mesh(hydrogenGeometry, hydrogenMaterial);
+    hydrogen2.position.set(-0.7, 0.8, 0.3);
+    group.add(hydrogen2);
+
+    // 氢键连接线
+    const bond1Geometry = new THREE.CylinderGeometry(0.05, 0.05, 0.9, 8);
+    const bond1Material = new THREE.MeshPhongMaterial({ color: 0x95a5a6 });
+    const bond1 = new THREE.Mesh(bond1Geometry, bond1Material);
+    bond1.position.set(0.45, 0.25, 0);
+    bond1.rotation.z = Math.PI / 6;
+    group.add(bond1);
+
+    const bond2Geometry = new THREE.CylinderGeometry(0.05, 0.05, 0.8, 8);
+    const bond2Material = new THREE.MeshPhongMaterial({ color: 0x95a5a6 });
+    const bond2 = new THREE.Mesh(bond2Geometry, bond2Material);
+    bond2.position.set(-0.35, 0.4, 0.15);
+    bond2.rotation.z = -Math.PI / 4;
+    group.add(bond2);
+
+    return group;
+}
+
+// 创建氢键模型
+function createHydrogenBondModel(THREE) {
+    const group = new THREE.Group();
+
+    // 创建多个水分子来展示氢键网络
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            const waterMolecule = createWaterMoleculeModel(THREE);
+            waterMolecule.position.set(i * 2 - 2, 0, j * 2 - 2);
+            waterMolecule.scale.set(0.5, 0.5, 0.5);
+            group.add(waterMolecule);
+        }
+    }
+
+    // 添加氢键连接线
+    const lineMaterial = new THREE.LineBasicMaterial({ color: 0x3498db, opacity: 0.5, transparent: true });
+
+    for (let i = 0; i < 8; i++) {
+        const x1 = Math.random() * 4 - 2;
+        const y1 = Math.random() * 2 - 1;
+        const z1 = Math.random() * 4 - 2;
+        const x2 = x1 + (Math.random() * 1 - 0.5);
+        const y2 = y1 + (Math.random() * 0.5);
+        const z2 = z1 + (Math.random() * 1 - 0.5);
+
+        const points = [
+            new THREE.Vector3(x1, y1, z1),
+            new THREE.Vector3(x2, y2, z2)
+        ];
+
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        const line = new THREE.Line(geometry, lineMaterial);
+        group.add(line);
+    }
+
+    return group;
+}
+
+// 创建毛细作用模型
+function createCapillaryActionModel(THREE) {
+    const group = new THREE.Group();
+
+    // 毛细管
+    const tubeGeometry = new THREE.CylinderGeometry(0.1, 0.1, 3, 16);
+    const tubeMaterial = new THREE.MeshPhongMaterial({
+        color: 0xbdc3c7,
+        transparent: true,
+        opacity: 0.3
+    });
+    const tube = new THREE.Mesh(tubeGeometry, tubeMaterial);
+    group.add(tube);
+
+    // 水柱
+    const waterGeometry = new THREE.CylinderGeometry(0.09, 0.09, 2, 16);
+    const waterMaterial = new THREE.MeshPhongMaterial({
+        color: 0x3498db,
+        transparent: true,
+        opacity: 0.6
+    });
+    const water = new THREE.Mesh(waterGeometry, waterMaterial);
+    water.position.y = -0.5;
+    group.add(water);
+
+    // 水分子（沿毛细管壁）
+    const moleculeGeometry = new THREE.SphereGeometry(0.05, 8, 8);
+    const moleculeMaterial = new THREE.MeshPhongMaterial({ color: 0x3498db });
+
+    for (let i = 0; i < 20; i++) {
+        const angle = (i / 20) * Math.PI * 2;
+        const radius = 0.095;
+        const height = (i / 20) * 2 - 1;
+
+        const molecule = new THREE.Mesh(moleculeGeometry, moleculeMaterial);
+        molecule.position.set(
+            Math.cos(angle) * radius,
+            height,
+            Math.sin(angle) * radius
+        );
+        group.add(molecule);
+    }
+
+    // 添加表示粘附力的箭头
+    const arrowHelper = new THREE.ArrowHelper(
+        new THREE.Vector3(0.7, 0.7, 0).normalize(),
+        new THREE.Vector3(0.1, -1, 0),
+        0.5,
+        0x2ecc71,
+        0.2,
+        0.1
+    );
+    group.add(arrowHelper);
+
+    return group;
+}
 // 创建细胞模型
 function createCellModel(THREE) {
     const group = new THREE.Group();
-    
+
     // 细胞膜（球体）
     const cellMembraneGeometry = new THREE.SphereGeometry(2, 32, 32);
-    const cellMembraneMaterial = new THREE.MeshPhongMaterial({ 
+    const cellMembraneMaterial = new THREE.MeshPhongMaterial({
         color: 0x3498db,
         transparent: true,
         opacity: 0.3,
@@ -6439,72 +6688,72 @@ function createCellModel(THREE) {
     });
     const cellMembrane = new THREE.Mesh(cellMembraneGeometry, cellMembraneMaterial);
     group.add(cellMembrane);
-    
+
     // 细胞核
     const nucleusGeometry = new THREE.SphereGeometry(0.7, 24, 24);
-    const nucleusMaterial = new THREE.MeshPhongMaterial({ 
+    const nucleusMaterial = new THREE.MeshPhongMaterial({
         color: 0xe74c3c,
         shininess: 100
     });
     const nucleus = new THREE.Mesh(nucleusGeometry, nucleusMaterial);
     nucleus.position.set(0.5, 0.3, 0.5);
     group.add(nucleus);
-    
+
     // 线粒体
     const mitochondriaGeometry = new THREE.SphereGeometry(0.3, 16, 16);
-    const mitochondriaMaterial = new THREE.MeshPhongMaterial({ 
+    const mitochondriaMaterial = new THREE.MeshPhongMaterial({
         color: 0x2ecc71
     });
     const mitochondria = new THREE.Mesh(mitochondriaGeometry, mitochondriaMaterial);
     mitochondria.position.set(-0.8, -0.5, 0.6);
     group.add(mitochondria);
-    
+
     // 内质网
     const erGeometry = new THREE.TorusGeometry(0.5, 0.1, 8, 20);
-    const erMaterial = new THREE.MeshPhongMaterial({ 
+    const erMaterial = new THREE.MeshPhongMaterial({
         color: 0xf39c12
     });
     const er = new THREE.Mesh(erGeometry, erMaterial);
     er.rotation.x = Math.PI / 2;
     er.position.set(0.8, -0.3, -0.5);
     group.add(er);
-    
+
     return group;
 }
 
 // 创建DNA模型
 function createDNAModel(THREE) {
     const group = new THREE.Group();
-    
+
     // 创建DNA双螺旋结构
     const helixRadius = 0.5;
     const helixHeight = 4;
     const segments = 100;
-    
+
     // 创建两条链
     for (let i = 0; i < 2; i++) {
         const points = [];
         const phase = i * Math.PI; // 两条链相位差180度
-        
+
         for (let j = 0; j <= segments; j++) {
             const t = j / segments;
             const angle = t * Math.PI * 8 + phase;
             const x = Math.cos(angle) * helixRadius;
             const y = t * helixHeight - helixHeight / 2;
             const z = Math.sin(angle) * helixRadius;
-            
+
             points.push(new THREE.Vector3(x, y, z));
         }
-        
+
         const curve = new THREE.CatmullRomCurve3(points);
         const tubeGeometry = new THREE.TubeGeometry(curve, segments * 2, 0.05, 8, false);
-        const tubeMaterial = new THREE.MeshPhongMaterial({ 
+        const tubeMaterial = new THREE.MeshPhongMaterial({
             color: i === 0 ? 0x3498db : 0xe74c3c
         });
         const tube = new THREE.Mesh(tubeGeometry, tubeMaterial);
         group.add(tube);
     }
-    
+
     // 添加碱基对连接
     for (let i = 0; i <= 10; i++) {
         const t = i / 10;
@@ -6514,52 +6763,52 @@ function createDNAModel(THREE) {
         const y = t * helixHeight - helixHeight / 2;
         const z1 = Math.sin(angle) * helixRadius;
         const z2 = Math.sin(angle + Math.PI) * helixRadius;
-        
+
         const geometry = new THREE.CylinderGeometry(0.02, 0.02, helixRadius * 2);
         const material = new THREE.MeshPhongMaterial({ color: 0x2ecc71 });
         const cylinder = new THREE.Mesh(geometry, material);
-        
+
         // 定位和旋转圆柱体以连接两点
         cylinder.position.set(0, y, 0);
         cylinder.lookAt(new THREE.Vector3(x2 - x1, 0, z2 - z1));
-        
+
         group.add(cylinder);
     }
-    
+
     return group;
 }
 
 // 创建酶模型
 function createEnzymeModel(THREE) {
     const group = new THREE.Group();
-    
+
     // 酶分子（不规则形状）
     const enzymeGeometry = new THREE.DodecahedronGeometry(1, 0);
-    const enzymeMaterial = new THREE.MeshPhongMaterial({ 
+    const enzymeMaterial = new THREE.MeshPhongMaterial({
         color: 0x9b59b6,
         shininess: 100
     });
     const enzyme = new THREE.Mesh(enzymeGeometry, enzymeMaterial);
     group.add(enzyme);
-    
+
     // 活性位点（凹陷）
     const activeSiteGeometry = new THREE.SphereGeometry(0.3, 16, 16);
-    const activeSiteMaterial = new THREE.MeshPhongMaterial({ 
+    const activeSiteMaterial = new THREE.MeshPhongMaterial({
         color: 0xe74c3c
     });
     const activeSite = new THREE.Mesh(activeSiteGeometry, activeSiteMaterial);
     activeSite.position.set(0.7, 0.5, 0.3);
     group.add(activeSite);
-    
+
     // 底物分子
     const substrateGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
-    const substrateMaterial = new THREE.MeshPhongMaterial({ 
+    const substrateMaterial = new THREE.MeshPhongMaterial({
         color: 0x2ecc71
     });
     const substrate = new THREE.Mesh(substrateGeometry, substrateMaterial);
     substrate.position.set(1.5, 0.8, 0.5);
     group.add(substrate);
-    
+
     // 连接线（显示结合）
     const lineGeometry = new THREE.BufferGeometry().setFromPoints([
         new THREE.Vector3(0.7, 0.5, 0.3),
@@ -6568,7 +6817,7 @@ function createEnzymeModel(THREE) {
     const lineMaterial = new THREE.LineBasicMaterial({ color: 0xf39c12 });
     const line = new THREE.Line(lineGeometry, lineMaterial);
     group.add(line);
-    
+
     return group;
 }
 
@@ -6576,31 +6825,31 @@ function createEnzymeModel(THREE) {
 function createDefaultModel(THREE) {
     // 创建一个复合模型展示
     const group = new THREE.Group();
-    
+
     // 中心球体
     const sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
-    const sphereMaterial = new THREE.MeshPhongMaterial({ 
+    const sphereMaterial = new THREE.MeshPhongMaterial({
         color: 0x3498db,
         shininess: 100
     });
     const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
     group.add(sphere);
-    
+
     // 环绕的环
     const ringGeometry = new THREE.TorusGeometry(1.5, 0.1, 8, 30);
-    const ringMaterial = new THREE.MeshPhongMaterial({ 
+    const ringMaterial = new THREE.MeshPhongMaterial({
         color: 0xe74c3c
     });
     const ring = new THREE.Mesh(ringGeometry, ringMaterial);
     ring.rotation.x = Math.PI / 2;
     group.add(ring);
-    
+
     // 小卫星球体
     const satelliteGeometry = new THREE.SphereGeometry(0.3, 16, 16);
-    const satelliteMaterial = new THREE.MeshPhongMaterial({ 
+    const satelliteMaterial = new THREE.MeshPhongMaterial({
         color: 0x2ecc71
     });
-    
+
     for (let i = 0; i < 8; i++) {
         const angle = (i / 8) * Math.PI * 2;
         const satellite = new THREE.Mesh(satelliteGeometry, satelliteMaterial);
@@ -6611,7 +6860,7 @@ function createDefaultModel(THREE) {
         );
         group.add(satellite);
     }
-    
+
     return group;
 }
 
@@ -6619,18 +6868,18 @@ function createDefaultModel(THREE) {
 function showFallbackModel(container, modelType) {
     const placeholder = container.querySelector('.model-placeholder');
     const canvas = document.getElementById('model-canvas');
-    
+
     if (canvas) {
         canvas.style.display = 'none';
     }
-    
+
     placeholder.style.display = 'block';
-    
+
     // 根据模型类型显示不同的图标
     let icon = 'fa-cube';
     let description = 'Interactive 3D Model';
-    
-    switch(modelType) {
+
+    switch (modelType) {
         case 'cell':
             icon = 'fa-circle';
             description = 'Cell Structure Model';
@@ -6644,7 +6893,7 @@ function showFallbackModel(container, modelType) {
             description = 'Enzyme-Substrate Model';
             break;
     }
-    
+
     placeholder.innerHTML = `
         <i class="fas ${icon}" style="font-size: 4rem; margin-bottom: 1rem; color: #3498db;"></i>
         <h4>${description}</h4>
@@ -6653,48 +6902,48 @@ function showFallbackModel(container, modelType) {
             <i class="fas fa-info-circle"></i> For full 3D experience, ensure WebGL is enabled in your browser.
         </p>
     `;
-    
+
     // 添加基本的鼠标交互
     let isDragging = false;
     let previousMousePosition = { x: 0, y: 0 };
     let rotation = { x: 0, y: 0 };
     let scale = 1;
-    
-    placeholder.addEventListener('mousedown', function(e) {
+
+    placeholder.addEventListener('mousedown', function (e) {
         isDragging = true;
         previousMousePosition = {
             x: e.clientX,
             y: e.clientY
         };
     });
-    
-    document.addEventListener('mousemove', function(e) {
+
+    document.addEventListener('mousemove', function (e) {
         if (!isDragging) return;
-        
+
         const deltaX = e.clientX - previousMousePosition.x;
         const deltaY = e.clientY - previousMousePosition.y;
-        
+
         rotation.y += deltaX * 0.01;
         rotation.x += deltaY * 0.01;
-        
+
         const iconElement = placeholder.querySelector('i');
         iconElement.style.transform = `rotateX(${rotation.x}rad) rotateY(${rotation.y}rad) scale(${scale})`;
-        
+
         previousMousePosition = {
             x: e.clientX,
             y: e.clientY
         };
     });
-    
-    document.addEventListener('mouseup', function() {
+
+    document.addEventListener('mouseup', function () {
         isDragging = false;
     });
-    
-    placeholder.addEventListener('wheel', function(e) {
+
+    placeholder.addEventListener('wheel', function (e) {
         e.preventDefault();
         scale += e.deltaY * -0.001;
         scale = Math.min(Math.max(0.5, scale), 2);
-        
+
         const iconElement = placeholder.querySelector('i');
         iconElement.style.transform = `rotateX(${rotation.x}rad) rotateY(${rotation.y}rad) scale(${scale})`;
     });
@@ -6703,7 +6952,7 @@ function showFallbackModel(container, modelType) {
 // 切换线框模式
 function toggleWireframeMode(enabled) {
     if (!window.currentModel) return;
-    
+
     window.currentModel.traverse((child) => {
         if (child.isMesh) {
             child.material.wireframe = enabled;
@@ -6714,7 +6963,7 @@ function toggleWireframeMode(enabled) {
 // 更新模型比例
 function updateModelScale(value) {
     if (!window.currentModel) return;
-    
+
     window.currentModel.scale.set(value, value, value);
 }
 
@@ -6726,8 +6975,8 @@ function updateRotationSpeed(value) {
 // 更改模型视图
 function changeModelView(viewType) {
     if (!window.currentCamera || !window.currentControls) return;
-    
-    switch(viewType) {
+
+    switch (viewType) {
         case 'front':
             window.currentCamera.position.set(0, 0, 5);
             break;
@@ -6745,7 +6994,7 @@ function changeModelView(viewType) {
             }
             break;
     }
-    
+
     if (window.currentControls && window.currentControls.update) {
         window.currentControls.update();
     }
