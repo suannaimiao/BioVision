@@ -31,7 +31,8 @@
 
 /* 移除控制按钮相关样式 */
 .tree-controls {
-    display: none; /* 移除这两个按钮 */
+    display: none;
+    /* 移除这两个按钮 */
 }
 
 /* 单元样式 */
@@ -120,7 +121,8 @@
 }
 
 .tree-unit.expanded .unit-content {
-    max-height: 2000px; /* 足够大的值容纳内容 */
+    max-height: 2000px;
+    /* 足够大的值容纳内容 */
 }
 
 /* 章节样式 */
@@ -270,6 +272,7 @@
         opacity: 0;
         transform: translateY(-10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -283,7 +286,7 @@
         max-height: none;
         margin-bottom: 2rem;
     }
-    
+
     .study-layout {
         grid-template-columns: 1fr;
     }
@@ -293,12 +296,12 @@
     .chapter-tree {
         padding: 1rem;
     }
-    
+
     .unit-header,
     .chapter-header {
         padding: 0.8rem;
     }
-    
+
     .tree-concept {
         padding: 0.6rem 0.8rem 0.6rem 2rem;
     }
@@ -621,9 +624,12 @@ body {
     overflow-y: auto;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
     animation: modalSlideIn 0.3s ease-out;
-    display: block; /* 确保显示 */
-    position: relative; /* 确保定位正确 */
-    z-index: 2001; /* 确保在遮罩层之上 */
+    display: block;
+    /* 确保显示 */
+    position: relative;
+    /* 确保定位正确 */
+    z-index: 2001;
+    /* 确保在遮罩层之上 */
 }
 
 /* 添加模态框动画 */
@@ -632,6 +638,7 @@ body {
         opacity: 0;
         transform: translateY(-20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -805,9 +812,11 @@ body {
 }
 
 
-.video-player, .step-video {
+.video-player,
+.step-video {
     width: 100%;
-    height: 100% !important; /* 改为100%而不是auto */
+    height: 100% !important;
+    /* 改为100%而不是auto */
     max-height: 400px;
     border-radius: 8px;
     display: block !important;
@@ -822,6 +831,7 @@ body {
     opacity: 1 !important;
     height: 400px !important;
 }
+
 .animation-container .video-player {
     display: block !important;
     width: 100% !important;
@@ -956,13 +966,15 @@ body {
     border-bottom: 2px dotted var(--primary);
     padding: 0 2px;
     transition: all 0.2s ease;
-    display: inline-block; /* 确保是内联块级元素 */
+    display: inline-block;
+    /* 确保是内联块级元素 */
 }
 
 .keyword:hover {
     background-color: rgba(42, 157, 143, 0.1);
     border-bottom-style: solid;
 }
+
 .keyword-tooltip {
     position: absolute;
     background-color: white;
@@ -972,7 +984,8 @@ body {
     width: 320px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     z-index: 1000;
-    display: none; /* 默认隐藏 */
+    display: none;
+    /* 默认隐藏 */
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
@@ -1012,7 +1025,8 @@ body {
     font-size: 1.2rem;
     color: #999;
     transition: color 0.2s;
-    z-index: 1001; /* 确保在最上层 */
+    z-index: 1001;
+    /* 确保在最上层 */
 }
 
 .tooltip-close:hover {
@@ -1037,7 +1051,7 @@ body {
     z-index: 1;
 }
 
-/* 视觉模型区 */ 
+/* 视觉模型区 */
 .visual-models {
     margin-bottom: 2rem;
 }
@@ -2387,11 +2401,25 @@ footer {
     flex-shrink: 0;
 }
 
-.legend-color.unit1 { background-color: rgba(66, 153, 225, 0.5); }
-.legend-color.unit2 { background-color: rgba(159, 122, 234, 0.5); }
-.legend-color.unit3 { background-color: rgba(72, 187, 120, 0.5); }
-.legend-color.unit4 { background-color: rgba(237, 137, 54, 0.5); }
-.legend-color.unit5 { background-color: rgba(231, 111, 81, 0.5); }
+.legend-color.unit1 {
+    background-color: rgba(66, 153, 225, 0.5);
+}
+
+.legend-color.unit2 {
+    background-color: rgba(159, 122, 234, 0.5);
+}
+
+.legend-color.unit3 {
+    background-color: rgba(72, 187, 120, 0.5);
+}
+
+.legend-color.unit4 {
+    background-color: rgba(237, 137, 54, 0.5);
+}
+
+.legend-color.unit5 {
+    background-color: rgba(231, 111, 81, 0.5);
+}
 
 .legend-dot {
     width: 12px;
@@ -2451,7 +2479,7 @@ footer {
     .concept-web-visualization {
         grid-template-columns: 1fr;
     }
-    
+
     .concept-web-legend {
         margin-top: 2rem;
     }
@@ -2463,16 +2491,16 @@ footer {
         gap: 1.5rem;
         align-items: stretch;
     }
-    
+
     .search-concept {
         width: 100%;
     }
-    
+
     .concept-branch {
         position: static;
         margin-bottom: 2rem;
     }
-    
+
     .concept-web-center {
         height: auto;
         position: static;
@@ -2480,7 +2508,7 @@ footer {
         flex-direction: column;
         align-items: center;
     }
-    
+
     .central-concept {
         position: static;
         transform: none;
@@ -2492,19 +2520,19 @@ footer {
     .gallery-section {
         padding: 1.5rem;
     }
-    
+
     .mistakes-container {
         overflow-x: auto;
     }
-    
+
     .concept-web-controls {
         flex-wrap: wrap;
     }
-    
+
     .concept-actions {
         flex-wrap: wrap;
     }
-    
+
     .tag-filter-container {
         grid-template-columns: 1fr;
     }
@@ -2515,9 +2543,11 @@ footer {
     0% {
         box-shadow: 0 0 0 0 rgba(42, 157, 143, 0.4);
     }
+
     70% {
         box-shadow: 0 0 0 10px rgba(42, 157, 143, 0);
     }
+
     100% {
         box-shadow: 0 0 0 0 rgba(42, 157, 143, 0);
     }
@@ -2595,7 +2625,7 @@ footer {
     .content {
         padding: 0 1rem;
     }
-    
+
     .models-grid {
         grid-template-columns: 1fr;
     }
@@ -2610,9 +2640,17 @@ footer {
 }
 
 @keyframes highlight-pulse {
-    0% { box-shadow: 0 0 0 0 rgba(42, 157, 143, 0.3); }
-    50% { box-shadow: 0 0 0 10px rgba(42, 157, 143, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(42, 157, 143, 0); }
+    0% {
+        box-shadow: 0 0 0 0 rgba(42, 157, 143, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 0 10px rgba(42, 157, 143, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(42, 157, 143, 0);
+    }
 }
 
 .fade-in {
@@ -2620,8 +2658,15 @@ footer {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .concept-web-preview {
@@ -2680,14 +2725,11 @@ footer {
     .concept-web-preview {
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     }
-    
+
     .concept-node {
         padding: 0.75rem;
     }
 }
-
-
-/* 修复标签样式冲突 - 添加到CSS文件末尾 */
 
 /* 重置所有标签的默认样式，避免冲突 */
 #gallery .tag {
@@ -2838,9 +2880,11 @@ section#gallery .tag.active {
     0% {
         transform: scale(1);
     }
+
     50% {
         transform: scale(1.1);
     }
+
     100% {
         transform: scale(1);
     }
@@ -3692,17 +3736,17 @@ section#gallery .tag.active {
     #exam .study-layout {
         grid-template-columns: 1fr;
     }
-    
+
     #exam .chapter-tree {
         position: static;
         max-height: none;
         margin-bottom: 2rem;
     }
-    
+
     #exam .exam-info {
         grid-template-columns: repeat(3, 1fr);
     }
-    
+
     #exam .question-stats {
         grid-template-columns: repeat(3, 1fr);
     }
@@ -3712,31 +3756,31 @@ section#gallery .tag.active {
     #exam .card-container {
         grid-template-columns: 1fr;
     }
-    
+
     #exam .exam-info {
         grid-template-columns: 1fr;
         gap: 1rem;
     }
-    
+
     #exam .modal-content {
         width: 95%;
         margin: 1rem;
         max-height: 85vh;
     }
-    
+
     #exam .modal-header {
         padding: 1rem;
     }
-    
+
     #exam .modal-body {
         padding: 1rem;
     }
-    
+
     #exam .modal-footer {
         padding: 1rem;
         flex-direction: column;
     }
-    
+
     #exam .modal-footer .btn {
         width: 100%;
     }
@@ -3746,20 +3790,20 @@ section#gallery .tag.active {
     #exam .card-container {
         grid-template-columns: 1fr;
     }
-    
+
     #exam .features-grid {
         grid-template-columns: 1fr;
     }
-    
+
     #exam .question-preview .question-actions {
         flex-wrap: wrap;
     }
-    
+
     #exam .modal-footer {
         flex-direction: column;
         gap: 0.8rem;
     }
-    
+
     #exam .modal-footer .btn {
         width: 100%;
     }
@@ -3776,7 +3820,7 @@ section#gallery .tag.active {
     margin: 1.5rem 0;
 }
 
-#exam .exam-card, 
+#exam .exam-card,
 #exam .concept-card {
     display: flex;
     flex-direction: column;
@@ -3790,8 +3834,8 @@ section#gallery .tag.active {
     flex-direction: column;
 }
 
-#exam .exam-card .card-body > p,
-#exam .concept-card .card-body > p {
+#exam .exam-card .card-body>p,
+#exam .concept-card .card-body>p {
     flex: 1;
     margin-bottom: 1rem;
     min-height: 60px;
@@ -3834,7 +3878,8 @@ section#gallery .tag.active {
 
 /* 修正：考试弹窗位置和样式 */
 #exam .modal {
-    display: none; /* 默认隐藏，JS会改为flex */
+    display: none;
+    /* 默认隐藏，JS会改为flex */
     position: fixed;
     top: 0;
     left: 0;
@@ -3842,9 +3887,12 @@ section#gallery .tag.active {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 2000;
-    justify-content: center; /* 水平居中 */
-    align-items: center;     /* 垂直居中 */
+    justify-content: center;
+    /* 水平居中 */
+    align-items: center;
+    /* 垂直居中 */
 }
+
 /* 确保弹窗在屏幕中央 */
 #exam .modal-content {
     background-color: white;
@@ -3894,6 +3942,7 @@ section#gallery .tag.active {
         opacity: 0;
         transform: translateY(-20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -3951,9 +4000,8 @@ section#gallery .tag.active {
     flex-direction: column;
 }
 
-/* 修复论坛关注按钮样式冲突 */
+/* 论坛关注按钮样式冲突 */
 #forum .btn-follow {
-    /* 重置可能被.btn类覆盖的属性 */
     background-color: transparent !important;
     color: var(--primary) !important;
     border: 1px solid var(--primary) !important;
@@ -3994,14 +4042,11 @@ section#gallery .tag.active {
     font-size: 0.75rem;
 }
 
-
-
-
 /* ============================
    MyBio 页面 - 小红书风格个人页面
    ============================ */
 
-/* 页面头部 - 渐变背景 */
+/* 页面头部 */
 #mybio .page-header {
     background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
     color: white;
@@ -4438,7 +4483,7 @@ section#gallery .tag.active {
     line-height: 1.4;
 }
 
-#mybio .post-content > p {
+#mybio .post-content>p {
     color: #666;
     font-size: 0.875rem;
     line-height: 1.5;
@@ -4507,20 +4552,20 @@ section#gallery .tag.active {
     border-color: var(--primary);
 }
 
-#mybio .stat-card > div:first-child {
+#mybio .stat-card>div:first-child {
     font-size: 2rem;
     color: var(--primary);
     margin-bottom: 0.5rem;
     font-weight: 600;
 }
 
-#mybio .stat-card > div:nth-child(2) {
+#mybio .stat-card>div:nth-child(2) {
     font-weight: 600;
     color: var(--secondary);
     margin-bottom: 0.25rem;
 }
 
-#mybio .stat-card > div:last-child {
+#mybio .stat-card>div:last-child {
     font-size: 0.875rem;
     color: #666;
 }
@@ -4695,7 +4740,7 @@ section#gallery .tag.active {
     margin-bottom: 1rem;
 }
 
-#mybio .create-tag-section > div {
+#mybio .create-tag-section>div {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
@@ -4753,6 +4798,7 @@ section#gallery .tag.active {
         opacity: 0;
         transform: translateY(-20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -4826,46 +4872,46 @@ section#gallery .tag.active {
         text-align: center;
         gap: 1rem;
     }
-    
+
     #mybio .user-info {
         min-width: auto;
     }
-    
+
     #mybio .user-stats {
         justify-content: center;
     }
-    
+
     #mybio .user-actions {
         justify-content: center;
     }
-    
+
     #mybio .user-actions .btn {
         flex: 1;
         min-width: 140px;
         justify-content: center;
     }
-    
+
     #mybio .posts-container {
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     }
-    
+
     #mybio .stats-grid {
         grid-template-columns: 1fr;
     }
-    
+
     #mybio .tabs {
         overflow-x: auto;
     }
-    
+
     #mybio .tab-btn {
         padding: 0.75rem 1rem;
         font-size: 0.9rem;
     }
-    
+
     #mybio .search-container {
         flex-direction: column;
     }
-    
+
     #mybio .suggestions-grid {
         grid-template-columns: 1fr;
     }
@@ -4875,16 +4921,16 @@ section#gallery .tag.active {
     #mybio .posts-container {
         grid-template-columns: 1fr;
     }
-    
+
     #mybio .modal-content {
         width: 95%;
         padding: 1rem;
     }
-    
-    #mybio .create-tag-section > div {
+
+    #mybio .create-tag-section>div {
         flex-direction: column;
     }
-    
+
     #mybio #newTagName,
     #mybio #newTagColor {
         min-width: auto;
@@ -4904,6 +4950,7 @@ section#gallery .tag.active {
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -4966,4 +5013,3 @@ section#gallery .tag.active {
 #mybio .analytics-tab.active {
     display: block;
 }
-

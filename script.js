@@ -901,7 +901,7 @@ function initStudyPage() {
     fixMissingTooltips();
 
     initVideoPlayers();
-    initStepAnimations(); // 调用修复后的函数
+    initStepAnimations();
 
     initYouTubeButtons();
     initPracticeQuestions();
@@ -1212,7 +1212,6 @@ function initLearningSteps() {
 }
 
 // 初始化步骤动画
-// 初始化步骤动画 - 修复版本
 function initStepAnimations() {
     console.log('初始化步骤动画...');
     const stepButtons = document.querySelectorAll('.step-btn');
@@ -1593,7 +1592,6 @@ function initDiscussionSection() {
 }
 
 // 初始化关键词工具提示
-// 初始化关键词工具提示 - 修复版本
 function initKeywordTooltips() {
     console.log('初始化关键词工具提示...');
     const keywords = document.querySelectorAll('.keyword');
@@ -2434,9 +2432,8 @@ function navigateToNextChapter() {
 }
 
 
-// 修复缺失的工具提示内容
+// 工具提示内容
 function fixMissingTooltips() {
-    console.log('检查并修复缺失的工具提示内容...');
 
     const keywords = document.querySelectorAll('.keyword');
 
@@ -2449,7 +2446,6 @@ function fixMissingTooltips() {
         const keywordText = keyword.getAttribute('data-keyword') || keyword.textContent.trim().toLowerCase();
 
         if (!hasContent) {
-            console.log('修复缺失内容的工具提示:', keywordText);
 
             // 根据关键词类型添加内容
             let title = '';
@@ -3101,8 +3097,7 @@ function initMistakeTags() {
 }
 
 
-// 修复标签过滤功能
-// 修复标签过滤功能的JavaScript - 确保样式正确切换
+// 标签过滤功能
 function initMistakeTagFilters() {
     console.log('初始化错误标签过滤...');
 
@@ -3250,7 +3245,7 @@ function updateMistakeCount(selectedTag) {
     }
 }
 
-// 修复错误标签点击跳转到概念的功能
+// 错误标签点击跳转到概念的功能
 function initMistakeConceptLinks() {
     const mistakeTags = document.querySelectorAll('#gallery .mistake-tags .tag');
 
