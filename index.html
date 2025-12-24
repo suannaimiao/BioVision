@@ -1045,122 +1045,648 @@
         </section>
 
         <!-- 考试页面 -->
+        <!-- 考试页面 - 更新版本 -->
         <section id="exam" class="page-content">
-            <div class="page-header">
-                <h1>Exams and Practice</h1>
-                <p>Past exam papers, unit exercises, adaptive difficulty training - comprehensive problem-solving
-                    improvement</p>
-            </div>
-            <div class="card-container">
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Past Exam Papers</h3>
+            <div class="study-layout">
+                <!-- 左侧考试类型目录树 -->
+                <div class="chapter-tree">
+                    <div class="section-title">
+                        <h3><i class="fas fa-sitemap"></i> Exam Directory</h3>
                     </div>
-                    <div class="card-body">
-                        <p>Past exam papers categorized by year and exam type</p>
-                        <ul>
-                            <li>College Entrance Biology Exams</li>
-                            <li>High School Biology Exams</li>
-                            <li>Biology Competition Papers</li>
-                        </ul>
-                        <button class="btn btn-primary" id="startPracticeBtn">Start Practice</button>
+
+                    <!-- 简化后的目录 - 只保留一级标题 -->
+                    <div class="tree-unit active" data-target="#past-papers-section">
+                        <div class="unit-header">
+                            <i class="fas fa-file-alt"></i>
+                            <span class="unit-title">Past Exam Papers</span>
+                        </div>
+                    </div>
+
+                    <div class="tree-unit" data-target="#general-questions-section">
+                        <div class="unit-header">
+                            <i class="fas fa-question-circle"></i>
+                            <span class="unit-title">General Questions</span>
+                        </div>
+                    </div>
+
+                    <div class="tree-unit" data-target="#concept-questions-section">
+                        <div class="unit-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <span class="unit-title">Concept Questions</span>
+                        </div>
+                    </div>
+
+                    <div class="tree-unit" data-target="#unit-questions-section">
+                        <div class="unit-header">
+                            <i class="fas fa-book"></i>
+                            <span class="unit-title">Unit Questions</span>
+                        </div>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Unit Exercises</h3>
+
+                <!-- 右侧内容区 -->
+                <div class="concept-content">
+                    <div class="page-header">
+                        <h1>Exams and Practice</h1>
+                        <p>Past exam papers, general questions, concept questions, and unit exercises - comprehensive
+                            problem-solving improvement</p>
                     </div>
-                    <div class="card-body">
-                        <p>Specialized exercises organized by textbook units</p>
-                        <p>Each question has pre-set tags: categorizing difficulty and involved knowledge points</p>
-                        <div class="difficulty-indicator">
-                            <span>Select Difficulty:</span>
-                            <div class="difficulty-dot active" data-level="1"></div>
-                            <div class="difficulty-dot" data-level="2"></div>
-                            <div class="difficulty-dot" data-level="3"></div>
-                            <div class="difficulty-dot" data-level="4"></div>
-                            <div class="difficulty-dot" data-level="5"></div>
+
+                    <!-- 1. 真题部分 -->
+                    <div class="section-title" id="past-papers-section">
+                        <h2><i class="fas fa-file-alt"></i> Past Exam Papers</h2>
+                        <span>Categorized by year and exam type</span>
+                    </div>
+
+                    <div class="card-container">
+
+                        <div class="card exam-card" data-difficulty="normal" data-type="past-paper" data-year="2022">
+                            <div class="card-header">
+                                <div class="exam-badge">
+                                    <i class="fas fa-school"></i> High School
+                                </div>
+                                <h3>2022 High School Biology Exam</h3>
+                            </div>
+                            <div class="card-body">
+                                <p>High school level exam with focus on core concepts</p>
+                                <div class="exam-info">
+                                    <div class="info-item">
+                                        <i class="fas fa-question-circle"></i>
+                                        <span>40 Questions</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <i class="fas fa-clock"></i>
+                                        <span>75 minutes</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <i class="fas fa-chart-line"></i>
+                                        <span>Difficulty: Normal</span>
+                                    </div>
+                                </div>
+                                <div class="resource-tags">
+                                    <span class="tag">High School</span>
+                                    <span class="tag">2022</span>
+                                    <span class="tag">Core Concepts</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-primary start-exam-btn" data-exam="2022-highschool">
+                                    <i class="fas fa-play"></i> Start Exam
+                                </button>
+                                <button class="btn btn-secondary btn-sm preview-exam-btn">
+                                    <i class="fas fa-eye"></i> Preview
+                                </button>
+                            </div>
                         </div>
-                        <button class="btn btn-primary" id="selectUnitBtn">Select Unit</button>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Adaptive Difficulty Training</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Automatically matches question difficulty based on your level</p>
-                        <p>System adjusts subsequent question difficulty based on answer performance</p>
-                        <div>
-                            <p><strong>Your current level:</strong> Intermediate</p>
-                            <p><strong>Next question difficulty:</strong> Medium</p>
+
+                        <div class="card exam-card" data-difficulty="difficult" data-type="past-paper" data-year="2023">
+                            <div class="card-header">
+                                <div class="exam-badge competition-badge">
+                                    <i class="fas fa-trophy"></i> Competition
+                                </div>
+                                <h3>2023 Biology Competition Paper</h3>
+                            </div>
+                            <div class="card-body">
+                                <p>Advanced competition level questions for challenging practice</p>
+                                <div class="exam-info">
+                                    <div class="info-item">
+                                        <i class="fas fa-question-circle"></i>
+                                        <span>30 Questions</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <i class="fas fa-clock"></i>
+                                        <span>120 minutes</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <i class="fas fa-chart-line"></i>
+                                        <span>Difficulty: Difficult</span>
+                                    </div>
+                                </div>
+                                <div class="resource-tags">
+                                    <span class="tag">Competition</span>
+                                    <span class="tag">2023</span>
+                                    <span class="tag">Advanced</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-primary start-exam-btn" data-exam="2023-competition">
+                                    <i class="fas fa-play"></i> Start Exam
+                                </button>
+                                <button class="btn btn-secondary btn-sm preview-exam-btn">
+                                    <i class="fas fa-eye"></i> Preview
+                                </button>
+                            </div>
                         </div>
-                        <button class="btn btn-primary" id="startTrainingBtn">Start Training</button>
+                        <div class="card exam-card" data-difficulty="mixed" data-type="past-paper" data-year="2023">
+                            <div class="card-header">
+                                <div class="exam-badge">
+                                    <i class="fas fa-university"></i> College Entrance
+                                </div>
+                                <h3>2023 College Entrance Biology Exam</h3>
+                            </div>
+                            <div class="card-body">
+                                <p>Complete past exam paper with 50 questions covering all units</p>
+                                <div class="exam-info">
+                                    <div class="info-item">
+                                        <i class="fas fa-question-circle"></i>
+                                        <span>50 Questions</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <i class="fas fa-clock"></i>
+                                        <span>90 minutes</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <i class="fas fa-chart-line"></i>
+                                        <span>Difficulty: Mixed</span>
+                                    </div>
+                                </div>
+                                <div class="resource-tags">
+                                    <span class="tag">College</span>
+                                    <span class="tag">2023</span>
+                                    <span class="tag">Complete Paper</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-primary start-exam-btn" data-exam="2023-college">
+                                    <i class="fas fa-play"></i> Start Exam
+                                </button>
+                                <button class="btn btn-secondary btn-sm preview-exam-btn">
+                                    <i class="fas fa-eye"></i> Preview
+                                </button>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <!-- 2. General Questions -->
+                    <div class="section-title" style="margin-top: 2.5rem;" id="general-questions-section">
+                        <h2><i class="fas fa-question-circle"></i> General Questions</h2>
+                        <span>Mixed difficulty questions from all units</span>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="question-stats">
+                                <div class="stat-item">
+                                    <i class="fas fa-database"></i>
+                                    <div>
+                                        <h4>500+</h4>
+                                        <p>Total Questions</p>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-brain"></i>
+                                    <div>
+                                        <h4>Adaptive</h4>
+                                        <p>Difficulty System</p>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-history"></i>
+                                    <div>
+                                        <h4>Progress</h4>
+                                        <p>Tracking</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="adaptive-info">
+                                <h4><i class="fas fa-robot"></i> Adaptive Difficulty System</h4>
+                                <p>The system automatically adjusts question difficulty based on your performance. Start
+                                    with medium difficulty, and the system will adapt to your level.</p>
+
+                                <div class="level-display">
+                                    <div class="level-indicator">
+                                        <span>Your current level:</span>
+                                        <div class="level-bar">
+                                            <div class="level-fill" style="width: 60%"></div>
+                                        </div>
+                                        <span class="level-text">Intermediate</span>
+                                    </div>
+
+                                    <div class="next-question">
+                                        <span>Next question difficulty:</span>
+                                        <span class="difficulty-tag normal">Medium</span>
+                                    </div>
+                                </div>
+
+                                <div class="question-filters">
+                                    <span>Filter by Unit:</span>
+                                    <div class="filter-tags">
+                                        <span class="tag active" data-unit="all">All Units</span>
+                                        <span class="tag" data-unit="1">Unit 1</span>
+                                        <span class="tag" data-unit="2">Unit 2</span>
+                                        <span class="tag" data-unit="3">Unit 3</span>
+                                        <span class="tag" data-unit="4">Unit 4</span>
+                                    </div>
+                                </div>
+
+                                <div style="text-align: center; margin-top: 1.5rem;">
+                                    <button class="btn btn-primary" id="startAdaptiveBtn">
+                                        <i class="fas fa-play-circle"></i> Start Adaptive Training
+                                    </button>
+                                    <button class="btn btn-secondary" id="viewAllGeneralBtn">
+                                        <i class="fas fa-list"></i> View All Questions
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Concept Questions -->
+                    <div class="section-title" style="margin-top: 2.5rem;" id="concept-questions-section">
+                        <h2><i class="fas fa-lightbulb"></i> Concept Questions</h2>
+                        <span>Questions focused on specific concepts</span>
+                    </div>
+
+                    <div class="card-container">
+                        <div class="card concept-card" data-concept="water-properties">
+                            <div class="card-header">
+                                <div class="concept-badge">
+                                    <i class="fas fa-tint"></i>
+                                </div>
+                                <h3>Water Properties</h3>
+                            </div>
+                            <div class="card-body">
+                                <p>Questions testing understanding of polarity, cohesion, adhesion, and solvent
+                                    properties</p>
+                                <div class="question-count">
+                                    <i class="fas fa-question"></i>
+                                    <span>25 questions available</span>
+                                </div>
+                                <div class="resource-tags">
+                                    <span class="tag">Unit 1</span>
+                                    <span class="tag">Chemistry of Life</span>
+                                    <span class="tag">Molecular Biology</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-primary btn-sm start-concept-btn">
+                                    <i class="fas fa-play"></i> Start Practice
+                                </button>
+                                <button class="btn btn-secondary btn-sm view-concept-btn">
+                                    <i class="fas fa-book-open"></i> Review Concept
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="card concept-card" data-concept="cell-membrane">
+                            <div class="card-header">
+                                <div class="concept-badge">
+                                    <i class="fas fa-border-style"></i>
+                                </div>
+                                <h3>Cell Membrane & Transport</h3>
+                            </div>
+                            <div class="card-body">
+                                <p>Diffusion, osmosis, active transport, and membrane structure questions</p>
+                                <div class="question-count">
+                                    <i class="fas fa-question"></i>
+                                    <span>30 questions available</span>
+                                </div>
+                                <div class="resource-tags">
+                                    <span class="tag">Unit 2</span>
+                                    <span class="tag">Cell Structure</span>
+                                    <span class="tag">Transport</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-primary btn-sm start-concept-btn">
+                                    <i class="fas fa-play"></i> Start Practice
+                                </button>
+                                <button class="btn btn-secondary btn-sm view-concept-btn">
+                                    <i class="fas fa-book-open"></i> Review Concept
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="card concept-card" data-concept="dna-replication">
+                            <div class="card-header">
+                                <div class="concept-badge">
+                                    <i class="fas fa-dna"></i>
+                                </div>
+                                <h3>DNA Replication</h3>
+                            </div>
+                            <div class="card-body">
+                                <p>Replication fork, enzymes, leading/lagging strand questions</p>
+                                <div class="question-count">
+                                    <i class="fas fa-question"></i>
+                                    <span>20 questions available</span>
+                                </div>
+                                <div class="resource-tags">
+                                    <span class="tag">Unit 4</span>
+                                    <span class="tag">Genetics</span>
+                                    <span class="tag">Molecular Biology</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-primary btn-sm start-concept-btn">
+                                    <i class="fas fa-play"></i> Start Practice
+                                </button>
+                                <button class="btn btn-secondary btn-sm view-concept-btn">
+                                    <i class="fas fa-book-open"></i> Review Concept
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Unit Questions -->
+                    <div class="section-title" style="margin-top: 2.5rem;" id="unit-questions-section">
+                        <h2><i class="fas fa-book"></i> Unit Questions</h2>
+                        <span>Specialized exercises organized by textbook units</span>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="unit-selector">
+                                <h4><i class="fas fa-layer-group"></i> Select Unit</h4>
+                                <div class="unit-grid">
+                                    <div class="unit-option active" data-unit="1">
+                                        <div class="unit-icon">
+                                            <i class="fas fa-tint"></i>
+                                        </div>
+                                        <div class="unit-info">
+                                            <h5>Unit 1</h5>
+                                            <p>Chemical Basis of Life</p>
+                                            <span class="question-count">45 questions</span>
+                                        </div>
+                                    </div>
+                                    <div class="unit-option" data-unit="2">
+                                        <div class="unit-icon">
+                                            <i class="fas fa-border-style"></i>
+                                        </div>
+                                        <div class="unit-info">
+                                            <h5>Unit 2</h5>
+                                            <p>Cell Structure</p>
+                                            <span class="question-count">60 questions</span>
+                                        </div>
+                                    </div>
+                                    <div class="unit-option" data-unit="3">
+                                        <div class="unit-icon">
+                                            <i class="fas fa-bolt"></i>
+                                        </div>
+                                        <div class="unit-info">
+                                            <h5>Unit 3</h5>
+                                            <p>Cell Metabolism</p>
+                                            <span class="question-count">55 questions</span>
+                                        </div>
+                                    </div>
+                                    <div class="unit-option" data-unit="4">
+                                        <div class="unit-icon">
+                                            <i class="fas fa-dna"></i>
+                                        </div>
+                                        <div class="unit-info">
+                                            <h5>Unit 4</h5>
+                                            <p>Genetics</p>
+                                            <span class="question-count">70 questions</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="difficulty-selector">
+                                <h4><i class="fas fa-sliders-h"></i> Select Difficulty for Unit Questions</h4>
+                                <div class="difficulty-levels">
+                                    <div class="difficulty-level active" data-level="easy">
+                                        <div class="level-icon">
+                                            <i class="fas fa-seedling"></i>
+                                        </div>
+                                        <div>
+                                            <h5>Easy</h5>
+                                            <p>Basic recall and understanding</p>
+                                        </div>
+                                    </div>
+                                    <div class="difficulty-level" data-level="normal">
+                                        <div class="level-icon">
+                                            <i class="fas fa-chart-line"></i>
+                                        </div>
+                                        <div>
+                                            <h5>Normal</h5>
+                                            <p>Application and analysis</p>
+                                        </div>
+                                    </div>
+                                    <div class="difficulty-level" data-level="difficult">
+                                        <div class="level-icon">
+                                            <i class="fas fa-brain"></i>
+                                        </div>
+                                        <div>
+                                            <h5>Difficult</h5>
+                                            <p>Evaluation and synthesis</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="text-align: center; margin-top: 2rem;">
+                                <button class="btn btn-primary" id="startUnitPracticeBtn">
+                                    <i class="fas fa-play"></i> Start Unit Practice
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 功能特性说明 -->
+                    <div class="section-title" style="margin-top: 2.5rem;">
+                        <h2>Question Features</h2>
+                        <span>Each question includes the following features</span>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="features-grid">
+                                <div>
+                                    <h4><i class="fas fa-analysis"></i> Detailed Analysis</h4>
+                                    <p>Each question has detailed solution steps and knowledge point analysis</p>
+                                </div>
+                                <div>
+                                    <h4><i class="fas fa-link"></i> Related Concepts</h4>
+                                    <p>Direct jump to learning pages for concepts related to the question</p>
+                                </div>
+                                <div>
+                                    <h4><i class="fas fa-tag"></i> Save & Tag</h4>
+                                    <p>Save questions and add custom tags for convenient review</p>
+                                </div>
+                            </div>
+
+                            <!-- 示例题目 -->
+                            <div class="sample-question" style="margin-top: 2rem;">
+                                <h4><i class="fas fa-graduation-cap"></i> Sample Question Preview</h4>
+                                <div class="question-preview">
+                                    <p><strong>Question:</strong> Which of the following properties of water is
+                                        responsible for its high surface tension?</p>
+                                    <div class="options">
+                                        <div class="option">
+                                            <input type="radio" id="option1" name="sample-question" value="A">
+                                            <label for="option1">A) High specific heat capacity</label>
+                                        </div>
+                                        <div class="option">
+                                            <input type="radio" id="option2" name="sample-question" value="B">
+                                            <label for="option2">B) Adhesion</label>
+                                        </div>
+                                        <div class="option">
+                                            <input type="radio" id="option3" name="sample-question" value="C">
+                                            <label for="option3">C) Cohesion (Correct Answer)</label>
+                                        </div>
+                                        <div class="option">
+                                            <input type="radio" id="option4" name="sample-question" value="D">
+                                            <label for="option4">D) Universal solvent property</label>
+                                        </div>
+                                    </div>
+                                    <div class="question-actions">
+                                        <button class="btn btn-secondary btn-sm" id="showExplanationBtn">
+                                            <i class="fas fa-lightbulb"></i> Show Explanation
+                                        </button>
+                                        <button class="btn btn-secondary btn-sm" id="goToConceptBtn">
+                                            <i class="fas fa-external-link-alt"></i> Go to Concept
+                                        </button>
+                                        <button class="btn btn-secondary btn-sm" id="addTagBtn">
+                                            <i class="fas fa-tag"></i> Add Tag
+                                        </button>
+                                        <button class="btn btn-secondary btn-sm" id="saveQuestionBtn">
+                                            <i class="fas fa-bookmark"></i> Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="section-title">
-                <h2>Question Features</h2>
-                <span>Each question includes the following features</span>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    <div class="features-grid">
-                        <div>
-                            <h4><i class="fas fa-analysis"></i> Detailed Analysis</h4>
-                            <p>Each question has detailed solution steps and knowledge point analysis</p>
+
+            <!-- 考试设置弹窗 -->
+            <div class="modal" id="examSettingsModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-cog"></i> Exam Settings</h3>
+                        <button class="modal-close">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="setting-group">
+                            <h4><i class="fas fa-clock"></i> Time Limit</h4>
+                            <div class="timer-selection">
+                                <div class="timer-option" data-minutes="30">
+                                    <i class="fas fa-stopwatch"></i>
+                                    <span>30 minutes</span>
+                                </div>
+                                <div class="timer-option active" data-minutes="60">
+                                    <i class="fas fa-clock"></i>
+                                    <span>60 minutes</span>
+                                </div>
+                                <div class="timer-option" data-minutes="90">
+                                    <i class="fas fa-hourglass-end"></i>
+                                    <span>90 minutes</span>
+                                </div>
+                                <div class="timer-option" data-minutes="120">
+                                    <i class="fas fa-hourglass-half"></i>
+                                    <span>120 minutes</span>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <h4><i class="fas fa-link"></i> Related Concepts</h4>
-                            <p>Direct jump to learning pages for concepts related to the question</p>
+
+                        <div class="setting-group">
+                            <h4><i class="fas fa-sliders-h"></i> Difficulty Level</h4>
+                            <div class="difficulty-selection">
+                                <div class="difficulty-option" data-difficulty="easy">
+                                    <div class="difficulty-label easy">Easy</div>
+                                    <p>Basic questions, good for review</p>
+                                </div>
+                                <div class="difficulty-option active" data-difficulty="normal">
+                                    <div class="difficulty-label normal">Normal</div>
+                                    <p>Standard exam difficulty</p>
+                                </div>
+                                <div class="difficulty-option" data-difficulty="difficult">
+                                    <div class="difficulty-label difficult">Difficult</div>
+                                    <p>Challenging questions</p>
+                                </div>
+                                <div class="difficulty-option" data-difficulty="mixed">
+                                    <div class="difficulty-label mixed">Mixed</div>
+                                    <p>Varied difficulty levels</p>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <h4><i class="fas fa-tag"></i> Save & Tag</h4>
-                            <p>Save questions and add custom tags for convenient review</p>
+
+                        <div class="setting-group">
+                            <h4><i class="fas fa-question-circle"></i> Question Count</h4>
+                            <div class="question-count-selection">
+                                <input type="range" id="questionCountSlider" min="10" max="50" value="25" step="5">
+                                <div class="slider-value">
+                                    <span id="questionCountValue">25</span> questions
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="sample-question">
-                        <h4>Sample Question:</h4>
-                        <p><strong>Question:</strong> Which of the following properties of water is responsible for its
-                            high surface tension?</p>
-                        <div class="options">
-                            <div>
-                                <input type="radio" id="option1" name="sample-question" value="A">
-                                <label for="option1">A) High specific heat capacity</label>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" id="cancelExamBtn">Cancel</button>
+                        <button class="btn btn-primary" id="startExamBtn">Start Exam</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 考试进行中弹窗 -->
+            <div class="modal" id="examInProgressModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-hourglass-half"></i> Exam in Progress</h3>
+                        <button class="modal-close">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="exam-timer">
+                            <div class="timer-display">
+                                <span id="minutes">60</span>:<span id="seconds">00</span>
                             </div>
-                            <div>
-                                <input type="radio" id="option2" name="sample-question" value="B">
-                                <label for="option2">B) Adhesion</label>
+                            <div class="timer-label">Time Remaining</div>
+                        </div>
+
+                        <div class="exam-progress">
+                            <div class="progress-info">
+                                <span>Question <span id="currentQuestion">1</span> of <span
+                                        id="totalQuestions">25</span></span>
+                                <span id="progressPercentage">4%</span>
                             </div>
-                            <div>
-                                <input type="radio" id="option3" name="sample-question" value="C">
-                                <label for="option3">C) Cohesion (Correct)</label>
-                            </div>
-                            <div>
-                                <input type="radio" id="option4" name="sample-question" value="D">
-                                <label for="option4">D) Universal solvent property</label>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 4%"></div>
                             </div>
                         </div>
-                        <div class="question-actions">
-                            <button class="btn btn-secondary btn-sm" id="showExplanationBtn">
-                                <i class="fas fa-lightbulb"></i> Show Explanation
-                            </button>
-                            <button class="btn btn-secondary btn-sm" id="goToConceptBtn">
-                                <i class="fas fa-external-link-alt"></i> Go to Concept
-                            </button>
-                            <button class="btn btn-secondary btn-sm" id="addTagBtn">
-                                <i class="fas fa-tag"></i> Add Tag
-                            </button>
-                            <button class="btn btn-secondary btn-sm" id="saveQuestionBtn">
-                                <i class="fas fa-bookmark"></i> Save
-                            </button>
+
+                        <div class="question-display">
+                            <p id="examQuestionText">Which of the following properties of water is responsible for its
+                                high
+                                surface tension?</p>
+                            <div class="exam-options">
+                                <div class="exam-option" data-option="A">
+                                    <input type="radio" name="exam-question" id="examOptionA" value="A">
+                                    <label for="examOptionA">A) High specific heat capacity</label>
+                                </div>
+                                <div class="exam-option" data-option="B">
+                                    <input type="radio" name="exam-question" id="examOptionB" value="B">
+                                    <label for="examOptionB">B) Adhesion</label>
+                                </div>
+                                <div class="exam-option" data-option="C">
+                                    <input type="radio" name="exam-question" id="examOptionC" value="C">
+                                    <label for="examOptionC">C) Cohesion</label>
+                                </div>
+                                <div class="exam-option" data-option="D">
+                                    <input type="radio" name="exam-question" id="examOptionD" value="D">
+                                    <label for="examOptionD">D) Universal solvent property</label>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" id="previousQuestionBtn" disabled>
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </button>
+                        <button class="btn btn-secondary" id="flagQuestionBtn">
+                            <i class="far fa-flag"></i> Flag
+                        </button>
+                        <button class="btn btn-primary" id="nextQuestionBtn">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 讨论区页面 -->
         <!-- 讨论区页面 -->
         <section id="forum" class="page-content">
             <div class="page-header">

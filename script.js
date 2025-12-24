@@ -24,6 +24,15 @@ document.addEventListener('DOMContentLoaded', function() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
+    // 监听页面切换，只在切换到 exam 页面时初始化
+    document.addEventListener('pageChange', function(e) {
+        if (e.detail.page === 'exam') {
+            console.log('切换到考试页面，重新初始化');
+            initExamPage();
+        }
+        // ... 其他代码 ...
+    });
+
     // 确保初始状态正确
     ensureInitialState();
 
@@ -37,6 +46,830 @@ document.addEventListener('DOMContentLoaded', function() {
     // }
 });
 
+
+// 初始化考试页面
+function initExamPage() {
+    console.log('初始化考试页面功能');
+    
+    // 初始化目录树跳转功能
+    initExamTreeNavigation();
+    
+    // 初始化难度选择
+    initDifficultySelection();
+    
+    // 初始化开始考试按钮
+    initExamStartButtons();
+    
+    // 初始化考试设置模态框
+    initExamSettingsModal();
+    
+    // 初始化单元选择
+    initUnitSelection();
+    
+    // 初始化概念练习按钮
+    initConceptPracticeButtons();
+    
+    // 初始化自适应训练按钮
+    initAdaptiveTraining();
+    
+    // 初始化过滤标签
+    initExamTagFilters();
+    
+    // 初始化示例题目交互
+    initSampleQuestion();
+
+    // 修正卡片对齐问题
+    fixExamCardAlignment();
+
+    // 监听窗口大小变化，重新对齐
+    window.addEventListener('resize', fixExamCardAlignment);
+}
+
+// 初始化考试目录树跳转
+function initExamTreeNavigation() {
+    const treeUnits = document.querySelectorAll('#exam .tree-unit');
+    
+    treeUnits.forEach(unit => {
+        unit.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // 移除所有活动状态
+            treeUnits.forEach(u => {
+                u.classList.remove('active');
+            });
+            
+            // 添加当前活动状态
+            this.classList.add('active');
+            
+            // 获取目标区域
+            const targetSelector = this.getAttribute('data-target');
+            const targetSection = document.querySelector(targetSelector);
+            
+            if (targetSection) {
+                // 计算导航栏高度
+                const header = document.querySelector('.site-header');
+                const headerHeight = header ? header.offsetHeight : 80;
+                
+                // 计算目标位置（减去导航栏高度）
+                const targetPosition = targetSection.offsetTop - headerHeight;
+                
+                // 平滑滚动到目标位置
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+                
+                // 添加高亮效果
+                targetSection.classList.add('highlight-section');
+                setTimeout(() => {
+                    targetSection.classList.remove('highlight-section');
+                }, 1500);
+                
+                console.log('跳转到:', targetSelector);
+            }
+        });
+    });
+}
+
+// 初始化难度选择
+function initDifficultySelection() {
+    // 左侧难度面板
+    const difficultyOptions = document.querySelectorAll('#exam .difficulty-option');
+    
+    difficultyOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const difficulty = this.getAttribute('data-difficulty');
+            
+            // 更新按钮状态
+            difficultyOptions.forEach(opt => {
+                opt.classList.remove('active');
+            });
+            this.classList.add('active');
+            
+            // 过滤卡片显示
+            filterExamCardsByDifficulty(difficulty);
+            
+            // 更新全局难度设置
+            updateGlobalDifficulty(difficulty);
+            
+            console.log('难度设置为:', difficulty);
+        });
+    });
+    
+    // 应用设置按钮
+    document.getElementById('applySettingsBtn')?.addEventListener('click', function() {
+        const timerValue = document.getElementById('examTimer')?.value || 60;
+        const activeDifficulty = document.querySelector('#exam .difficulty-option.active');
+        const difficulty = activeDifficulty ? activeDifficulty.getAttribute('data-difficulty') : 'mixed';
+        
+        alert(`设置已应用:\n时间: ${timerValue}分钟\n难度: ${difficulty}`);
+    });
+}
+
+// 过滤考试卡片
+function filterExamCardsByDifficulty(difficulty) {
+    const examCards = document.querySelectorAll('#exam .exam-card');
+    
+    examCards.forEach(card => {
+        const cardDifficulty = card.getAttribute('data-difficulty');
+        
+        if (difficulty === 'mixed' || cardDifficulty === difficulty) {
+            card.style.display = 'block';
+            card.classList.add('fade-in');
+            setTimeout(() => {
+                card.classList.remove('fade-in');
+            }, 300);
+        } else {
+            card.style.display = 'none';
+        }
+    });
+    
+    // 更新显示数量
+    updateExamCardCount();
+}
+
+// 更新考试卡片计数
+function updateExamCardCount() {
+    const visibleCards = document.querySelectorAll('#exam .exam-card[style="display: block"]').length;
+    const totalCards = document.querySelectorAll('#exam .exam-card').length;
+    
+    // 创建或更新计数显示
+    let counter = document.querySelector('#exam .exam-counter');
+    if (!counter) {
+        counter = document.createElement('div');
+        counter.className = 'exam-counter';
+        counter.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: var(--primary-color);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        `;
+        document.body.appendChild(counter);
+    }
+    
+    counter.textContent = `显示 ${visibleCards} / ${totalCards} 个试卷`;
+    counter.style.opacity = '1';
+    
+    setTimeout(() => {
+        counter.style.opacity = '0';
+        setTimeout(() => {
+            if (counter.parentNode) {
+                document.body.removeChild(counter);
+            }
+        }, 500);
+    }, 3000);
+}
+
+// 更新全局难度设置
+function updateGlobalDifficulty(difficulty) {
+    // 更新难度标签显示
+    const difficultyTexts = {
+        'easy': '简单',
+        'normal': '普通',
+        'difficult': '困难',
+        'mixed': '混合'
+    };
+    
+    const difficultyTag = document.querySelector('#exam .difficulty-tag');
+    if (difficultyTag) {
+        difficultyTag.className = 'difficulty-tag ' + difficulty;
+        difficultyTag.textContent = difficultyTexts[difficulty] || difficulty;
+    }
+    
+    // 保存设置到localStorage
+    localStorage.setItem('examDifficulty', difficulty);
+}
+
+// 初始化开始考试按钮
+function initExamStartButtons() {
+    const startButtons = document.querySelectorAll('#exam .start-exam-btn, .start-concept-btn, #startUnitPracticeBtn, #startAdaptiveBtn');
+    
+    startButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // 打开考试设置模态框
+            openExamSettingsModal(this);
+        });
+    });
+    
+    // 预览按钮
+    const previewButtons = document.querySelectorAll('#exam .preview-exam-btn');
+    previewButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const card = this.closest('.card');
+            const title = card.querySelector('h3').textContent;
+            
+            alert(`预览试卷: ${title}\n\n提示: 在实际应用中，这里会显示试卷预览页面。`);
+        });
+    });
+    
+    // 查看概念按钮
+    const viewConceptButtons = document.querySelectorAll('#exam .view-concept-btn');
+    viewConceptButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const card = this.closest('.concept-card');
+            const concept = card.getAttribute('data-concept');
+            
+            alert(`跳转到概念页面: ${concept}\n\n提示: 在实际应用中，这里会跳转到相应的学习页面。`);
+        });
+    });
+}
+
+// 打开考试设置模态框
+function openExamSettingsModal(button) {
+    const modal = document.getElementById('examSettingsModal');
+    if (!modal) return;
+    
+    // 根据按钮类型设置不同的默认值
+    const buttonType = button.className.includes('start-exam-btn') ? 'exam' :
+                     button.className.includes('start-concept-btn') ? 'concept' :
+                     button.className.includes('startUnitPracticeBtn') ? 'unit' : 'adaptive';
+    
+    // 显示模态框
+    modal.style.display = 'flex';
+    
+    // 设置模态框标题
+    const modalTitle = modal.querySelector('h3');
+    const examTitle = button.closest('.card')?.querySelector('h3')?.textContent || '练习';
+    
+    if (modalTitle) {
+        switch(buttonType) {
+            case 'exam':
+                modalTitle.innerHTML = `<i class="fas fa-file-alt"></i> 开始试卷: ${examTitle}`;
+                break;
+            case 'concept':
+                modalTitle.innerHTML = `<i class="fas fa-lightbulb"></i> 开始概念练习: ${examTitle}`;
+                break;
+            case 'unit':
+                modalTitle.innerHTML = `<i class="fas fa-book"></i> 开始单元练习`;
+                break;
+            case 'adaptive':
+                modalTitle.innerHTML = `<i class="fas fa-robot"></i> 开始自适应训练`;
+                break;
+        }
+    }
+    
+    // 存储按钮信息，用于开始考试
+    modal.setAttribute('data-button-type', buttonType);
+    modal.setAttribute('data-exam-id', button.getAttribute('data-exam') || '');
+}
+
+// 初始化考试设置模态框
+function initExamSettingsModal() {
+    const modal = document.getElementById('examSettingsModal');
+    if (!modal) return;
+    
+    // 关闭按钮
+    const closeBtn = modal.querySelector('.modal-close');
+    const cancelBtn = modal.querySelector('#cancelExamBtn');
+    
+    [closeBtn, cancelBtn].forEach(btn => {
+        if (btn) {
+            btn.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+        }
+    });
+
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+    
+    
+    // 时间选择
+    const timerOptions = modal.querySelectorAll('.timer-option');
+    timerOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            timerOptions.forEach(opt => {
+                opt.classList.remove('active');
+            });
+            this.classList.add('active');
+        });
+    });
+    
+    // 难度选择
+    const difficultyOptions = modal.querySelectorAll('.difficulty-option');
+    difficultyOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            difficultyOptions.forEach(opt => {
+                opt.classList.remove('active');
+            });
+            this.classList.add('active');
+        });
+    });
+    
+    // 题目数量滑块
+    const slider = modal.querySelector('#questionCountSlider');
+    const sliderValue = modal.querySelector('#questionCountValue');
+    
+    if (slider && sliderValue) {
+        slider.addEventListener('input', function() {
+            sliderValue.textContent = this.value;
+        });
+    }
+    
+    // 开始考试按钮
+    const startExamBtn = modal.querySelector('#startExamBtn');
+    if (startExamBtn) {
+        startExamBtn.addEventListener('click', function() {
+            // 获取设置
+            const activeTimer = modal.querySelector('.timer-option.active');
+            const activeDifficulty = modal.querySelector('.difficulty-option.active');
+            const questionCount = slider ? slider.value : 25;
+            
+            const time = activeTimer ? activeTimer.getAttribute('data-minutes') : 60;
+            const difficulty = activeDifficulty ? activeDifficulty.getAttribute('data-difficulty') : 'normal';
+            const buttonType = modal.getAttribute('data-button-type');
+            const examId = modal.getAttribute('data-exam-id');
+            
+            // 关闭模态框
+            modal.style.display = 'none';
+            
+            // 开始考试
+            startExam(buttonType, examId, {
+                time: parseInt(time),
+                difficulty: difficulty,
+                questionCount: parseInt(questionCount)
+            });
+        });
+    }
+    
+    // 点击模态框外部关闭
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+}
+
+// 为考试进行中弹窗添加关闭功能
+function initExamInProgressModal() {
+    const examModal = document.getElementById('examInProgressModal');
+    if (!examModal) return;
+    
+    // 关闭按钮
+    const closeBtn = examModal.querySelector('.modal-close');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function() {
+            examModal.style.display = 'none';
+            
+            // 停止计时器
+            const timerInterval = examModal.getAttribute('data-timer-interval');
+            if (timerInterval) {
+                clearInterval(parseInt(timerInterval));
+            }
+        });
+    }
+    
+    // 点击模态框外部关闭
+    examModal.addEventListener('click', function(e) {
+        if (e.target === examModal) {
+            examModal.style.display = 'none';
+            
+            // 停止计时器
+            const timerInterval = examModal.getAttribute('data-timer-interval');
+            if (timerInterval) {
+                clearInterval(parseInt(timerInterval));
+            }
+        }
+    });
+}
+
+
+// 修正考试卡片高度不对齐问题
+function fixExamCardAlignment() {
+    console.log('修正考试卡片对齐问题...');
+    
+    // 获取所有考试卡片
+    const examCards = document.querySelectorAll('#exam .exam-card');
+    const conceptCards = document.querySelectorAll('#exam .concept-card');
+    const allCards = [...examCards, ...conceptCards];
+    
+    // 如果没有卡片，直接返回
+    if (allCards.length === 0) return;
+    
+    // 重置所有卡片的最小高度
+    allCards.forEach(card => {
+        card.style.minHeight = 'auto';
+    });
+    
+    // 计算每行卡片的最大高度
+    setTimeout(() => {
+        // 按容器分组卡片
+        const containers = document.querySelectorAll('#exam .card-container');
+        
+        containers.forEach(container => {
+            const cardsInContainer = container.querySelectorAll('.card');
+            if (cardsInContainer.length > 0) {
+                let maxHeight = 0;
+                
+                // 计算这一行卡片的最大高度
+                cardsInContainer.forEach(card => {
+                    const cardHeight = card.offsetHeight;
+                    if (cardHeight > maxHeight) {
+                        maxHeight = cardHeight;
+                    }
+                });
+                
+                // 设置所有卡片为相同的最小高度
+                cardsInContainer.forEach(card => {
+                    card.style.minHeight = `${maxHeight}px`;
+                    card.style.display = 'flex';
+                    card.style.flexDirection = 'column';
+                    
+                    // 确保卡片内容正确布局
+                    const cardBody = card.querySelector('.card-body');
+                    if (cardBody) {
+                        cardBody.style.flex = '1';
+                        cardBody.style.display = 'flex';
+                        cardBody.style.flexDirection = 'column';
+                        
+                        // 确保标签和底部对齐
+                        const tags = cardBody.querySelector('.resource-tags');
+                        if (tags) {
+                            tags.style.marginTop = 'auto';
+                            tags.style.paddingTop = '1rem';
+                        }
+                    }
+                });
+            }
+        });
+        
+        console.log('考试卡片高度已对齐');
+    }, 100);
+}
+// 开始考试
+function startExam(buttonType, examId, settings) {
+    console.log('开始考试:', { buttonType, examId, settings });
+    
+    // 显示考试进行中模态框
+    const examModal = document.getElementById('examInProgressModal');
+    if (!examModal) return;
+
+    initExamInProgressModal();
+    
+    // 设置考试信息
+    const examTitle = examModal.querySelector('h3');
+    const timeMinutes = examModal.querySelector('#minutes');
+    const timeSeconds = examModal.querySelector('#seconds');
+    
+    // 根据类型设置标题
+    let title = '';
+    switch(buttonType) {
+        case 'exam':
+            title = '考试进行中';
+            break;
+        case 'concept':
+            title = '概念练习';
+            break;
+        case 'unit':
+            title = '单元练习';
+            break;
+        case 'adaptive':
+            title = '自适应训练';
+            break;
+    }
+    
+    examTitle.innerHTML = `<i class="fas fa-hourglass-half"></i> ${title}`;
+    
+    // 设置时间
+    timeMinutes.textContent = settings.time.toString().padStart(2, '0');
+    timeSeconds.textContent = '00';
+    
+    // 设置题目数量
+    examModal.querySelector('#totalQuestions').textContent = settings.questionCount;
+    examModal.querySelector('#currentQuestion').textContent = '1';
+    examModal.querySelector('#progressPercentage').textContent = '4%';
+    
+    // 更新进度条
+    const progressFill = examModal.querySelector('.progress-fill');
+    if (progressFill) {
+        progressFill.style.width = '4%';
+    }
+    
+    // 显示考试模态框
+    examModal.style.display = 'flex';
+    
+    // 开始计时器
+    startExamTimer(settings.time);
+    
+    // 初始化考试问题
+    initExamQuestions(buttonType, settings);
+}
+
+// 开始考试计时器
+function startExamTimer(minutes) {
+    const examModal = document.getElementById('examInProgressModal');
+    if (!examModal) return;
+    
+    let totalSeconds = minutes * 60;
+    const timeMinutes = examModal.querySelector('#minutes');
+    const timeSeconds = examModal.querySelector('#seconds');
+    
+    const timerInterval = setInterval(() => {
+        if (totalSeconds <= 0) {
+            clearInterval(timerInterval);
+            alert('时间到！考试结束。');
+            examModal.style.display = 'none';
+            return;
+        }
+        
+        totalSeconds--;
+        const mins = Math.floor(totalSeconds / 60);
+        const secs = totalSeconds % 60;
+        
+        timeMinutes.textContent = mins.toString().padStart(2, '0');
+        timeSeconds.textContent = secs.toString().padStart(2, '0');
+    }, 1000);
+    
+    // 存储计时器ID以便清理
+    examModal.setAttribute('data-timer-interval', timerInterval);
+}
+
+// 初始化考试问题
+function initExamQuestions(buttonType, settings) {
+    const examModal = document.getElementById('examInProgressModal');
+    if (!examModal) return;
+    
+    // 问题导航
+    const previousBtn = examModal.querySelector('#previousQuestionBtn');
+    const nextBtn = examModal.querySelector('#nextQuestionBtn');
+    const flagBtn = examModal.querySelector('#flagQuestionBtn');
+    
+    let currentQuestion = 1;
+    const totalQuestions = settings.questionCount;
+    
+    // 更新问题显示
+    function updateQuestionDisplay() {
+        examModal.querySelector('#currentQuestion').textContent = currentQuestion;
+        examModal.querySelector('#progressPercentage').textContent = 
+            Math.round((currentQuestion / totalQuestions) * 100) + '%';
+        
+        // 更新进度条
+        const progressFill = examModal.querySelector('.progress-fill');
+        if (progressFill) {
+            progressFill.style.width = (currentQuestion / totalQuestions * 100) + '%';
+        }
+        
+        // 更新按钮状态
+        previousBtn.disabled = currentQuestion === 1;
+        nextBtn.innerHTML = currentQuestion === totalQuestions ? 
+            'Submit <i class="fas fa-check"></i>' : 
+            'Next <i class="fas fa-arrow-right"></i>';
+        
+        // 更新问题内容（模拟）
+        updateQuestionContent(currentQuestion);
+    }
+    
+    // 前一题
+    previousBtn.addEventListener('click', function() {
+        if (currentQuestion > 1) {
+            currentQuestion--;
+            updateQuestionDisplay();
+        }
+    });
+    
+    // 下一题
+    nextBtn.addEventListener('click', function() {
+        if (currentQuestion < totalQuestions) {
+            currentQuestion++;
+            updateQuestionDisplay();
+        } else {
+            // 提交考试
+            submitExam();
+        }
+    });
+    
+    // 标记问题
+    flagBtn.addEventListener('click', function() {
+        const icon = this.querySelector('i');
+        if (icon.classList.contains('far')) {
+            icon.classList.remove('far');
+            icon.classList.add('fas');
+            this.classList.add('btn-primary');
+        } else {
+            icon.classList.remove('fas');
+            icon.classList.add('far');
+            this.classList.remove('btn-primary');
+        }
+    });
+    
+    // 初始显示
+    updateQuestionDisplay();
+}
+
+// 更新问题内容
+function updateQuestionContent(questionNumber) {
+    const examModal = document.getElementById('examInProgressModal');
+    if (!examModal) return;
+    
+    const questionText = examModal.querySelector('#examQuestionText');
+    const options = examModal.querySelectorAll('.exam-option');
+    
+    // 模拟不同的问题内容
+    const questions = [
+        "Which of the following properties of water is responsible for its high surface tension?",
+        "What is the primary function of the mitochondria in eukaryotic cells?",
+        "Which process produces the most ATP during cellular respiration?",
+        "In DNA replication, which enzyme is responsible for unwinding the double helix?",
+        "Which of the following best describes natural selection?"
+    ];
+    
+    const questionIndex = (questionNumber - 1) % questions.length;
+    questionText.textContent = questions[questionIndex];
+    
+    // 清空选项选择
+    options.forEach(option => {
+        const radio = option.querySelector('input[type="radio"]');
+        if (radio) radio.checked = false;
+    });
+}
+
+// 提交考试
+function submitExam() {
+    const examModal = document.getElementById('examInProgressModal');
+    if (!examModal) return;
+    
+    // 停止计时器
+    const timerInterval = examModal.getAttribute('data-timer-interval');
+    if (timerInterval) {
+        clearInterval(parseInt(timerInterval));
+    }
+    
+    // 关闭模态框
+    examModal.style.display = 'none';
+    
+    // 显示结果
+    alert('考试已提交！\n\n系统正在评分...\n\n提示：在实际应用中，这里会显示详细的结果分析。');
+}
+
+// 初始化单元选择
+function initUnitSelection() {
+    const unitOptions = document.querySelectorAll('#exam .unit-option');
+    
+    unitOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const unit = this.getAttribute('data-unit');
+            
+            // 更新按钮状态
+            unitOptions.forEach(opt => {
+                opt.classList.remove('active');
+            });
+            this.classList.add('active');
+            
+            console.log('选择单元:', unit);
+            
+            // 更新难度选择区域显示
+            updateDifficultySelectionForUnit(unit);
+        });
+    });
+    
+    // 难度级别选择
+    const difficultyLevels = document.querySelectorAll('#exam .difficulty-level');
+    difficultyLevels.forEach(level => {
+        level.addEventListener('click', function() {
+            const difficulty = this.getAttribute('data-level');
+            
+            // 更新按钮状态
+            difficultyLevels.forEach(lvl => {
+                lvl.classList.remove('active');
+            });
+            this.classList.add('active');
+            
+            console.log('选择难度级别:', difficulty);
+        });
+    });
+}
+
+// 更新单元难度选择
+function updateDifficultySelectionForUnit(unit) {
+    const unitNames = {
+        '1': '化学基础',
+        '2': '细胞结构',
+        '3': '细胞代谢',
+        '4': '遗传学'
+    };
+    
+    const unitName = unitNames[unit] || `Unit ${unit}`;
+    
+    // 更新标题
+    const selectorTitle = document.querySelector('#exam .difficulty-selector h4');
+    if (selectorTitle) {
+        selectorTitle.innerHTML = `<i class="fas fa-sliders-h"></i> 为${unitName}选择难度`;
+    }
+}
+
+// 初始化概念练习按钮
+function initConceptPracticeButtons() {
+    const conceptCards = document.querySelectorAll('#exam .concept-card');
+    
+    conceptCards.forEach(card => {
+        card.addEventListener('click', function(e) {
+            // 如果不是点击按钮，则高亮卡片
+            if (!e.target.closest('button')) {
+                conceptCards.forEach(c => {
+                    c.classList.remove('selected');
+                });
+                this.classList.add('selected');
+            }
+        });
+    });
+}
+
+// 初始化自适应训练
+function initAdaptiveTraining() {
+    const startAdaptiveBtn = document.getElementById('startAdaptiveBtn');
+    const viewAllGeneralBtn = document.getElementById('viewAllGeneralBtn');
+    
+    if (startAdaptiveBtn) {
+        startAdaptiveBtn.addEventListener('click', function() {
+            // 打开设置模态框
+            openExamSettingsModal(this);
+        });
+    }
+    
+    if (viewAllGeneralBtn) {
+        viewAllGeneralBtn.addEventListener('click', function() {
+            alert('打开所有一般问题列表...\n\n提示：在实际应用中，这里会显示所有问题的列表。');
+        });
+    }
+}
+
+// 初始化考试标签过滤
+function initExamTagFilters() {
+    const filterTags = document.querySelectorAll('#exam .filter-tags .tag');
+    
+    filterTags.forEach(tag => {
+        tag.addEventListener('click', function() {
+            const unit = this.getAttribute('data-unit');
+            
+            // 更新标签状态
+            filterTags.forEach(t => {
+                t.classList.remove('active');
+            });
+            this.classList.add('active');
+            
+            console.log('过滤单元:', unit);
+            
+            // 在实际应用中，这里会过滤显示对应单元的问题
+            // 现在是模拟功能
+            if (unit === 'all') {
+                alert('显示所有单元的问题');
+            } else {
+                alert(`显示Unit ${unit}的问题`);
+            }
+        });
+    });
+}
+
+// 初始化示例题目交互
+function initSampleQuestion() {
+    const showExplanationBtn = document.getElementById('showExplanationBtn');
+    const goToConceptBtn = document.getElementById('goToConceptBtn');
+    const addTagBtn = document.getElementById('addTagBtn');
+    const saveQuestionBtn = document.getElementById('saveQuestionBtn');
+    
+    if (showExplanationBtn) {
+        showExplanationBtn.addEventListener('click', function() {
+            alert('正确答案: C) Cohesion\n\n解释: 水的表面张力是由水分子之间的内聚力（cohesion）引起的。内聚力是相同分子之间的吸引力，使得水分子在水面上形成紧密的薄膜。');
+        });
+    }
+    
+    if (goToConceptBtn) {
+        goToConceptBtn.addEventListener('click', function() {
+            alert('跳转到"水的特性"概念页面...');
+        });
+    }
+    
+    if (addTagBtn) {
+        addTagBtn.addEventListener('click', function() {
+            alert('添加标签到题目...\n\n提示：在实际应用中，这里会打开标签选择器。');
+        });
+    }
+    
+    if (saveQuestionBtn) {
+        saveQuestionBtn.addEventListener('click', function() {
+            const icon = this.querySelector('i');
+            if (icon.classList.contains('far')) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                alert('题目已保存到收藏！');
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                alert('题目已从收藏中移除！');
+            }
+        });
+    }
+}
 
 // 确保初始状态正确
 function ensureInitialState() {
