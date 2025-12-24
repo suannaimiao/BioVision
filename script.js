@@ -1417,13 +1417,11 @@ function initIdentityModal() {
     let selectedIdentity = null;
 
     // 为注册、登录和新增的“Start My Journal”按钮绑定相同的事件
-    [startJournalBtn].forEach(btn => {
-        if (btn) {
-            btn.addEventListener('click', () => {
-                identityModal.style.display = 'flex';
-            });
-        }
-    });
+    if (startJournalBtn) {
+        startJournalBtn.addEventListener('click', () => {
+            identityModal.style.display = 'flex';
+        });
+    }
 
     identityOptions.forEach(option => {
         option.addEventListener('click', function () {
